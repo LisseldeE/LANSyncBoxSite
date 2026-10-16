@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感谢下载 LANSyncBox</title>
+    <meta name="description" content="感谢你选择 LANSyncBox。">
+    <link rel="icon" href="../assets/images/icon/lansyncbox.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-i18n-title-key="thanks.meta.title" data-i18n-desc-key="thanks.meta.description">
+
+<!-- 顶栏 -->
+<nav class="navbar">
+    <div class="container">
+        <a class="brand" href="index.html#top">
+            <img src="../assets/images/icon/lansyncbox.png" alt="">
+            <span>LANSyncBox</span>
+        </a>
+        <div class="tabs">
+            <a class="tab" href="index.html#top" data-i18n="nav.home">首页</a>
+            <a class="tab" href="index.html#download" data-i18n="nav.download">下载</a>
+            <a class="tab" href="index.html#help" data-i18n="nav.help">帮助</a>
+            <a class="tab" href="index.html#feedback" data-i18n="nav.feedback">反馈</a>
+        </div>
+        <div class="lang" role="group" aria-label="语言 / Language">
+            <span class="lang-slider" aria-hidden="true"></span>
+            <button class="lang-option" type="button" data-lang="zh-cn" aria-pressed="false">中</button>
+            <button class="lang-option" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+    </div>
+</nav>
+
+<main>
+
+<section class="screen">
+    <div class="container">
+        <div class="thanks">
+            <div class="thanks-mark" aria-hidden="true">✔</div>
+            <h1 class="thanks-title" data-i18n="thanks.title">感谢你选择 LANSyncBox</h1>
+            <p class="thanks-sub" data-i18n="thanks.sub">文件不再绕经公网，也不依赖服务器 —— 同一局域网内，实时同步到每一台设备。</p>
+
+            <p class="thanks-auto" id="thanksAuto" data-i18n="thanks.auto" hidden>下载很快将会开始，请留意浏览器提示。</p>
+
+            <div class="thanks-block">
+                <h2 class="thanks-h2" data-i18n="thanks.next.title">接下来</h2>
+                <ol class="thanks-steps">
+                    <li data-i18n="thanks.next.1">确保所有设备连在同一个局域网</li>
+                    <li data-i18n="thanks.next.2">由一台设备创建房间，记下 6 位房间号</li>
+                    <li data-i18n="thanks.next.3">其他设备输入房间号与密码即可加入</li>
+                </ol>
+            </div>
+
+            <div class="thanks-actions">
+                <a class="btn btn-ghost" href="index.html#download" data-i18n="thanks.back.download">返回下载页</a>
+                <a class="btn btn-ghost" href="index.html#top" data-i18n="thanks.back.home">回到首页</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <span>LANSyncBox · by LisseldeE</span>
+        <span data-i18n="footer.license.note">基于 GNU General Public License v3.0 开源</span>
+    </div>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+    // 由下载页带参进入：?dl=<下载地址>&v=<版本>&p=<平台>，随即自动触发下载（与进入本页几乎同时）
+    (function () {
+        var url = new URLSearchParams(window.location.search).get('dl') || '';
+        // 只放行本站既有的两个发布源，避免链接被构造成任意文件下载
+        if (!/^https:\/\/(github\.com\/LisseldeE|gitee\.com\/Lisselde_E)\//i.test(url)) return;
+        var tip = document.getElementById('thanksAuto');
+        if (tip) tip.hidden = false;
+        window.setTimeout(function () {
+            var a = document.createElement('a');
+            a.href = url;
+            a.rel = 'noopener';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            window.setTimeout(function () { a.remove(); }, 1000);
+        }, 500);
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank you for downloading LANSyncBox</title>
+    <meta name="description" content="Thank you for choosing LANSyncBox.">
+    <link rel="icon" href="../assets/images/icon/lansyncbox.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-i18n-title-key="thanks.meta.title" data-i18n-desc-key="thanks.meta.description">
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <a class="brand" href="index.html#top">
+            <img src="../assets/images/icon/lansyncbox.png" alt="">
+            <span>LANSyncBox</span>
+        </a>
+        <div class="tabs">
+            <a class="tab" href="index.html#top" data-i18n="nav.home">Home</a>
+            <a class="tab" href="index.html#download" data-i18n="nav.download">Download</a>
+            <a class="tab" href="index.html#help" data-i18n="nav.help">Help</a>
+            <a class="tab" href="index.html#feedback" data-i18n="nav.feedback">Feedback</a>
+        </div>
+        <div class="lang" role="group" aria-label="语言 / Language">
+            <span class="lang-slider" aria-hidden="true"></span>
+            <button class="lang-option" type="button" data-lang="zh-cn" aria-pressed="false">中</button>
+            <button class="lang-option" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+    </div>
+</nav>
+
+<main>
+
+<section class="screen">
+    <div class="container">
+        <div class="thanks">
+            <div class="thanks-mark" aria-hidden="true">✔</div>
+            <h1 class="thanks-title" data-i18n="thanks.title">Thank you for choosing LANSyncBox</h1>
+            <p class="thanks-sub" data-i18n="thanks.sub">Files no longer travel over the public network or through a server — they stay in sync across every device on the same LAN.</p>
+
+            <p class="thanks-auto" id="thanksAuto" data-i18n="thanks.auto" hidden>Your download will start shortly — keep an eye on your browser.</p>
+
+            <div class="thanks-block">
+                <h2 class="thanks-h2" data-i18n="thanks.next.title">What to do next</h2>
+                <ol class="thanks-steps">
+                    <li data-i18n="thanks.next.1">Make sure every device is on the same local network</li>
+                    <li data-i18n="thanks.next.2">Create a room on one device and note the 6-digit number</li>
+                    <li data-i18n="thanks.next.3">Join from the other devices with the number and password</li>
+                </ol>
+            </div>
+
+            <div class="thanks-actions">
+                <a class="btn btn-ghost" href="index.html#download" data-i18n="thanks.back.download">Back to downloads</a>
+                <a class="btn btn-ghost" href="index.html#top" data-i18n="thanks.back.home">Back to home</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <span>LANSyncBox · by LisseldeE</span>
+        <span data-i18n="footer.license.note">Released under the GNU General Public License v3.0</span>
+    </div>
+</footer>
+
+<script src="../assets/js/i18n.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+    // Entered from the download page as ?dl=<url>&v=<edition>&p=<platform>; fires the download right away.
+    (function () {
+        var url = new URLSearchParams(window.location.search).get('dl') || '';
+        // Only allow the two official release hosts, so the link cannot trigger an arbitrary download.
+        if (!/^https:\/\/(github\.com\/LisseldeE|gitee\.com\/Lisselde_E)\//i.test(url)) return;
+        var tip = document.getElementById('thanksAuto');
+        if (tip) tip.hidden = false;
+        window.setTimeout(function () {
+            var a = document.createElement('a');
+            a.href = url;
+            a.rel = 'noopener';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            window.setTimeout(function () { a.remove(); }, 1000);
+        }, 500);
+    })();
+</script>
+</body>
+</html>

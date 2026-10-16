@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANSyncBox</title>
+    <meta name="description" content="LANSyncBox 是一款跨平台、专为局域网设计的文件实时同步工具。">
+    <link rel="icon" href="assets/images/icon/lansyncbox.ico" type="image/x-icon">
+    <script>
+        // ========== 语言检测与路由 ==========
+        // 优先级：?lang= 参数 > localStorage > 浏览器语言
+        // 全部使用相对路径，兼容 /LANSyncBoxSite/ 这类项目页部署
+        (function () {
+            var search = window.location.search;
+            var hash = window.location.hash || '';
+            var lang = '';
+
+            var m = search.match(/lang=([^&]+)/);
+            if (m) lang = decodeURIComponent(m[1]);
+
+            if (!lang) {
+                try { lang = localStorage.getItem('site-lang') || ''; } catch (e) { }
+            }
+
+            if (!lang) {
+                // 首次访问、且没有历史选择时，才按浏览器/系统语言决定：中文 → zh-cn，其余 → en
+                var nav = (navigator.language || navigator.userLanguage || '').toLowerCase();
+                lang = nav.indexOf('zh') === 0 ? 'zh-cn' : 'en';
+            }
+
+            if (lang !== 'en') lang = 'zh-cn';
+
+            try { localStorage.setItem('site-lang', lang); } catch (e) { }
+
+            var target = lang + '/' + hash;
+            // 用 replace 避免在浏览器历史里留下无意义的根路径记录
+            window.location.replace(target);
+        })();
+    </script>
+</head>
+<body>
+<noscript>
+    <p style="font-family:sans-serif;padding:28px">
+        LANSyncBox —
+        <a href="zh-cn/">简体中文</a> ·
+        <a href="en/">English</a>
+    </p>
+</noscript>
+</body>
+</html>
