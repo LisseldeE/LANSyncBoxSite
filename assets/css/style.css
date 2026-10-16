@@ -37,9 +37,8 @@
 
 html {
     scroll-behavior: smooth;
-    /* 分段吸附滑动：mandatory 才是真正的整屏分段；
-       proximity 只在「靠近」边界时才吸附，自由滚动因此看起来完全不分段 */
-    scroll-snap-type: y mandatory;
+    /* 本项目不启用 CSS 吸附：整屏吸附会连带把详情区与页脚吸住，
+       导致内容滚不到，故一律使用普通滚动 */
     scroll-padding-top: var(--nav-h);
     /* 关闭滚动锚定：屏内内容高度变化（如切换下载版本）时不自动挪动视口 */
     overflow-anchor: none;
@@ -228,14 +227,15 @@ body.i18n-switching [data-i18n] { opacity: .16; }
    （原 3.html 内联样式，合并于此）
    ============================================================ */
 
+/* 各分段：高度随内容自适应，普通滚动（本项目不启用 CSS 吸附） */
 .screen {
-    min-height: calc(100vh - var(--nav-h));
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
     display: flex; flex-direction: column; justify-content: center;
-    padding: 72px 0;
+    padding: 88px 0;
     position: relative;
 }
+
+/* 首屏仍占满一屏，保证 Hero 观感 */
+.screen.hero-min { min-height: calc(100vh - var(--nav-h)); }
 
 /* 首屏 */
 .hero-min { text-align: center; }
@@ -245,7 +245,10 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%);
     color: var(--faint); font-size: 12.5px; letter-spacing: .12em;
     display: flex; flex-direction: column; align-items: center; gap: 8px;
+    transition: opacity .4s ease;
 }
+/* 离开顶部后淡出：滚动提示只在尚未开始下滑时有意义 */
+.scroll-hint.is-hidden { opacity: 0; pointer-events: none; }
 .scroll-hint::after {
     content: ''; width: 1px; height: 28px;
     background: linear-gradient(180deg, var(--faint), transparent);
@@ -287,7 +290,8 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     width: 34px; height: 34px; border-radius: 10px; margin-bottom: 12px;
     background: var(--accent-soft); color: var(--accent-dark);
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 700;
+    font-size: 14px; font-weight: 700; letter-spacing: .04em;
+    font-variant-numeric: tabular-nums;
 }
 .tile h3 { font-size: 16px; }
 .tile p { color: var(--sub); font-size: 13.5px; margin-top: 6px; }

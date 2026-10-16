@@ -53,6 +53,7 @@
         });
 
         initDots();
+        initScrollHint();
         initLangSwitcher();
         initVersionSwitcher();
         initDownload();
@@ -100,6 +101,24 @@
         } else {
             activate(0);
         }
+    }
+
+    // ---- 首屏滚动提示：离开顶部淡出，回到顶部淡入（滚动回调按帧节流） ----
+    function initScrollHint() {
+        var hint = document.querySelector('.scroll-hint');
+        if (!hint) return;
+        var ticking = false;
+        function update() {
+            ticking = false;
+            hint.classList.toggle('is-hidden', window.scrollY > 10);
+        }
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(update);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        update();   // 首次进入时按当前滚动位置定状态（如带 #锚点 直达）
     }
 
     // ---- 语言切换：紧凑 中 / EN，沿用 i18n.js 的 switchLang ----
