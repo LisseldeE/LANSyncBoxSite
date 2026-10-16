@@ -106,6 +106,11 @@ window.I18N = {
         'footer.license.note': '基于 GNU General Public License v3.0 开源',
         'dots.aria': '跳转到该段',
 
+        // ---------- 收尾横带 ----------
+        'outro.headline': '文件流动还可以如此简单',
+        'outro.sub': '无需公网 · 无需服务器 · 无需注册',
+        'outro.cta': '下载 LANSyncBox',
+
         // ---------- 下载页 · 版本切换 ----------
         'dl.aria': '选择版本',
         'dl.latest': '最新版本',
@@ -227,6 +232,11 @@ window.I18N = {
         'download.headline': 'Download LANSyncBox',
         'footer.license.note': 'Released under the GNU General Public License v3.0',
         'dots.aria': 'Go to this section',
+
+        // ---------- Closing band ----------
+        'outro.headline': 'Moving files can be this simple',
+        'outro.sub': 'No public network · No server · No sign-up',
+        'outro.cta': 'Download LANSyncBox',
 
         // ---------- Download page · edition switch ----------
         'dl.aria': 'Select edition',
