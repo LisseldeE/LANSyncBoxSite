@@ -8,35 +8,22 @@
     <link rel="icon" href="../assets/images/icon/lansyncbox.ico" type="image/x-icon">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body data-i18n-title-key="thanks.meta.title" data-i18n-desc-key="thanks.meta.description">
-
-<!-- Navbar -->
-<nav class="navbar">
-    <div class="container">
-        <a class="brand" href="index.html#top">
-            <img src="../assets/images/icon/lansyncbox.png" alt="">
-            <span>LANSyncBox</span>
-        </a>
-        <div class="tabs">
-            <a class="tab" href="index.html#top" data-i18n="nav.home">Home</a>
-            <a class="tab" href="index.html#download" data-i18n="nav.download">Download</a>
-            <a class="tab" href="index.html#help" data-i18n="nav.help">Help</a>
-            <a class="tab" href="index.html#feedback" data-i18n="nav.feedback">Feedback</a>
-        </div>
-        <div class="lang" role="group" aria-label="语言 / Language">
-            <span class="lang-slider" aria-hidden="true"></span>
-            <button class="lang-option" type="button" data-lang="zh-cn" aria-pressed="false">中</button>
-            <button class="lang-option" type="button" data-lang="en" aria-pressed="false">EN</button>
-        </div>
-    </div>
-</nav>
+<body class="page-thanks" data-i18n-title-key="thanks.meta.title" data-i18n-desc-key="thanks.meta.description">
 
 <main>
 
 <section class="screen">
     <div class="container">
         <div class="thanks">
-            <div class="thanks-mark" aria-hidden="true">✔</div>
+            <div class="thanks-top">
+                <a class="btn btn-ghost btn-sm thanks-back" href="index.html#download">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span data-i18n="thanks.back.download">Back to downloads</span>
+                </a>
+                <span class="thanks-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                </span>
+            </div>
             <h1 class="thanks-title" data-i18n="thanks.title">Thank you for choosing LANSyncBox</h1>
             <p class="thanks-sub" data-i18n="thanks.sub">Files no longer travel over the public network or through a server — they stay in sync across every device on the same LAN.</p>
 
@@ -50,18 +37,13 @@
                     <li data-i18n="thanks.next.3">Join from the other devices with the number and password</li>
                 </ol>
             </div>
-
-            <div class="thanks-actions">
-                <a class="btn btn-ghost" href="index.html#download" data-i18n="thanks.back.download">Back to downloads</a>
-                <a class="btn btn-ghost" href="index.html#top" data-i18n="thanks.back.home">Back to home</a>
-            </div>
         </div>
     </div>
 </section>
 
 </main>
 
-<footer class="footer">
+<footer class="footer footer-simple">
     <div class="container">
         <span>LANSyncBox © 2026 Lisselde_E</span>
         <span data-i18n="footer.license.note">Released under the GNU General Public License v3.0</span>

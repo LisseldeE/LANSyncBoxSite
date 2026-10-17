@@ -230,9 +230,84 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .outro p { color: var(--sub); font-size: 15px; margin-top: 6px; }
 .outro .btn { flex: none; }
 
-/* ---------- 页脚 ---------- */
-.footer { padding: 48px 0; border-top: 1px solid var(--line); color: var(--faint); font-size: 13.5px; }
-.footer .container { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; }
+/* ---------- 信任行：全宽带，无外框（仅上下通栏细线 + 每项 accent 短线） ---------- */
+/* 信任行并进下载屏：下载内容在剩余空间内居中（整体上移），信任行贴屏底 */
+.screen#download { padding-bottom: 0; }
+.screen#download > .container { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.screen#download > .trust-band { flex: none; }
+.trust-band {
+    padding: 44px 0 48px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+.trust-row {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 64px);
+}
+.trust-row li { position: relative; flex: 1 1 200px; min-width: 180px; padding-top: 15px; }
+.trust-row li::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 20px; height: 2px; border-radius: 2px; background: var(--accent);
+}
+.trust-row b { display: block; font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.01em; }
+.trust-row span { display: block; margin-top: 7px; font-size: 13px; line-height: 1.65; color: var(--sub); }
+
+/* ---------- 分段标题头（使用场景 / 常见问题） ---------- */
+.sec-head { max-width: 640px; margin-bottom: 44px; }
+.kicker {
+    font-size: 12.5px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 12px;
+}
+
+/* ---------- 使用场景：去框、去行间线，靠留白分行 ---------- */
+.scene-list { display: grid; row-gap: 36px; }
+.scene-row { display: grid; grid-template-columns: minmax(130px, 148px) 1fr; column-gap: 40px; }
+.scene-row b { font-size: 14px; font-weight: 600; color: var(--accent-dark); letter-spacing: .04em; }
+.scene-row p { font-size: 15px; line-height: 1.65; color: var(--sub); max-width: 68ch; }
+
+/* ---------- 常见问题：去外框，仅通栏细线分行；标记由两条 1px 线拼成 +/− ---------- */
+.faq { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+    list-style: none; cursor: pointer; position: relative;
+    padding: 20px 44px 20px 0;
+    font-size: 16px; font-weight: 600; color: var(--dark);
+    transition: color .2s ease;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before,
+.faq summary::after {
+    content: ''; position: absolute; top: 50%; background: var(--faint);
+    transition: transform .2s ease, background .2s ease;
+}
+.faq summary::before { right: 8px; width: 12px; height: 1px; transform: translateY(-50%); }
+.faq summary::after { right: 13px; width: 1px; height: 12px; transform: translateY(-50%); }
+.faq details[open] summary::after { transform: translateY(-50%) rotate(90deg); }
+/* 收起动画进行中：open 尚未移除，但 +/− 标记要先翻回「+」 */
+.faq details.closing summary::after { transform: translateY(-50%) rotate(0deg); }
+.faq summary:hover { color: var(--accent-dark); }
+.faq summary:hover::before,
+.faq summary:hover::after { background: var(--accent); }
+/* overflow:hidden 供 JS 的高度过渡裁掉溢出内容；未运行 JS 时高度为 auto，不受影响 */
+.faq .ans { padding: 0 44px 24px 0; font-size: 15px; line-height: 1.7; color: var(--sub); max-width: 68ch; overflow: hidden; }
+
+/* ---------- 页脚：六列（品牌 · 产品 · 文档 · 联系 · 社区 · 法律） ---------- */
+.footer { padding: 52px 0 34px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.footer-cols { display: grid; grid-template-columns: 1.4fr repeat(5, 1fr); gap: 32px; }
+.footer .brand { color: var(--dark); }
+.footer h4 { margin: 0 0 14px; font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+.footer a { color: var(--sub); text-decoration: none; transition: color .2s ease; }
+.footer a:hover { color: var(--accent-dark); }
+.footer-brand p { color: var(--faint); margin-top: 12px; max-width: 22em; }
+.footer-bottom {
+    margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+    color: var(--faint);
+}
+
+/* 简单页脚（感谢页等）：两行并排，不套用五列结构 */
+.footer-simple .container { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; }
 
 /* ============================================================
    分段吸附滑动 · 首屏 · 版本标签 · 分栏 · 能力方块 · 对比表 · 动图 · 指示器
@@ -268,6 +343,35 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     background: linear-gradient(180deg, var(--faint), transparent);
 }
 
+/* ---------- 首屏逐层渐出（自上而下） ----------
+   动画只在加载层开始淡出那一刻由 JS 给 <html> 挂上 .hero-reveal 才启动，
+   否则会藏在加载层后面白演一遍。
+   .hero-reveal 仅由 JS 添加：脚本未运行或中途报错时选择器不匹配，
+   首屏保持普通可见状态，不存在「白屏等内容」的情况。
+   填充模式用 backwards 而非 both：both 会让动画终态一直压住 transform，
+   首屏主按钮的 hover 上浮会因此失效。 */
+@keyframes heroRise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+}
+/* 滑动提示自带 translateX(-50%) 居中，动画里必须带上它，否则会跑偏 */
+@keyframes heroRiseHint {
+    from { opacity: 0; transform: translate(-50%, 16px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+.hero-reveal .hero-min .container > * {
+    animation: heroRise 600ms cubic-bezier(.16, 1, .3, 1) backwards;
+}
+.hero-reveal .hero-min .container > *:nth-child(2) { animation-delay: 90ms; }
+.hero-reveal .hero-min .container > *:nth-child(3) { animation-delay: 180ms; }
+.hero-reveal .hero-min .scroll-hint {
+    animation: heroRiseHint 600ms cubic-bezier(.16, 1, .3, 1) 270ms backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-reveal .hero-min .container > *,
+    .hero-reveal .hero-min .scroll-hint { animation: none; }
+}
+
 /* 版本大标签（一眼可辨） */
 .edition { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
 .edition-name {
@@ -294,33 +398,23 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
 }
 
-/* 能力清单（方案甲）：六项收进一个描边圆角容器，两列并排、内部以
-   1px 分隔线切行，悬浮只换底色，与全站「描边圆角 + 分隔行」语言一致 */
+/* 能力清单：去外框、去格间线，靠留白分格；01-06 序号作眉标，
+   标题承担主层级，hover 仅编号与标题轻微变色，不做整块色块 */
 .tiles {
-    display: grid; grid-template-columns: 1fr 1fr;
-    background: var(--white); border: 1px solid var(--line);
-    border-radius: 16px; overflow: hidden;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    column-gap: 44px; row-gap: 38px;
 }
-.tile {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas: "n t" "n d";
-    column-gap: 15px; row-gap: 4px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--line);
-    transition: background .2s ease;
-}
-.tile:nth-child(odd) { border-right: 1px solid var(--line); }
-.tile:nth-last-child(-n+2) { border-bottom: 0; }
-.tile:hover { background: var(--accent-soft); }
+.tile { display: block; }
 .tile-ico {
-    grid-area: n; align-self: center;
-    color: var(--accent-dark);
-    font-size: 13px; font-weight: 700; letter-spacing: .04em;
-    font-variant-numeric: tabular-nums;
+    font-size: 15px; font-weight: 800; letter-spacing: .08em;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+    margin-bottom: 8px;
+    transition: color .2s ease;
 }
-.tile h3 { grid-area: t; font-size: 16px; }
-.tile p { grid-area: d; color: var(--sub); font-size: 13.5px; }
+.tile h3 { font-size: 17px; transition: color .2s ease; }
+.tile p { margin-top: 7px; color: var(--sub); font-size: 14px; line-height: 1.65; }
+.tile:hover .tile-ico { color: var(--accent-dark); }
+.tile:hover h3 { color: var(--accent-dark); }
 
 /* 版本对比表 */
 .compare { width: 100%; border-collapse: collapse; background: var(--white);
@@ -477,13 +571,31 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dl-ms-badge { height: 44px; width: auto; display: block; }
 
 /* ---------- 感谢页 ---------- */
+/* 整页单屏：导航与页脚分居两端，内容区占据剩余高度并垂直居中 */
+body.page-thanks { min-height: 100vh; display: flex; flex-direction: column; }
+body.page-thanks main { flex: 1 0 auto; display: flex; flex-direction: column; }
+body.page-thanks main > .screen { flex: 1; padding: 44px 0; }
+/* 收紧感谢页留白，保证内容与页脚同屏 */
+body.page-thanks .thanks-sub { margin-top: 14px; }
+body.page-thanks .thanks-block { margin-top: 30px; }
+body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
+
 .thanks { max-width: 720px; margin: 0 auto; text-align: center; }
-.thanks-mark {
-    width: 64px; height: 64px; margin: 0 auto 26px;
-    border-radius: 50%; background: var(--accent-soft); color: var(--accent-dark);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; font-weight: 700;
+/* 顶部行：返回按钮居左、对勾标记居中；左右等宽轨道保证标记始终居中 */
+.thanks-top {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center; gap: 16px; margin-bottom: 30px;
 }
+.thanks-back { justify-self: start; white-space: nowrap; }
+/* 对勾标记：细描边环 + 描边对勾，不用实心底圆（与全站去框去线的语言一致） */
+.thanks-mark {
+    justify-self: center;
+    width: 64px; height: 64px; margin: 0;
+    border: 1px solid var(--accent); border-radius: 50%;
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+}
+.thanks-mark svg { width: 26px; height: 26px; }
 .thanks-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: -.02em; }
 .thanks-sub { margin-top: 18px; color: var(--sub); font-size: 16.5px; line-height: 1.75; }
 .thanks-auto {
@@ -503,24 +615,38 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 }
 .thanks-block { margin-top: 42px; }
 .thanks-h2 { font-size: 14px; color: var(--faint); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+/* 三步：三张细边框小卡片并排，整块随 .thanks 宽度居中；
+   01/02/03 亮青序号作眉标，不加阴影，保持全站扁平语言 */
 .thanks-steps {
-    list-style: none; counter-reset: step; padding: 0; margin: 20px 0 0;
-    display: grid; gap: 10px; text-align: left;
+    list-style: none; counter-reset: step; padding: 0; margin: 22px auto 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
 }
 .thanks-steps li {
-    counter-increment: step; position: relative;
-    padding: 12px 16px 12px 40px;
-    background: var(--white); border: 1px solid var(--line); border-radius: 12px;
-    font-size: 15px; color: var(--dark); box-shadow: var(--shadow-sm);
+    counter-increment: step;
+    display: flex; flex-direction: column; align-items: center; gap: 7px;
+    background: var(--white);
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 14px;
+    font-size: 14.5px; line-height: 1.55; color: var(--sub);
 }
 .thanks-steps li::before {
-    content: counter(step); position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--accent-soft); color: var(--accent-dark);
-    font-size: 11.5px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
+    content: counter(step, decimal-leading-zero);
+    font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums;
+    color: var(--accent); line-height: 1;
 }
-.thanks-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 42px; }
+/* 矮视口（如未最大化的笔记本窗口）：再压一档，确保感谢内容与页脚同屏 */
+@media (max-height: 780px) {
+    body.page-thanks main > .screen { padding: 18px 0; }
+    body.page-thanks .thanks-mark { width: 48px; height: 48px; }
+    body.page-thanks .thanks-mark svg { width: 20px; height: 20px; }
+    body.page-thanks .thanks-top { margin-bottom: 18px; }
+    body.page-thanks .thanks-title { font-size: clamp(22px, 3.2vw, 32px); }
+    body.page-thanks .thanks-sub { margin-top: 12px; font-size: 15.5px; }
+    body.page-thanks .thanks-auto { margin-top: 16px; padding: 8px 18px; }
+    body.page-thanks .thanks-block { margin-top: 16px; }
+    body.page-thanks .thanks-steps { margin-top: 14px; gap: 11px; }
+    body.page-thanks .footer { padding: 24px 0; }
+}
 
 /* ---------- 404 页面兼容（沿用既有类名） ---------- */
 .version-badge {
@@ -542,7 +668,17 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     .split.flip .split-media { order: 0; }
     .demos { grid-template-columns: 1fr; }
     .dots { display: none; }
+    /* 能力清单：三列降两列 */
+    .tiles { grid-template-columns: repeat(2, 1fr); column-gap: 36px; row-gap: 32px; }
     .dl-grid { grid-template-columns: 1fr; gap: 34px; }
+    .footer-cols { grid-template-columns: repeat(2, 1fr); gap: 26px; }
+
+    /* 信任行：改两列，避免四项挤在一行 */
+    .trust-row { gap: 28px; }
+    .trust-row li { flex: 1 1 44%; min-width: 150px; }
+
+    .sec-head { margin-bottom: 36px; }
+    .scene-row { column-gap: 32px; }
 }
 @media (max-width: 620px) {
     /* 容器与分段：收窄左右边距与上下留白，把宽度让给内容 */
@@ -564,11 +700,8 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     .hero-min .title { font-size: clamp(34px, 11vw, 56px); margin-bottom: 20px; }
     .hero-min .tagline { margin-bottom: 34px; }
 
-    /* 能力清单：改单列，分隔线规则同步为单列形态 */
-    .tiles { grid-template-columns: 1fr; }
-    .tile:nth-child(odd) { border-right: 0; }
-    .tile:nth-last-child(-n+2) { border-bottom: 1px solid var(--line); }
-    .tile:last-child { border-bottom: 0; }
+    /* 能力清单：改单列，靠行距分格 */
+    .tiles { grid-template-columns: 1fr; row-gap: 26px; }
 
     /* 收尾横带：按钮换行后占满整行 */
     .outro { padding: 0 0 56px; }
@@ -581,6 +714,29 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     .dl-row { padding: 12px 13px; gap: 11px; }
     .dl-row-go { padding: 8px 12px; }
     .dl-ms-badge { height: 38px; }
+
+    /* 感谢页：顶部行改单列，返回按钮不再与标记争抢同一行宽度 */
+    .thanks-top { grid-template-columns: 1fr; justify-items: center; gap: 14px; }
+    .thanks-back { justify-self: center; }
+    /* 感谢页三步：窄屏放不下三列并排，卡片改纵向单列，整块仍居中 */
+    .thanks-steps { grid-template-columns: 1fr; gap: 9px; }
+    .thanks-steps li { flex-direction: row; align-items: baseline; gap: 12px; padding: 13px 16px; }
+
+    /* 页脚：两列布局下收窄留白，底行改上下排；品牌名保持可见 */
+    .footer { padding: 40px 0 26px; }
+    .footer-cols { gap: 26px 20px; }
+    .footer .brand span { display: inline; }
+    .footer-bottom { flex-direction: column; gap: 6px; }
+
+    /* 信任行：保持两列（极窄屏才会因 min-width 自动退成单列）；使用场景：标签独立成行；FAQ：收窄留白 */
+    .trust-band { padding: 32px 0 36px; }
+    .trust-row li { flex: 1 1 44%; }
+    .trust-row b { font-size: 18px; }
+    .sec-head { margin-bottom: 30px; }
+    .scene-list { row-gap: 26px; }
+    .scene-row { grid-template-columns: 1fr; row-gap: 3px; }
+    .faq summary { padding: 17px 38px 17px 0; font-size: 15.5px; }
+    .faq .ans { padding-bottom: 20px; }
 }
 
 /* 极窄机型（≤400px）：再压一档，保证顶栏不溢出 */
@@ -594,4 +750,10 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     .ver-slider { transition: none; }
     .dl-panel { animation: none; }
     .thanks-auto::before { animation: none; }
+    .faq summary,
+    .faq summary::before,
+    .faq summary::after,
+    .faq .ans,
+    .tile-ico,
+    .tile h3 { transition: none; }
 }

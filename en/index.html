@@ -75,6 +75,9 @@
             done = true;
             window.setTimeout(function () {
                 el.classList.add('fade-out');
+                // Starts the hero's staggered reveal as the loader begins fading, so the
+                // two overlap and no empty gap is left once the loader is gone.
+                document.documentElement.classList.add('hero-reveal');
                 window.setTimeout(function () { el.style.display = 'none'; }, 460);
             }, Math.max(0, 350 - (Date.now() - t0)));
         }
@@ -201,7 +204,7 @@
                             <a class="dl-store" data-edition="std" target="_blank" rel="noopener"
                                href="https://apps.microsoft.com/detail/9nsjvp7fxkm3?referrer=appbadge&amp;mode=full">
                                 <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/en-us%20dark.svg"
+                                     src="https://get.microsoft.com/images/en-us%20light.svg"
                                      alt="Get LANSyncBox from the Microsoft Store" data-i18n-alt="dl.store.alt">
                             </a>
                         </div>
@@ -254,7 +257,7 @@
                             <a class="dl-store" data-edition="pro" target="_blank" rel="noopener"
                                href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
                                 <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/en-us%20dark.svg"
+                                     src="https://get.microsoft.com/images/en-us%20light.svg"
                                      alt="Get LANSyncBox from the Microsoft Store" data-i18n-alt="dl.store.alt">
                             </a>
                         </div>
@@ -262,6 +265,18 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Trust band: inside the download screen, pinned to its bottom; no outer box -->
+    <div class="trust-band">
+        <div class="container">
+            <ul class="trust-row">
+                <li><b data-i18n="trust.p1.title.std">2 platforms</b><span data-i18n="trust.p1.desc.std">Windows · Linux</span></li>
+                <li><b data-i18n="trust.p2.title">Zero relay</b><span data-i18n="trust.p2.desc">Traffic stays inside your local network</span></li>
+                <li><b data-i18n="trust.p3.title">GPL-3.0</b><span data-i18n="trust.p3.desc">Fully open source — audit the code yourself</span></li>
+                <li><b data-i18n="trust.p4.title">No ads · No tracking</b><span data-i18n="trust.p4.desc">No account, no data collection</span></li>
+            </ul>
         </div>
     </div>
 </section>
@@ -328,7 +343,7 @@
             <div class="tile">
                 <div class="tile-ico">02</div>
                 <h3 data-i18n="proonly.t2.title">Deliver</h3>
-                <p data-i18n="proonly.t2.desc">Cross-device copy &amp; paste</p>
+                <p data-i18n="proonly.t2.desc">Cross-device copy &amp; paste, no relay</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">03</div>
@@ -337,18 +352,18 @@
             </div>
             <div class="tile">
                 <div class="tile-ico">04</div>
-                <h3 data-i18n="proonly.t4.title">Peer-to-peer delivery</h3>
-                <p data-i18n="proonly.t4.desc">Images and files skip the relay</p>
+                <h3 data-i18n="proonly.t4.title">Direct message</h3>
+                <p data-i18n="proonly.t4.desc">One-to-one text and files</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">05</div>
-                <h3 data-i18n="proonly.t5.title">Direct message</h3>
-                <p data-i18n="proonly.t5.desc">One-to-one text and files</p>
+                <h3 data-i18n="proonly.t5.title">Collect mode</h3>
+                <p data-i18n="proonly.t5.desc">Many peers gather into one place</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">06</div>
-                <h3 data-i18n="proonly.t6.title">Collect mode</h3>
-                <p data-i18n="proonly.t6.desc">Many peers gather into a single place</p>
+                <h3 data-i18n="proonly.t6.title">Decentralised</h3>
+                <p data-i18n="proonly.t6.desc">No host needed — peers keep syncing</p>
             </div>
         </div>
     </div>
@@ -391,6 +406,70 @@
     </div>
 </section>
 
+<!-- ===== Use cases: no box, grouped by whitespace ===== -->
+<section class="screen">
+    <div class="container">
+        <div class="sec-head">
+            <p class="kicker" data-i18n="cases.kicker">Use cases</p>
+            <h2 class="headline" data-i18n="cases.headline">One local network, plenty of places it fits</h2>
+        </div>
+        <div class="scene-list">
+            <div class="scene-row">
+                <b data-i18n="cases.s1.label">Home</b>
+                <p data-i18n="cases.s1.desc">Add photos and documents to the sync — every computer at home always has the latest version.</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s2.label">Small teams</b>
+                <p data-i18n="cases.s2.desc">Add project files to the sync — any change reaches the others right away.</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s3.label">Dev machines</b>
+                <p data-i18n="cases.s3.desc">Configs, scripts and build output move between machines — no manual copying.</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s4.label">No-internet sites</b>
+                <p data-i18n="cases.s4.desc">Trade shows, intranets, server rooms — as long as you are on the same LAN, syncing works with no external network.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FAQ: no outer box, full-width hairlines only ===== -->
+<section class="screen">
+    <div class="container">
+        <div class="sec-head">
+            <p class="kicker" data-i18n="faq.kicker">FAQ</p>
+            <h2 class="headline" data-i18n="faq.headline">Questions before you install</h2>
+        </div>
+        <div class="faq">
+            <details>
+                <summary data-i18n="faq.q1">Do I need internet access?</summary>
+                <div class="ans" data-i18n="faq.a1">No external network is needed. As long as the devices are on the same local network (same router, Wi-Fi or wired), they can sync.</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q2">Do I need an account?</summary>
+                <div class="ans" data-i18n="faq.a2">No. Just install it and start using it — there is no account system, and no phone number or email is required.</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q3">Do my files pass through any server?</summary>
+                <div class="ans" data-i18n="faq.a3">No. Data moves peer-to-peer inside your local network. No relay servers are involved, and file contents are never collected.</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q4">Which platforms are supported?</summary>
+                <div class="ans" data-i18n="faq.a4">The Standard edition supports Windows and Linux; Pro adds macOS on top of that. Mobile and more platforms will follow.</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q5">What is the difference between Standard and Pro?</summary>
+                <div class="ans" data-i18n="faq.a5">In the Standard edition one device acts as the hub while the others follow it. Pro is decentralized — there is no host to keep running; if any device drops out, the rest keep syncing with each other. Pro also adds six exclusive capabilities such as peer nicknames and permission control.</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q6">Is it completely free?</summary>
+                <div class="ans" data-i18n="faq.a6">Yes. Open source under GNU GPL v3.0 — no ads, no in-app purchases, no data tracking. The code is on GitHub for anyone to audit.</div>
+            </details>
+        </div>
+    </div>
+</section>
+
 <!-- ===== Closing band ===== -->
 <section class="outro">
     <div class="container">
@@ -408,8 +487,52 @@
 
 <footer class="footer">
     <div class="container">
-        <span>LANSyncBox © 2026 Lisselde_E</span>
-        <span data-i18n="footer.license.note">Released under the GNU General Public License v3.0</span>
+        <div class="footer-cols">
+            <div class="footer-brand">
+                <a class="brand" href="#top">
+                    <img src="../assets/images/icon/lansyncbox.png" alt="">
+                    <span>LANSyncBox</span>
+                </a>
+                <p data-i18n="footer.brand.desc">A cross-platform real-time file sync tool built for local networks.</p>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.product">Product</h4>
+                <ul>
+                    <li><a href="#download" data-i18n="footer.link.download">Download</a></li>
+                    <li><a href="#details" data-i18n="footer.link.details">Features</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.docs">Docs</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/wiki" target="_blank" rel="noopener" data-i18n="footer.link.wiki">Wiki</a></li>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/releases" target="_blank" rel="noopener" data-i18n="footer.link.changelog">Release history</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.contact">Contact</h4>
+                <ul>
+                    <li><a href="mailto:Lisselde.E@outlook.com" data-i18n="footer.link.email">Email</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.community">Community</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/issues" target="_blank" rel="noopener" data-i18n="footer.link.issues">Issues</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.legal">Legal</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/blob/main/LICENSE" target="_blank" rel="noopener" data-i18n="footer.link.license">GPL-3.0 License</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>LANSyncBox © 2026 Lisselde_E</span>
+            <span data-i18n="footer.license.note">Released under the GNU General Public License v3.0</span>
+        </div>
     </div>
 </footer>
 

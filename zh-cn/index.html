@@ -74,6 +74,8 @@
             done = true;
             window.setTimeout(function () {
                 el.classList.add('fade-out');
+                // 同步触发首屏逐层渐出：与加载层淡出重叠，避免加载层消失后出现空档
+                document.documentElement.classList.add('hero-reveal');
                 window.setTimeout(function () { el.style.display = 'none'; }, 460);
             }, Math.max(0, 350 - (Date.now() - t0)));
         }
@@ -200,7 +202,7 @@
                             <a class="dl-store" data-edition="std" target="_blank" rel="noopener"
                                href="https://apps.microsoft.com/detail/9nsjvp7fxkm3?referrer=appbadge&amp;mode=full">
                                 <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/zh-cn%20dark.svg"
+                                     src="https://get.microsoft.com/images/zh-cn%20light.svg"
                                      alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
                             </a>
                         </div>
@@ -253,7 +255,7 @@
                             <a class="dl-store" data-edition="pro" target="_blank" rel="noopener"
                                href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
                                 <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/zh-cn%20dark.svg"
+                                     src="https://get.microsoft.com/images/zh-cn%20light.svg"
                                      alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
                             </a>
                         </div>
@@ -261,6 +263,18 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- 信任行：并进下载屏、贴屏底；无外框，仅上下通栏细线 + 每项 accent 短线 -->
+    <div class="trust-band">
+        <div class="container">
+            <ul class="trust-row">
+                <li><b data-i18n="trust.p1.title.std">2 个平台</b><span data-i18n="trust.p1.desc.std">Windows · Linux</span></li>
+                <li><b data-i18n="trust.p2.title">0 次公网中转</b><span data-i18n="trust.p2.desc">数据全程留在局域网内</span></li>
+                <li><b data-i18n="trust.p3.title">GPL-3.0</b><span data-i18n="trust.p3.desc">完全开源，代码可自行审计</span></li>
+                <li><b data-i18n="trust.p4.title">无广告 · 无追踪</b><span data-i18n="trust.p4.desc">不注册账号，不采集任何数据</span></li>
+            </ul>
         </div>
     </div>
 </section>
@@ -327,7 +341,7 @@
             <div class="tile">
                 <div class="tile-ico">02</div>
                 <h3 data-i18n="proonly.t2.title">投递</h3>
-                <p data-i18n="proonly.t2.desc">跨设备复制粘贴</p>
+                <p data-i18n="proonly.t2.desc">跨设备复制粘贴，不经中继</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">03</div>
@@ -336,18 +350,18 @@
             </div>
             <div class="tile">
                 <div class="tile-ico">04</div>
-                <h3 data-i18n="proonly.t4.title">端到端直投</h3>
-                <p data-i18n="proonly.t4.desc">图片文件不经中继</p>
+                <h3 data-i18n="proonly.t4.title">私信</h3>
+                <p data-i18n="proonly.t4.desc">一对一文本与文件</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">05</div>
-                <h3 data-i18n="proonly.t5.title">私信</h3>
-                <p data-i18n="proonly.t5.desc">一对一文本与文件</p>
+                <h3 data-i18n="proonly.t5.title">收集模式</h3>
+                <p data-i18n="proonly.t5.desc">多人汇总到一处</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">06</div>
-                <h3 data-i18n="proonly.t6.title">收集模式</h3>
-                <p data-i18n="proonly.t6.desc">多人汇总到一处</p>
+                <h3 data-i18n="proonly.t6.title">去中心化</h3>
+                <p data-i18n="proonly.t6.desc">无主机也能互相同步</p>
             </div>
         </div>
     </div>
@@ -390,6 +404,70 @@
     </div>
 </section>
 
+<!-- ===== 使用场景：去框、去行间线，靠留白分行 ===== -->
+<section class="screen">
+    <div class="container">
+        <div class="sec-head">
+            <p class="kicker" data-i18n="cases.kicker">使用场景</p>
+            <h2 class="headline" data-i18n="cases.headline">同一个局域网，就有很多用得上的地方</h2>
+        </div>
+        <div class="scene-list">
+            <div class="scene-row">
+                <b data-i18n="cases.s1.label">家庭</b>
+                <p data-i18n="cases.s1.desc">把照片、文档加进同步，家里几台电脑随时都是最新版。</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s2.label">小团队</b>
+                <p data-i18n="cases.s2.desc">把项目资料加进同步，谁的改动其余人立刻同步到位。</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s3.label">开发机</b>
+                <p data-i18n="cases.s3.desc">配置、脚本、构建产物在多台机器间流转，不必手动搬运。</p>
+            </div>
+            <div class="scene-row">
+                <b data-i18n="cases.s4.label">无网现场</b>
+                <p data-i18n="cases.s4.desc">展会、内网、机房等没有外网的场合，只要在同一局域网内就能同步。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== 常见问题：去外框，仅通栏细线分行 ===== -->
+<section class="screen">
+    <div class="container">
+        <div class="sec-head">
+            <p class="kicker" data-i18n="faq.kicker">常见问题</p>
+            <h2 class="headline" data-i18n="faq.headline">装上之前，你可能想问的</h2>
+        </div>
+        <div class="faq">
+            <details>
+                <summary data-i18n="faq.q1">需要联网吗？</summary>
+                <div class="ans" data-i18n="faq.a1">不需要外部网络。只要设备连在同一个局域网内（同一路由器下的 Wi-Fi 或有线网络）就能同步。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q2">需要注册账号吗？</summary>
+                <div class="ans" data-i18n="faq.a2">不需要。下载安装后即可使用，没有账号体系，也不需要手机号或邮箱。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q3">我的文件会经过你们的服务器吗？</summary>
+                <div class="ans" data-i18n="faq.a3">不会。数据全程在局域网内点对点传输，我们不运营任何中转服务器，也不采集文件内容。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q4">支持哪些平台？</summary>
+                <div class="ans" data-i18n="faq.a4">标准版支持 Windows 与 Linux；Pro 版在此之上增加 macOS。移动端与更多平台会陆续补齐。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q5">标准版和 Pro 版有什么区别？</summary>
+                <div class="ans" data-i18n="faq.a5">标准版由一台设备作为中枢，其余端跟随；Pro 版去中心化，没有主机也不停 —— 任一设备退出，其余设备继续互相同步。此外 Pro 版独有端昵称、权限控制等六项能力。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q6">完全免费吗？</summary>
+                <div class="ans" data-i18n="faq.a6">是。GNU GPL v3.0 开源，无广告、无内购、不做数据追踪；代码可在 GitHub 上自行审计。</div>
+            </details>
+        </div>
+    </div>
+</section>
+
 <!-- ===== 收尾 · 单行横带 ===== -->
 <section class="outro">
     <div class="container">
@@ -407,8 +485,52 @@
 
 <footer class="footer">
     <div class="container">
-        <span>LANSyncBox © 2026 Lisselde_E</span>
-        <span data-i18n="footer.license.note">基于 GNU General Public License v3.0 开源</span>
+        <div class="footer-cols">
+            <div class="footer-brand">
+                <a class="brand" href="#top">
+                    <img src="../assets/images/icon/lansyncbox.png" alt="">
+                    <span>LANSyncBox</span>
+                </a>
+                <p data-i18n="footer.brand.desc">一款为局域网设计的跨平台文件实时同步工具。</p>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.product">产品</h4>
+                <ul>
+                    <li><a href="#download" data-i18n="footer.link.download">下载</a></li>
+                    <li><a href="#details" data-i18n="footer.link.details">功能详情</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.docs">文档</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/wiki" target="_blank" rel="noopener" data-i18n="footer.link.wiki">Wiki 文档</a></li>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/releases" target="_blank" rel="noopener" data-i18n="footer.link.changelog">更新历史</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.contact">联系</h4>
+                <ul>
+                    <li><a href="mailto:Lisselde.E@outlook.com" data-i18n="footer.link.email">邮箱</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.community">社区</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/issues" target="_blank" rel="noopener" data-i18n="footer.link.issues">问题反馈</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 data-i18n="footer.col.legal">法律</h4>
+                <ul>
+                    <li><a href="https://github.com/LisseldeE/LANSyncBox/blob/main/LICENSE" target="_blank" rel="noopener" data-i18n="footer.link.license">GPL-3.0 协议</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>LANSyncBox © 2026 Lisselde_E</span>
+            <span data-i18n="footer.license.note">基于 GNU General Public License v3.0 开源</span>
+        </div>
     </div>
 </footer>
 

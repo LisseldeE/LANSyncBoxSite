@@ -57,6 +57,7 @@
         initLangSwitcher();
         initVersionSwitcher();
         initDownload();
+        initFaq();
     }
 
     // ---- 右侧分段指示器：每屏一个圆点，并同步顶栏焦点 ----
@@ -147,11 +148,26 @@
         if (!box) return;
         var opts = Array.prototype.slice.call(box.querySelectorAll('.ver-option'));
 
+        // 信任行的平台数量随版本走：标准版 2 个平台（Windows · Linux），Pro 版 3 个
+        var platTitle = document.querySelector('[data-i18n^="trust.p1.title."]');
+        var platDesc = document.querySelector('[data-i18n^="trust.p1.desc."]');
+        function syncTrustPlatform(v) {
+            var sfx = v === 'pro' ? 'pro' : 'std';
+            [[platTitle, 'trust.p1.title.'], [platDesc, 'trust.p1.desc.']].forEach(function (pair) {
+                if (!pair[0]) return;
+                var key = pair[1] + sfx;
+                pair[0].setAttribute('data-i18n', key);
+                var val = window.t(key);
+                if (val !== null) pair[0].textContent = val;   // 与 applyI18n 同一条守卫：取不到就保留原文案
+            });
+        }
+
         function activate(v) {
             box.setAttribute('data-version', v);
             opts.forEach(function (b) {
                 b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
             });
+            syncTrustPlatform(v);
         }
         activate(box.getAttribute('data-version') === 'pro' ? 'pro' : 'std');
 
@@ -230,6 +246,96 @@
                     render();
                 })
                 .catch(function () { /* 版本号取不到，保留兜底值 */ });
+        });
+    }
+
+    // ---- 常见问题：保留 <details> 原生语义，只把瞬间开合补成高度过渡 ----
+    //      拦下 summary 的原生开合，用内联 height + padding-bottom 做动画；
+    //      脚本未运行或报错时 <details> 照常开合（fail-open），只是没有动画
+    function initFaq() {
+        // 用户要求减少动效时直接交回原生开合
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        var items = Array.prototype.slice.call(document.querySelectorAll('.faq details'));
+        if (!items.length) return;
+
+        var OPEN_MS = 340;
+        var CLOSE_MS = 240;   // 离场约为入场的 3/4
+        var OPEN_EASE = 'cubic-bezier(.16, 1, .3, 1)';
+        var CLOSE_EASE = 'cubic-bezier(.7, 0, .84, 0)';
+        // 内容区高度含 padding-bottom（全站 border-box），两条属性必须同步过渡，
+        // 否则收起末尾会因 padding 卡住出现一次约 24px（窄屏 20px）的瞬间跳变
+        function dur(ms, ease) {
+            return 'height ' + ms + 'ms ' + ease + ', padding-bottom ' + ms + 'ms ' + ease;
+        }
+
+        Array.prototype.forEach.call(items, function (d) {
+            var summary = d.querySelector('summary');
+            var ans = d.querySelector('.ans');
+            if (!summary || !ans) return;
+
+            var shown = !!d.open;   // 意图状态：收起动画期间 d.open 仍为 true，不能拿它判断
+            var timer = null;
+            var onEnd = null;
+
+            function cancel() {
+                if (timer) { window.clearTimeout(timer); timer = null; }
+                if (onEnd) { ans.removeEventListener('transitionend', onEnd); onEnd = null; }
+            }
+            // 收尾：清掉内联值，把最终开合状态交回 <details>
+            function settle(isOpen) {
+                cancel();
+                if (!isOpen) d.open = false;
+                d.classList.remove('closing');
+                ans.style.height = '';
+                ans.style.paddingBottom = '';
+                ans.style.transition = '';
+            }
+            function watch(isOpen, ms) {
+                onEnd = function (ev) {
+                    if (ev.target === ans && ev.propertyName === 'height') settle(isOpen);
+                };
+                ans.addEventListener('transitionend', onEnd);
+                // 兜底：后台标签页不跑过渡时靠定时器收尾，避免状态卡在半途
+                timer = window.setTimeout(function () { settle(isOpen); }, ms + 80);
+            }
+
+            summary.addEventListener('click', function (e) {
+                e.preventDefault();   // 拦下原生瞬间开合，改由过渡完成
+                cancel();
+                shown = !shown;
+
+                if (shown) {
+                    // ---- 展开：先打开取到自然高度，再从 0 过渡上去 ----
+                    d.classList.remove('closing');
+                    ans.style.transition = 'none';
+                    ans.style.height = '';
+                    ans.style.paddingBottom = '';
+                    d.open = true;
+                    var full = ans.offsetHeight;
+                    var pb = window.getComputedStyle(ans).paddingBottom;
+                    ans.style.height = '0px';
+                    ans.style.paddingBottom = '0px';
+                    void ans.offsetHeight;   // 强制回流，把 0 这个起点定下来
+                    ans.style.transition = dur(OPEN_MS, OPEN_EASE);
+                    ans.style.height = full + 'px';
+                    ans.style.paddingBottom = pb;
+                    watch(true, OPEN_MS);
+                } else {
+                    // ---- 收起：从当前高度（可能正处于展开动画中途）过渡到 0 ----
+                    var h = ans.offsetHeight;
+                    var p = window.getComputedStyle(ans).paddingBottom;
+                    d.classList.add('closing');   // 让 +/− 标记立即翻回「+」
+                    ans.style.transition = 'none';
+                    ans.style.height = h + 'px';
+                    ans.style.paddingBottom = p;
+                    void ans.offsetHeight;
+                    ans.style.transition = dur(CLOSE_MS, CLOSE_EASE);
+                    ans.style.height = '0px';
+                    ans.style.paddingBottom = '0px';
+                    watch(false, CLOSE_MS);
+                }
+            });
         });
     }
 
