@@ -1,7 +1,8 @@
 // ============================================================
 //  LANSyncBox 官网 · i18n 国际化系统
 //  实现方式参考 LisseldeE.github.io：字典 + data-i18n 属性驱动
-//  语言优先级：URL 语言目录 > localStorage > 浏览器语言
+//  单文件站点：语言由地址栏 ?lang= 承载（中文为裸地址）
+//  语言优先级：?lang= > localStorage > 浏览器语言
 // ============================================================
 
 window.I18N = {
@@ -404,18 +405,16 @@ window.SITE = {
     }
 };
 
-// 从 URL 路径解析语言目录（相对路径部署安全，兼容 /LANSyncBoxSite/ 这类项目页）
-window.getPathLang = function () {
-    var p = window.location.pathname.toLowerCase();
-    if (/(^|\/)en(\/|$)/.test(p)) return 'en';
-    if (/(^|\/)zh-cn(\/|$)/.test(p)) return 'zh-cn';
-    return '';
+// 单文件站点：语言不再用目录表达，只由地址栏的 ?lang= 承载
+window.getUrlLang = function () {
+    var m = (window.location.search || '').match(/[?&]lang=(zh-cn|en)(?:&|$)/i);
+    return m ? m[1].toLowerCase() : '';
 };
 
-// 获取当前语言：URL 目录 > localStorage > 浏览器语言
+// 获取当前语言：?lang= > localStorage > 浏览器语言
 window.getCurrentLang = function () {
-    var byPath = window.getPathLang();
-    if (byPath) return byPath;
+    var byUrl = window.getUrlLang();
+    if (byUrl) return byUrl;
 
     var saved = null;
     try { saved = localStorage.getItem(window.SITE.langKey); } catch (e) { }
@@ -441,16 +440,14 @@ window.t = function (key) {
 // 语言切换：就地换文案（不重载页面），带柔和过渡，并同步地址栏
 window.switchLang = function (lang) {
     if (window.SITE.langs.indexOf(lang) === -1) lang = 'zh-cn';
-    if (lang === window.getPathLang()) return;        // 已在该语言目录，无需切换
+    if (lang === window.getCurrentLang()) return;      // 已是当前语言，无需切换
     try { localStorage.setItem(window.SITE.langKey, lang); } catch (e) { }
 
-    // 同步地址栏：replaceState 不触发重载，锚点与文件名（如 thanks.html）原样保留
+    // 同步地址栏：只用 ?lang= 表达语言（中文保持裸地址），replaceState 不触发重载，
+    // 文件名（如 thanks.html）与锚点原样保留
     try {
-        var path = window.location.pathname;
-        var file = /\.[a-z0-9]+$/i.test(path) ? path.replace(/.*\//, '') : '';
-        var base = path.replace(/[^\/]*$/, '').replace(/\/(zh-cn|en)\/$/, '/');
-        var dir = lang === 'en' ? 'en/' : 'zh-cn/';
-        window.history.replaceState(null, '', base + dir + file + (window.location.hash || ''));
+        var q = lang === 'en' ? '?lang=en' : '';
+        window.history.replaceState(null, '', window.location.pathname + q + (window.location.hash || ''));
     } catch (e) { }
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -109,12 +109,11 @@ p { margin: 0; }
     border: 0; background: transparent; cursor: pointer;
     font: inherit; font-size: 12.5px; font-weight: 700; line-height: 1; letter-spacing: .02em;
     color: var(--sub); border-radius: 999px;
-    transition: color .2s ease, transform .18s ease;
+    transition: color .2s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 .lang-option:hover { color: var(--dark); }
-.lang-option:active { transform: scale(.9); }
 .lang-option.active { color: #fff; }
-.lang-option.active:active { transform: none; }
 .lang-option:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
 
 /* 切换语言：仅声明过 i18n 的文案做柔和交叉淡入，页面不整体变暗 */
@@ -501,6 +500,7 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     font: inherit; font-size: 14px; font-weight: 700; line-height: 1;
     color: var(--sub); border-radius: 999px;
     transition: color .2s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 .ver-option:hover { color: var(--dark); }
 .ver-option:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }

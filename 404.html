@@ -4,18 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 · LANSyncBox</title>
+    <meta name="robots" content="noindex">
     <link rel="icon" href="assets/images/icon/lansyncbox.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        // 旧的双语言目录（/zh-cn/、/en/）已并入单文件首页：
+        // 按路径里的语言段改回站点根，并保留原有查询参数（如感谢页的 dl=）
+        (function () {
+            var path = window.location.pathname;
+            var m = path.match(/\/(zh-cn|en)(\/|$)/i);
+            if (!m) return;
+            // 语言段之前的部分即站点根，项目页（/LANSyncBoxSite/）与自定义域名都适用
+            var rootPath = path.slice(0, m.index + 1);
+            var tail = path.slice(m.index + m[1].length + 1);
+            var file = /thanks\.html$/i.test(tail) ? 'thanks.html' : '';
+            var extra = window.location.search.replace(/^\?/, '');
+            window.location.replace(rootPath + file + '?lang=' + m[1].toLowerCase() +
+                (extra ? '&' + extra : '') + window.location.hash);
+        })();
+    </script>
 </head>
 <body>
 <div class="container" style="min-height:78vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px">
     <div class="version-badge">404</div>
     <h1 class="section-title">页面不存在 / Page Not Found</h1>
-    <p class="section-subtitle">你访问的页面已被移动或从未存在。</p>
+    <p class="section-subtitle">你访问的页面已被移动或从未存在。<br>The page you requested has moved or does not exist.</p>
     <div class="hero-actions" style="justify-content:center">
         <a class="btn btn-primary" href="./">返回首页 / Home</a>
-        <a class="btn btn-ghost" href="zh-cn/">简体中文</a>
-        <a class="btn btn-ghost" href="en/">English</a>
     </div>
 </div>
 </body>
