@@ -58,6 +58,28 @@
         initVersionSwitcher();
         initDownload();
         initFaq();
+        initBackLink();
+    }
+
+    // ---- 返回按钮（隐私政策页 / 感谢页）：由本站首页点进来的，改走浏览器历史返回 ----
+    //      这样首页由 bfcache 原样恢复（滚动位置与已渲染状态都还在），不重新加载、不闪加载动画；
+    //      其余情况（直接打开、外链进入、无历史可退）一律不接管，浏览器照 href 正常跳转
+    function initBackLink() {
+        var links = document.querySelectorAll('.policy-back, .thanks-back');
+        if (!links.length) return;
+
+        var ref = document.referrer || '';
+        var fromHome = ref.indexOf(window.location.origin + '/') === 0 &&
+            !/\/(privacy|thanks)\.html/i.test(ref) &&
+            window.history.length > 1;
+        if (!fromHome) return;
+
+        Array.prototype.forEach.call(links, function (a) {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.history.back();
+            });
+        });
     }
 
     // ---- 右侧分段指示器：每屏一个圆点，并同步顶栏焦点 ----
@@ -67,6 +89,26 @@
         if (!screens.length || !dots) return;
 
         var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab[data-nav]'));
+        var tabsEl = document.querySelector('.tabs');
+        var underline = document.querySelector('.tab-underline');
+
+        // 顶栏短线指示条：宽度取当前标签的「文字实际范围」（不含标签左右内边距），
+        // 位置换算成 .tabs 的内容坐标（窄屏下列表可横向滑动，故补上 scrollLeft）
+        function placeUnderline(tab) {
+            if (!underline || !tabsEl || !tab) return;
+            var range = document.createRange();
+            range.selectNodeContents(tab);
+            var box = range.getBoundingClientRect();
+            if (!box.width) return;
+            underline.style.width = box.width + 'px';
+            underline.style.transform = 'translateX(' +
+                (box.left - tabsEl.getBoundingClientRect().left + tabsEl.scrollLeft) + 'px)';
+        }
+
+        var activeTab = null;
+        // 语言换字、窗口跨断点（标签字号与内边距会变）之后文字宽度都会变，重新贴合一次
+        window.addEventListener('resize', function () { placeUnderline(activeTab); });
+        window.addEventListener('i18n-applied', function () { placeUnderline(activeTab); });
 
         screens.forEach(function (s) {
             var b = document.createElement('button');
@@ -83,8 +125,11 @@
         function syncTabs(i) {
             var key = i === 0 ? 'home' : (i === 1 ? 'download' : 'details');
             tabs.forEach(function (t) {
-                t.classList.toggle('active', t.getAttribute('data-nav') === key);
+                var on = t.getAttribute('data-nav') === key;
+                t.classList.toggle('active', on);
+                if (on) activeTab = t;      // 先定下选中标签（字体加粗会改文字宽），再测指示条
             });
+            placeUnderline(activeTab);
         }
 
         function activate(i) {

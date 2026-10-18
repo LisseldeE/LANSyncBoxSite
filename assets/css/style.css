@@ -74,14 +74,25 @@ p { margin: 0; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--dark); font-weight: 700; font-size: 17px; }
 .brand img { width: 30px; height: 30px; border-radius: 8px; }
 
-.tabs { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.tabs { position: relative; margin-left: auto; display: flex; align-items: center; gap: 6px; }
 .tab {
     padding: 8px 18px; border-radius: 999px;
     color: var(--sub); font-size: 15px; text-decoration: none;
-    transition: background .2s ease, color .2s ease;
+    transition: color .2s ease;
 }
-.tab:hover { background: var(--white); color: var(--dark); }
-.tab.active { background: var(--accent-soft); color: var(--accent-dark); font-weight: 600; }
+.tab:hover { color: var(--dark); }
+.tab.active { color: var(--accent-dark); font-weight: 600; }
+
+/* 顶栏选中态：文字下方短线指示条 —— 宽度取标签文字宽，位置随选中标签移动。
+   位移与宽度都走语言/版本气泡那条同款 q 弹曲线，切换时可弹 */
+.tab-underline {
+    position: absolute; left: 0; bottom: 4px;
+    width: 0; height: 2px; border-radius: 2px;
+    background: var(--accent);
+    transition: transform .38s cubic-bezier(.34, 1.35, .5, 1),
+                width .38s cubic-bezier(.34, 1.35, .5, 1);
+    will-change: transform, width;
+}
 
 /* ---------- 语言切换：中 / EN 双段滑块 ---------- */
 .lang {
@@ -634,6 +645,60 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
     font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums;
     color: var(--accent); line-height: 1;
 }
+/* ============================================================
+   隐私政策页：与感谢页同源的独立页，正文为两份政策（标准版 / Pro 版）
+   ============================================================ */
+body.page-policy { min-height: 100vh; display: flex; flex-direction: column; }
+body.page-policy main { flex: 1 0 auto; display: flex; flex-direction: column; }
+body.page-policy main > .screen { flex: 1; padding: 44px 0; }
+
+.policy { max-width: 820px; margin: 0 auto; }
+.policy-top { display: flex; margin-bottom: 22px; }
+.policy-back { white-space: nowrap; }
+.policy-head { text-align: center; }
+.policy-title { font-size: clamp(28px, 4vw, 42px); letter-spacing: -.02em; }
+.policy-sub { margin-top: 14px; color: var(--sub); font-size: 15.5px; }
+.policy-switch { display: flex; justify-content: center; margin-top: 26px; }
+
+/* 滑块位置与两版正文显隐都由 .policy 的 data-version 驱动（与 .dl-right 同一套写法） */
+.policy[data-version="pro"] .ver-slider { transform: translateX(var(--opt-w)); }
+.policy[data-version="std"] .ver-option[data-version="std"],
+.policy[data-version="pro"] .ver-option[data-version="pro"] { color: #fff; }
+.policy[data-version="std"] .policy-doc[data-version="pro"],
+.policy[data-version="pro"] .policy-doc[data-version="std"] { display: none; }
+
+.policy-docs { margin-top: 30px; }
+.policy-doc {
+    background: var(--white);
+    border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 34px 40px;
+    box-shadow: var(--shadow-sm);
+    animation: dlPanelIn .3s ease both;
+}
+.policy-doc h2 { font-size: 21px; }
+.policy-doc-date { margin-top: 8px; color: var(--faint); font-size: 13px; }
+.policy-doc h3 { margin: 28px 0 10px; font-size: 17px; }
+.policy-doc p,
+.policy-doc ul,
+.policy-doc ol { margin: 0 0 12px; color: var(--sub); font-size: 15px; line-height: 1.85; }
+.policy-doc ul,
+.policy-doc ol { padding-left: 22px; }
+.policy-doc li { margin-bottom: 6px; }
+.policy-doc li::marker { color: var(--accent); }
+.policy-doc strong { color: var(--dark); }
+.policy-doc code {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px;
+    padding: 1px 6px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--bg-top); color: var(--accent-dark);
+}
+.policy-doc a { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
+/* 末段「简而言之」：细线分隔 + 左侧 accent 短线的结论块（相邻选择器，无需额外类名） */
+.policy-doc hr { border: 0; border-top: 1px solid var(--line); margin: 26px 0; }
+.policy-doc hr + p {
+    background: var(--bg-top); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+    padding: 13px 16px; color: var(--dark); font-size: 14.5px;
+}
+
 /* 矮视口（如未最大化的笔记本窗口）：再压一档，确保感谢内容与页脚同屏 */
 @media (max-height: 780px) {
     body.page-thanks main > .screen { padding: 18px 0; }
@@ -664,6 +729,24 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
     .seg { padding: 76px 0; }
     .tabs { gap: 2px; }
     .tab { padding: 8px 12px; font-size: 14px; }
+
+    /* 顶栏防挤压：品牌与图标不参与压缩（否则窄宽度下被挤扁），
+       标签行可横向滑动并隐藏滚动条，溢出由标签行自己吸收，
+       不会转移到整页造成横向滚动 */
+    .brand,
+    .brand img { flex: 0 0 auto; }
+    .tabs {
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;        /* Firefox */
+        -ms-overflow-style: none;     /* 旧版 Edge */
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { white-space: nowrap; flex: 0 0 auto; }
+    .lang { flex: 0 0 auto; }
+
     .split { grid-template-columns: 1fr; gap: 36px; }
     .split.flip .split-media { order: 0; }
     .demos { grid-template-columns: 1fr; }
@@ -688,7 +771,7 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
     .screen.hero-min,
     .screen#download { min-height: calc(100svh - var(--nav-h)); }
 
-    /* 顶栏：压缩横向占用，避免「四个标签 + 语言切换」溢出 */
+    /* 顶栏：品牌只留图标、标签行收紧（横向滑动与防压缩规则见上方 900px 块） */
     .navbar .container { gap: 10px; }
     .brand span { display: none; }
     .brand img { width: 26px; height: 26px; }
@@ -718,6 +801,11 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
     /* 感谢页：顶部行改单列，返回按钮不再与标记争抢同一行宽度 */
     .thanks-top { grid-template-columns: 1fr; justify-items: center; gap: 14px; }
     .thanks-back { justify-self: center; }
+    /* 隐私政策页：正文卡片收窄内边距，标题与副标题压一档 */
+    body.page-policy main > .screen { padding: 24px 0; }
+    .policy-doc { padding: 24px 20px; }
+    .policy-sub { font-size: 14.5px; }
+    body.page-policy .footer { padding: 24px 0; }
     /* 感谢页三步：窄屏放不下三列并排，卡片改纵向单列，整块仍居中 */
     .thanks-steps { grid-template-columns: 1fr; gap: 9px; }
     .thanks-steps li { flex-direction: row; align-items: baseline; gap: 12px; padding: 13px 16px; }
@@ -748,7 +836,9 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
 
 @media (prefers-reduced-motion: reduce) {
     .ver-slider { transition: none; }
+    .tab-underline { transition: none; }
     .dl-panel { animation: none; }
+    .policy-doc { animation: none; }
     .thanks-auto::before { animation: none; }
     .faq summary,
     .faq summary::before,

@@ -117,6 +117,7 @@ window.I18N = {
         'footer.link.issues': '问题反馈',
         'footer.link.email': '邮箱',
         'footer.link.license': 'GPL-3.0 协议',
+        'footer.link.privacy': '隐私政策',
         'footer.license.note': '基于 GNU General Public License v3.0 开源',
         'dots.aria': '跳转到该段',
 
@@ -182,7 +183,14 @@ window.I18N = {
         'thanks.next.1': '确保所有设备连在同一个局域网',
         'thanks.next.2': '由一台设备创建房间，记下 6 位房间号',
         'thanks.next.3': '其他设备输入房间号与密码即可加入',
-        'thanks.back.download': '返回下载页'
+        'thanks.back.download': '返回下载页',
+
+        // ---------- 隐私政策页 ----------
+        'privacy.meta.title': '隐私政策 · LANSyncBox',
+        'privacy.meta.description': 'LANSyncBox 标准版与 Pro 版的隐私政策。',
+        'privacy.title': '隐私政策',
+        'privacy.sub': '标准版与 Pro 版各有一份隐私政策，切换即可查看。',
+        'privacy.back': '返回首页'
     },
 
     'en': {
@@ -296,6 +304,7 @@ window.I18N = {
         'footer.link.issues': 'Issues',
         'footer.link.email': 'Email',
         'footer.link.license': 'GPL-3.0 License',
+        'footer.link.privacy': 'Privacy Policy',
         'footer.license.note': 'Released under the GNU General Public License v3.0',
         'dots.aria': 'Go to this section',
 
@@ -361,7 +370,14 @@ window.I18N = {
         'thanks.next.1': 'Make sure every device is on the same local network',
         'thanks.next.2': 'Create a room on one device and note the 6-digit number',
         'thanks.next.3': 'Join from the other devices with the number and password',
-        'thanks.back.download': 'Back to downloads'
+        'thanks.back.download': 'Back to downloads',
+
+        // ---------- Privacy policy page ----------
+        'privacy.meta.title': 'Privacy Policy · LANSyncBox',
+        'privacy.meta.description': 'Privacy policies for LANSyncBox Standard and Pro.',
+        'privacy.title': 'Privacy Policy',
+        'privacy.sub': 'Standard and Pro editions each have their own privacy policy — switch to view.',
+        'privacy.back': 'Back to home'
     }
 };
 
@@ -506,4 +522,8 @@ window.applyI18n = function () {
         btn.classList.toggle('active', on);
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+
+    // 文案换完后广播一次：按「文字实际宽度」定位的装饰（如顶栏标签下的指示条）
+    // 需要在这个时刻重排，否则会停在旧文案的宽度上
+    window.dispatchEvent(new Event('i18n-applied'));
 };
