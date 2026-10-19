@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="56 29 528 297" width="640" height="360" role="img" aria-labelledby="t d">
+    <title id="t">跨设备投递 · 文本</title>
+    <desc id="d">本机复制的文本，经由局域网直连，在另一台设备上直接粘贴。</desc>
+
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1F8FB"/>
+            <stop offset="1" stop-color="#E4F0F4"/>
+        </linearGradient>
+    </defs>
+
+    <style>
+        /* 整段循环 4s：本机选中(0.3s) → 数据包过链路(0.7~2.0s) → 对端粘贴(2.5~3.4s) → 复位 */
+        .link-line { animation: dashFlow 1.3s linear infinite; }
+
+        @keyframes dashFlow { to { stroke-dashoffset: -28; } }
+
+        @keyframes devA {
+            0%   { stroke: #D8E6EC; }
+            8%   { stroke: #17A2B8; }
+            20%  { stroke: #D8E6EC; }
+            100% { stroke: #D8E6EC; }
+        }
+        .dev-a { animation: devA 4s ease-out infinite; }
+
+        @keyframes devB {
+            0%, 54% { stroke: #D8E6EC; }
+            62%     { stroke: #17A2B8; }
+            86%     { stroke: #D8E6EC; }
+            100%    { stroke: #D8E6EC; }
+        }
+        .dev-b { animation: devB 4s ease-out infinite; }
+
+        @keyframes copyLine {
+            0%   { fill: #D8E6EC; }
+            10%  { fill: #17A2B8; }
+            82%  { fill: #17A2B8; }
+            92%  { fill: #D8E6EC; }
+            100% { fill: #D8E6EC; }
+        }
+        .copy-line { animation: copyLine 4s ease-in-out infinite; }
+
+        @keyframes packetGo {
+            0%   { opacity: 0; transform: translateX(0); }
+            18%  { opacity: 1; transform: translateX(0); }
+            50%  { opacity: 1; transform: translateX(88px); }
+            56%  { opacity: 0; transform: translateX(88px); }
+            100% { opacity: 0; transform: translateX(88px); }
+        }
+        .packet { animation: packetGo 4s ease-in-out infinite; }
+
+        @keyframes pasteLine {
+            0%, 52%  { opacity: 0; transform: translateY(7px); }
+            64%      { opacity: 1; transform: translateY(0); }
+            84%      { opacity: 1; transform: translateY(0); }
+            94%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .paste-line { animation: pasteLine 4s ease-out infinite; }
+
+        @keyframes copyBadge {
+            0%, 6%   { opacity: 0; transform: translateY(5px); }
+            14%      { opacity: 1; transform: translateY(0); }
+            86%      { opacity: 1; transform: translateY(0); }
+            94%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .copy-badge { animation: copyBadge 4s ease-out infinite; }
+
+        @keyframes pasteBadge {
+            0%, 58%  { opacity: 0; transform: translateY(5px); }
+            68%      { opacity: 1; transform: translateY(0); }
+            86%      { opacity: 1; transform: translateY(0); }
+            94%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .paste-badge { animation: pasteBadge 4s ease-out infinite; }
+
+        .copy-line, .paste-line, .packet, .copy-badge, .paste-badge { transform-box: fill-box; }
+        .copy-badge, .paste-badge { transform-origin: center; }
+
+        /* 关闭动效时给一帧可读的静态画面 */
+        @media (prefers-reduced-motion: reduce) {
+            .link-line, .dev-a, .dev-b, .copy-line, .packet,
+            .paste-line, .copy-badge, .paste-badge { animation: none; }
+            .dev-a, .dev-b { stroke: #D8E6EC; }
+            .copy-line { fill: #17A2B8; }
+            .packet { opacity: 0; }
+            .paste-line { opacity: 1; transform: none; }
+            .copy-badge, .paste-badge { opacity: 1; transform: none; }
+        }
+    </style>
+
+    <!-- 不铺底色：与页面背景同色（#F1F8FB→#E4F0F4），直接融入版面 -->
+
+    <!-- 局域网直连：一条虚线链路，两端接在设备边上 -->
+    <line class="link-line" x1="232" y1="180" x2="408" y2="180"
+          stroke="#D8E6EC" stroke-width="2.5" stroke-dasharray="7 7" stroke-linecap="round"/>
+    <circle cx="232" cy="180" r="3.5" fill="#C7DCE4"/>
+    <circle cx="408" cy="180" r="3.5" fill="#C7DCE4"/>
+
+    <!-- 设备 A -->
+    <rect class="dev-a" x="64" y="120" width="168" height="120" rx="13"
+          fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="80" y="138" width="96"  height="9" rx="4.5" fill="#D8E6EC"/>
+    <rect x="80" y="160" width="124" height="9" rx="4.5" fill="#D8E6EC"/>
+    <rect class="copy-line" x="80" y="182" width="140" height="13" rx="6.5" fill="#D8E6EC"/>
+    <rect x="80" y="206" width="104" height="9" rx="4.5" fill="#D8E6EC"/>
+
+    <!-- 设备 B -->
+    <rect class="dev-b" x="408" y="120" width="168" height="120" rx="13"
+          fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="424" y="138" width="96"  height="9" rx="4.5" fill="#D8E6EC"/>
+    <rect x="424" y="160" width="124" height="9" rx="4.5" fill="#D8E6EC"/>
+    <rect class="paste-line" x="424" y="182" width="140" height="13" rx="6.5" fill="#17A2B8"/>
+    <rect x="424" y="206" width="104" height="9" rx="4.5" fill="#D8E6EC"/>
+
+    <!-- 设备标识（A / B，语言无关） -->
+    <circle cx="148" cy="264" r="13" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <text x="148" y="270.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+          font-size="19" font-weight="700" fill="#0E7482">A</text>
+    <circle cx="492" cy="264" r="13" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <text x="492" y="270.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+          font-size="19" font-weight="700" fill="#0E7482">B</text>
+
+    <!-- 本机「复制」角标 -->
+    <g class="copy-badge">
+        <circle cx="148" cy="96" r="18" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+        <rect x="139" y="86" width="13" height="15" rx="3.5" fill="none" stroke="#17A2B8" stroke-width="1.7"/>
+        <rect x="146" y="94" width="13" height="15" rx="3.5" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.7"/>
+    </g>
+
+    <!-- 对端「粘贴」角标 -->
+    <g class="paste-badge">
+        <circle cx="492" cy="96" r="18" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+        <rect x="483" y="87" width="16" height="19" rx="4" fill="none" stroke="#0E7482" stroke-width="1.7"/>
+        <rect x="487" y="84" width="8"  height="5"  rx="2" fill="#17A2B8"/>
+    </g>
+
+    <!-- 数据包：一小段文本，沿链路从 A 飘到 B -->
+    <g class="packet" opacity="0">
+        <rect x="244" y="160" width="72" height="40" rx="11"
+              fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.6"/>
+        <rect x="258" y="170" width="34" height="5" rx="2.5" fill="#17A2B8" opacity=".55"/>
+        <rect x="258" y="179" width="46" height="5" rx="2.5" fill="#0E7482" opacity=".8"/>
+        <rect x="258" y="188" width="26" height="5" rx="2.5" fill="#17A2B8" opacity=".45"/>
+    </g>
+</svg>

@@ -222,6 +222,10 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 }
 .shot img { width: 100%; }
 
+/* 示意图不套卡片外框：描边留 1px 透明以与相邻卡片同宽，
+   去掉底色与投影后直接落在页面背景上（SVG 本身已不铺底色） */
+.shot.is-bare { border-color: transparent; box-shadow: none; background: transparent; }
+
 /* ---------- 下载区：底部官方徽章行 ---------- */
 .dl-foot {
     display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
@@ -273,7 +277,8 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .scene-list { display: grid; row-gap: 36px; }
 .scene-row { display: grid; grid-template-columns: minmax(130px, 148px) 1fr; column-gap: 40px; }
 .scene-row b { font-size: 14px; font-weight: 600; color: var(--accent-dark); letter-spacing: .04em; }
-.scene-row p { font-size: 15px; line-height: 1.65; color: var(--sub); max-width: 68ch; }
+/* 不给 max-width：说明文字铺满自身那一栏，空间足够时不提前折行（与 .faq .ans 同口径） */
+.scene-row p { font-size: 15px; line-height: 1.65; color: var(--sub); }
 
 /* ---------- 常见问题：去外框，仅通栏细线分行；标记由两条 1px 线拼成 +/− ---------- */
 .faq { border-top: 1px solid var(--line); }
@@ -298,8 +303,9 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .faq summary:hover { color: var(--accent-dark); }
 .faq summary:hover::before,
 .faq summary:hover::after { background: var(--accent); }
-/* overflow:hidden 供 JS 的高度过渡裁掉溢出内容；未运行 JS 时高度为 auto，不受影响 */
-.faq .ans { padding: 0 44px 24px 0; font-size: 15px; line-height: 1.7; color: var(--sub); max-width: 68ch; overflow: hidden; }
+/* overflow:hidden 供 JS 的高度过渡裁掉溢出内容；未运行 JS 时高度为 auto，不受影响。
+   不给 max-width：答案与问句同宽（通栏），空间足够时不提前折行 */
+.faq .ans { padding: 0 44px 24px 0; font-size: 15px; line-height: 1.7; color: var(--sub); overflow: hidden; }
 
 /* ---------- 页脚：六列（品牌 · 产品 · 文档 · 联系 · 社区 · 法律） ---------- */
 .footer { padding: 52px 0 34px; border-top: 1px solid var(--line); font-size: 13.5px; }
@@ -438,18 +444,30 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .compare .yes { color: var(--accent); font-weight: 700; }
 .compare .no { color: var(--faint); }
 
-/* 动图演示：2×2 卡片，图下配「标题 + 一句简介」 */
-.demos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-.demo {
-    background: var(--white); border: 1px solid var(--line); border-radius: 16px;
-    overflow: hidden; box-shadow: var(--shadow-sm);
-    display: flex; flex-direction: column;
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+/* 投递演示：2 列并排、不套外框 —— 图直接落在页面背景上，
+   与首页「同步过程」示意图（.shot.is-bare）同一套视觉语言；图下配「标题 + 一句简介」 */
+.demos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+.demo img {
+    width: 100%; height: auto;
+    /* 出图前先按 16:9 占位，图不会因素材到位而折叠、页面不跳；
+       矢量素材本身即 16:9，故盒子与画面比例一致，画面满铺、左右不留空 */
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    display: block;
+    background-color: var(--bg-top);
+    /* 占位扫光：未出图时盒面上一道柔光扫过；出图后由 .is-loaded 停掉 */
+    background-image: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, .95) 50%, transparent 65%);
+    background-repeat: no-repeat;
+    background-size: 220% 100%;
+    background-position: 0% 0;
+    animation: demoSheen 1.7s ease-in-out infinite;
 }
-.demo:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: #C6DDE5; }
-.demo img { width: 100%; height: auto; max-height: 26vh; object-fit: contain;
-    background: var(--bg-top); display: block; border-bottom: 1px solid var(--line); }
-.demo figcaption { margin-top: auto; padding: 13px 16px 15px; }
+.demo img.is-loaded { animation: none; background-image: none; }
+@keyframes demoSheen {
+    0% { background-position: 0% 0; }
+    100% { background-position: 100% 0; }
+}
+.demo figcaption { margin-top: 12px; }
 .demo figcaption b { display: block; font-size: 14.5px; line-height: 1.4; color: var(--dark); }
 .demo figcaption b::before {
     content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 8px;
@@ -837,6 +855,7 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
 @media (prefers-reduced-motion: reduce) {
     .ver-slider { transition: none; }
     .tab-underline { transition: none; }
+    .demo img { animation: none; }
     .dl-panel { animation: none; }
     .policy-doc { animation: none; }
     .thanks-auto::before { animation: none; }

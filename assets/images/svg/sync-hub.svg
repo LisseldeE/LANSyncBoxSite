@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 22 560 315" width="640" height="360" role="img" aria-labelledby="t d">
+    <title id="t">实时同步 · 中枢分发</title>
+    <desc id="d">一台设备居中作为中枢，其余设备跟随：改动无论发生在中枢还是某台边缘设备，都经局域网直连实时分发到每一台设备；两段都是全部设备亮起已同步的那一份文件、停顿一拍表示已全部一致，再切换（中心分发完 → 边缘分发，边缘分发完 → 下一轮）。</desc>
+
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1F8FB"/>
+            <stop offset="1" stop-color="#E4F0F4"/>
+        </linearGradient>
+    </defs>
+
+    <style>
+        /* 7.2s 循环 · 两段，每段收尾都是「四端全部亮起 + 停顿 0.75s」（两段完全对称）：
+           A 段  0-37.5%     中枢新增改动 → 四条链路同时分发（约 1.0s）→ 四端收到并亮起
+                             → 四端全亮保持 0.75s（25%→35.42%）→ 清场
+           B 段  39.58-87.5% 边缘端（左上）自己新增 → 沿链路上行回中枢（约 1.0s）
+                             → 中枢把这条记录落定 → 再分发给其余三端（约 1.0s）
+                             → 四端全亮保持 0.75s（75%→85.42%）→ 复位
+           87.5-100%         静息，进入下一轮
+
+           渐入渐出口径（两段一致）：所有淡入淡出一律占循环的 2%（≈144ms）——
+           包、端描边、列表高亮条都不例外，不允许出现「突然弹出来 / 突然消失」。
+           A 段参照：包 7%→9%、端描边 22%→24%、列表 23%→25%、清场 35.42%→37.5%。
+           B 段对齐后：包 58%→60%、上行包 38%→40%、端描边 73.5%→75.5%、
+           列表 73%→75%、复位 85.42%→87.5%。
+
+           「传输中停顿」压到 0.3s 以内：上行包没入中枢（56%）后到三包再出发（60%）之间只留
+           0.29s 呼吸，避免出现「上一跳的包已消失、下一跳的包还没出发」的大段空白 */
+        .spoke { stroke-dasharray: 7 7; animation: dashFlow 1.3s linear infinite; }
+        @keyframes dashFlow { to { stroke-dashoffset: -28; } }
+
+        /* 右上 / 左下 / 右下 的描边：两段各自「收到 → 一直亮到该段停顿结束」 */
+        @keyframes nodeFlash {
+            0%, 22%     { stroke: #D8E6EC; }
+            24%         { stroke: #17A2B8; }
+            35.42%      { stroke: #17A2B8; }
+            37.5%, 73.5%{ stroke: #D8E6EC; }
+            75.5%       { stroke: #17A2B8; }
+            85.42%      { stroke: #17A2B8; }
+            87.5%, 100% { stroke: #D8E6EC; }
+        }
+        .node { animation: nodeFlash 7.2s ease-out infinite; }
+
+        /* 左上 的描边：A 段作为跟随端参与全亮；B 段作为「改动源」提前亮起并保持到停顿结束 */
+        @keyframes nodeFlashSrc {
+            0%, 22%     { stroke: #D8E6EC; }
+            24%         { stroke: #17A2B8; }
+            35.42%      { stroke: #17A2B8; }
+            37.5%       { stroke: #D8E6EC; }
+            39.58%      { stroke: #17A2B8; }
+            85.42%      { stroke: #17A2B8; }
+            87.5%, 100% { stroke: #D8E6EC; }
+        }
+        .node-src { animation: nodeFlashSrc 7.2s ease-out infinite; }
+
+        /* 中枢列表里新增的那一条：A 段由中枢自己新增，B 段由边缘端上行后落定，各自保持到该段停顿结束 */
+        @keyframes rowNewHub {
+            0%, 1%      { opacity: 0; fill: #17A2B8; }
+            4.17%       { opacity: 1; fill: #17A2B8; }
+            35.42%      { opacity: 1; fill: #17A2B8; }
+            37.5%, 54%  { opacity: 0; fill: #D8E6EC; }
+            56%         { opacity: 1; fill: #17A2B8; }
+            85.42%      { opacity: 1; fill: #17A2B8; }
+            87.5%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        .row-new-hub { opacity: 0; animation: rowNewHub 7.2s ease-out infinite; }
+
+        /* 跟随端列表里新增的那一条（右上、左下、右下）：两段各自收到后出现并保持到停顿结束 */
+        @keyframes rowNewF {
+            0%, 23%     { opacity: 0; fill: #17A2B8; }
+            25%         { opacity: 1; fill: #17A2B8; }
+            35.42%      { opacity: 1; fill: #17A2B8; }
+            37.5%, 73%  { opacity: 0; fill: #D8E6EC; }
+            75%         { opacity: 1; fill: #17A2B8; }
+            85.42%      { opacity: 1; fill: #17A2B8; }
+            87.5%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        .row-new-f { opacity: 0; animation: rowNewF 7.2s ease-out infinite; }
+
+        /* 左上的那一条：A 段作为跟随端拿到改动，B 段作为「改动就发生在这台」提前出现 */
+        @keyframes rowSrc {
+            0%, 23%     { opacity: 0; fill: #17A2B8; }
+            25%         { opacity: 1; fill: #17A2B8; }
+            35.42%      { opacity: 1; fill: #17A2B8; }
+            37.5%       { opacity: 0; fill: #D8E6EC; }
+            39.58%      { opacity: 1; fill: #17A2B8; }
+            85.42%      { opacity: 1; fill: #17A2B8; }
+            87.5%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        .row-src { opacity: 0; animation: rowSrc 7.2s ease-out infinite; }
+
+        /* 数据包：A 段自中枢沿四条链路同时送出（约 1.0s 抵达）；B 段中枢再送往除左上以外的三端
+           （左上那条不再回送 —— 改动本来就是它自己新增的）。
+           四个包统一为：抵达后「原地淡出」—— 位置停在终点不动，透明度掉到 0；
+           随后在不可见的空档里弹回起点待命，B 段再从起点淡入（58% 起淡入，60% 出发，
+           淡入同样占 2%≈144ms，与 A 段的 7%→9% 一致）。
+           关键：透明度归零那一刻位置绝不能动，否则会看到包「倒着飞回去」。 */
+        @keyframes pktA {
+            0%, 7%      { opacity: 0; transform: translate(0, 0); }
+            9%          { opacity: 1; transform: translate(0, 0); }
+            22.5%       { opacity: 1; transform: translate(-92px, -51px); }
+            24.5%, 59%  { opacity: 0; transform: translate(-92px, -51px); }
+            59.5%, 100% { opacity: 0; transform: translate(0, 0); }
+        }
+        @keyframes pktB {
+            0%, 7%      { opacity: 0; transform: translate(0, 0); }
+            9%          { opacity: 1; transform: translate(0, 0); }
+            22.5%       { opacity: 1; transform: translate(92px, -51px); }
+            24.5%       { opacity: 0; transform: translate(92px, -51px); }
+            58%         { opacity: 0; transform: translate(0, 0); }
+            60%         { opacity: 1; transform: translate(0, 0); }
+            74%         { opacity: 1; transform: translate(92px, -51px); }
+            76%, 100%   { opacity: 0; transform: translate(92px, -51px); }
+        }
+        @keyframes pktC {
+            0%, 7%      { opacity: 0; transform: translate(0, 0); }
+            9%          { opacity: 1; transform: translate(0, 0); }
+            22.5%       { opacity: 1; transform: translate(-92px, 44px); }
+            24.5%       { opacity: 0; transform: translate(-92px, 44px); }
+            58%         { opacity: 0; transform: translate(0, 0); }
+            60%         { opacity: 1; transform: translate(0, 0); }
+            74%         { opacity: 1; transform: translate(-92px, 44px); }
+            76%, 100%   { opacity: 0; transform: translate(-92px, 44px); }
+        }
+        @keyframes pktD {
+            0%, 7%      { opacity: 0; transform: translate(0, 0); }
+            9%          { opacity: 1; transform: translate(0, 0); }
+            22.5%       { opacity: 1; transform: translate(92px, 44px); }
+            24.5%       { opacity: 0; transform: translate(92px, 44px); }
+            58%         { opacity: 0; transform: translate(0, 0); }
+            60%         { opacity: 1; transform: translate(0, 0); }
+            74%         { opacity: 1; transform: translate(92px, 44px); }
+            76%, 100%   { opacity: 0; transform: translate(92px, 44px); }
+        }
+        /* 上行包：由左上边缘端出发，沿同一条链路没入中枢 */
+        @keyframes pktE {
+            0%, 38%     { opacity: 0; transform: translate(-92px, -51px); }
+            40%         { opacity: 1; transform: translate(-92px, -51px); }
+            54%         { opacity: 1; transform: translate(0, 0); }
+            56%, 100%   { opacity: 0; transform: translate(0, 0); }
+        }
+        .pkt-a { opacity: 0; animation: pktA 7.2s ease-in-out infinite; }
+        .pkt-b { opacity: 0; animation: pktB 7.2s ease-in-out infinite; }
+        .pkt-c { opacity: 0; animation: pktC 7.2s ease-in-out infinite; }
+        .pkt-d { opacity: 0; animation: pktD 7.2s ease-in-out infinite; }
+        .pkt-e { opacity: 0; animation: pktE 7.2s ease-in-out infinite; }
+
+        /* 关闭动效：给一帧「已全部同步」的静态画面 */
+        @media (prefers-reduced-motion: reduce) {
+            .spoke, .node, .node-src, .row-new-hub, .row-new-f, .row-src,
+            .pkt-a, .pkt-b, .pkt-c, .pkt-d, .pkt-e { animation: none; }
+            .node, .node-src { stroke: #D8E6EC; }
+            .row-new-hub, .row-new-f, .row-src { opacity: 1; fill: #D8E6EC; }
+            .pkt-a, .pkt-b, .pkt-c, .pkt-d, .pkt-e { opacity: 0; }
+        }
+    </style>
+
+    <!-- 不铺底色：与页面背景同色（#F1F8FB→#E4F0F4），直接融入版面 -->
+
+    <!-- 中线直连：中枢到四端的链路 -->
+    <line class="spoke" x1="252" y1="150" x2="160" y2="99" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <line class="spoke" x1="388" y1="150" x2="480" y2="99" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <line class="spoke" x1="252" y1="221" x2="160" y2="265" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <line class="spoke" x1="388" y1="221" x2="480" y2="265" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- 数据包（画在设备之下，末端没入设备边缘，像被接收） -->
+    <g class="pkt-a">
+        <rect x="230" y="137" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="239" y="145" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="239" y="152" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="pkt-b">
+        <rect x="366" y="137" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="375" y="145" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="375" y="152" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="pkt-c">
+        <rect x="230" y="208" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="239" y="216" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="239" y="223" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="pkt-d">
+        <rect x="366" y="208" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="375" y="216" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="375" y="223" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="pkt-e">
+        <rect x="230" y="137" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="239" y="145" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="239" y="152" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+
+    <!-- 跟随端：左上（B 段里由它自己新增改动） -->
+    <rect class="node-src" x="48" y="32" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="62" y="46" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="62" y="60" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="62" y="74" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-src" x="62" y="88" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 跟随端：右上 -->
+    <rect class="node" x="480" y="32" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="494" y="46" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="494" y="60" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="494" y="74" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-new-f" x="494" y="88" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 跟随端：左下 -->
+    <rect class="node" x="48" y="256" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="62" y="270" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="62" y="284" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="62" y="298" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-new-f" x="62" y="312" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 跟随端：右下 -->
+    <rect class="node" x="480" y="256" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="494" y="270" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="494" y="284" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="494" y="298" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-new-f" x="494" y="312" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 中枢：居中且始终以强调色标识 -->
+    <rect x="240" y="134" width="160" height="108" rx="20" fill="#17A2B8" opacity=".07"/>
+    <rect x="252" y="146" width="136" height="84" rx="13" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.8"/>
+    <rect x="268" y="162" width="104" height="8" rx="4" fill="#D8E6EC"/>
+    <rect x="268" y="178" width="96"  height="8" rx="4" fill="#D8E6EC"/>
+    <rect x="268" y="194" width="110" height="8" rx="4" fill="#D8E6EC"/>
+    <rect class="row-new-hub" x="268" y="210" width="92" height="8" rx="4" fill="#D8E6EC"/>
+</svg>

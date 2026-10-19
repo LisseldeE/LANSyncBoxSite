@@ -59,6 +59,7 @@
         initDownload();
         initFaq();
         initBackLink();
+        initDemoShimmer();
     }
 
     // ---- 返回按钮（隐私政策页 / 感谢页）：由本站首页点进来的，改走浏览器历史返回 ----
@@ -79,6 +80,18 @@
                 e.preventDefault();
                 window.history.back();
             });
+        });
+    }
+
+    // ---- 底部动图演示：图到位后停掉占位扫光 ----
+    //      未出图时 .demo img 靠 16:9 占位并跑一道扫光；出图（或失败）后挂 .is-loaded
+    //      把扫光和底图撤掉 —— 否则 object-fit: contain 的上下留白区会一直扫个不停
+    function initDemoShimmer() {
+        Array.prototype.forEach.call(document.querySelectorAll('.demo img'), function (img) {
+            if (img.complete && img.naturalWidth) { img.classList.add('is-loaded'); return; }
+            var done = function () { img.classList.add('is-loaded'); };
+            img.addEventListener('load', done, { once: true });
+            img.addEventListener('error', done, { once: true });
         });
     }
 

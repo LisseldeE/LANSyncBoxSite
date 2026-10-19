@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 48 460 259" width="640" height="360" role="img" aria-labelledby="t d">
+    <title id="t">实时同步 · 去中心化网状</title>
+    <desc id="d">四台设备两两直连：改动源把同一份文件同时直发给其余三台，三台各自收到、焦点文件的高亮条全程保持；随后邻居的转发再次抵达「已经拥有该文件」的设备时，两条在途文件的深绿高亮条与角端自己的深绿高亮条同时闪一下（表示正在比对），两条文件包随即向后退回一点、再淡出丢弃（去重），不会产生第二份；随后全部收敛为常态色，进入下一轮。</desc>
+
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1F8FB"/>
+            <stop offset="1" stop-color="#E4F0F4"/>
+        </linearGradient>
+    </defs>
+
+    <style>
+        /* 8s 循环（包速与标准版对齐，单腿约 1.6s，视觉速度 68~129px/s，标准版为 105px/s）：
+           0-8%     左上端新增文件（列表里出现高亮条，端本身亮一下）
+           8-28%    同一份文件同时直发给其余三台（约 1.6s）
+           28-31%   三台收到：描边亮起、各自出现同一条焦点条；包原地淡出
+           31-34%   传输中停顿仅 0.24s，随即进行第二跳
+           34-54%   邻居再转发给角端（约 1.6s）
+           54-59%   角端已拥有该文件 → 两条在途文件的深绿高亮条与角端自己的深绿高亮条
+                    同时闪一下（正在比对）
+           59-64%   两条包向后退回一点（108→95 / 176→163）
+           64-70%   淡出丢弃（去重），角端列表始终只有一条高亮条
+           70-94%   全部收敛为常态色，此后进入下一轮
+           94-100%  复位，进入下一轮 */
+        .spoke { stroke-dasharray: 7 7; animation: dashFlow 1.3s linear infinite; }
+        @keyframes dashFlow { to { stroke-dashoffset: -28; } }
+
+        /* 改动源：左上端亮一下 */
+        @keyframes nA {
+            0%        { stroke: #17A2B8; }
+            6%        { stroke: #17A2B8; }
+            16%, 100% { stroke: #D8E6EC; }
+        }
+        .n-a { animation: nA 8s ease-out infinite; }
+
+        /* 第一跳收到的三端（右上、左下、右下）：同时亮起，保持到第二跳出发之后（34%）再退 */
+        @keyframes nPeer {
+            0%, 29%   { stroke: #D8E6EC; }
+            31%       { stroke: #17A2B8; }
+            34%       { stroke: #17A2B8; }   /* 同值锚点：31-34% 保持强调，不再缓慢褪色 */
+            39%, 100% { stroke: #D8E6EC; }
+        }
+        .n-peer { animation: nPeer 8s ease-out infinite; }
+
+        /* 第一跳：自左上端同时直连其余三台 —— 三腿同时出发、同时抵达（时长一致，约 1.6s） */
+        @keyframes hopAB {
+            0%, 6%    { opacity: 0; transform: translate(0, 0); }
+            8%        { opacity: 1; transform: translate(0, 0); }
+            28%       { opacity: 1; transform: translate(176px, 0); }
+            31%, 100% { opacity: 0; transform: translate(176px, 0); }
+        }
+        @keyframes hopAC {
+            0%, 6%    { opacity: 0; transform: translate(0, 0); }
+            8%        { opacity: 1; transform: translate(0, 0); }
+            28%       { opacity: 1; transform: translate(0, 108px); }
+            31%, 100% { opacity: 0; transform: translate(0, 108px); }
+        }
+        @keyframes hopAD {
+            0%, 6%    { opacity: 0; transform: translate(0, 0); }
+            8%        { opacity: 1; transform: translate(0, 0); }
+            28%       { opacity: 1; transform: translate(174px, 110px); }
+            31%, 100% { opacity: 0; transform: translate(174px, 110px); }
+        }
+        .hop-ab { opacity: 0; animation: hopAB 8s ease-in-out infinite; }
+        .hop-ac { opacity: 0; animation: hopAC 8s ease-in-out infinite; }
+        .hop-ad { opacity: 0; animation: hopAD 8s ease-in-out infinite; }
+
+        /* 第二跳：邻居再转给角端 —— 角端已拥有该文件，抵达后先比对（54-59%，见 .pbar-fl / .row-d），
+           随后向后退回一点（59-64%），再淡出丢弃（64-70%） */
+        @keyframes hopBD {
+            0%, 32%   { opacity: 0; transform: translate(0, 0); }
+            34%       { opacity: 1; transform: translate(0, 0); }
+            54%       { opacity: 1; transform: translate(0, 108px); }
+            59%       { opacity: 1; transform: translate(0, 108px); }
+            64%       { opacity: 1; transform: translate(0, 95px); }
+            70%, 100% { opacity: 0; transform: translate(0, 95px); }
+        }
+        @keyframes hopCD {
+            0%, 32%   { opacity: 0; transform: translate(0, 0); }
+            34%       { opacity: 1; transform: translate(0, 0); }
+            54%       { opacity: 1; transform: translate(176px, 0); }
+            59%       { opacity: 1; transform: translate(176px, 0); }
+            64%       { opacity: 1; transform: translate(163px, 0); }
+            70%, 100% { opacity: 0; transform: translate(163px, 0); }
+        }
+        .hop-bd { opacity: 0; animation: hopBD 8s ease-in-out infinite; }
+        .hop-cd { opacity: 0; animation: hopCD 8s ease-in-out infinite; }
+
+        /* 两个在途文件包里的深绿高亮条：抵达角端时闪一下（正在比对） */
+        @keyframes pbarFlash {
+            0%, 54%   { opacity: .85; }
+            56%       { opacity: .1; }
+            59%       { opacity: .85; }
+            100%      { opacity: .85; }
+        }
+        .pbar-fl { animation: pbarFlash 8s ease-out infinite; }
+
+        /* 新增文件在列表里的高亮条：源端先出现，三台接收端收到后各自出现同一条，
+           三条接收端的焦点条全程保持强调色（含第二跳传播期间），最后一起转常态色 */
+        @keyframes rowA {
+            0%, 2%    { opacity: 0; fill: #17A2B8; }
+            3%        { opacity: 1; fill: #17A2B8; }
+            70%       { opacity: 1; fill: #17A2B8; }
+            74%       { opacity: 1; fill: #D8E6EC; }
+            94%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        @keyframes rowBC {
+            0%, 28%   { opacity: 0; fill: #17A2B8; }
+            30%       { opacity: 1; fill: #17A2B8; }
+            70%       { opacity: 1; fill: #17A2B8; }
+            74%       { opacity: 1; fill: #D8E6EC; }
+            94%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        /* 角端那一条：多一次「比对」闪动 —— 重复包抵达时闪一下 */
+        @keyframes rowD {
+            0%, 28%   { opacity: 0; fill: #17A2B8; }
+            30%       { opacity: 1; fill: #17A2B8; }
+            54%       { opacity: 1; fill: #17A2B8; }
+            56%       { opacity: .15; fill: #0E7482; }
+            59%       { opacity: 1; fill: #17A2B8; }
+            70%       { opacity: 1; fill: #17A2B8; }
+            74%       { opacity: 1; fill: #D8E6EC; }
+            94%, 100% { opacity: 0; fill: #D8E6EC; }
+        }
+        .row-a  { opacity: 0; animation: rowA 8s ease-out infinite; }
+        .row-bc { opacity: 0; animation: rowBC 8s ease-out infinite; }
+        .row-d  { opacity: 0; animation: rowD 8s ease-out infinite; }
+
+        /* 关闭动效：给一帧「已全部同步」的静态画面 */
+        @media (prefers-reduced-motion: reduce) {
+            .spoke, .n-a, .n-peer, .hop-ab, .hop-ac, .hop-ad,
+            .hop-bd, .hop-cd, .pbar-fl,
+            .row-a, .row-bc, .row-d { animation: none; }
+            .n-a, .n-peer { stroke: #D8E6EC; }
+            .hop-ab, .hop-ac, .hop-ad, .hop-bd, .hop-cd { opacity: 0; }
+            .pbar-fl { opacity: .85; }
+            .row-a, .row-bc, .row-d { opacity: 1; fill: #D8E6EC; }
+        }
+    </style>
+
+    <!-- 不铺底色：与页面背景同色（#F1F8FB→#E4F0F4），直接融入版面 -->
+
+    <!-- 直连链路：两两可达 -->
+    <line class="spoke" x1="232" y1="88"  x2="408" y2="88"  stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <line class="spoke" x1="464" y1="124" x2="464" y2="232" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <line class="spoke" x1="234" y1="123" x2="408" y2="233" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    <g>
+        <line class="spoke" x1="176" y1="124" x2="176" y2="232" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="spoke" x1="408" y1="123" x2="232" y2="233" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+        <line class="spoke" x1="232" y1="268" x2="408" y2="268" stroke="#D8E6EC" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- 第一跳：同一份文件同时直发三台 -->
+    <g class="hop-ab">
+        <rect x="210" y="75" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="219" y="83" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="219" y="90" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="hop-ac">
+        <rect x="154" y="111" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="163" y="119" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="163" y="126" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="hop-ad">
+        <rect x="212" y="110" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="221" y="118" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect x="221" y="125" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+
+    <!-- 第二跳：邻居的转发抵达角端，此刻它已拥有该文件 → 比对后判为重复，退回并丢弃 -->
+    <g class="hop-bd">
+        <rect x="442" y="111" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="451" y="119" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect class="pbar-fl" x="451" y="126" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+    <g class="hop-cd">
+        <rect x="210" y="255" width="44" height="26" rx="8" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <rect x="219" y="263" width="18" height="4" rx="2" fill="#17A2B8" opacity=".6"/>
+        <rect class="pbar-fl" x="219" y="270" width="26" height="4" rx="2" fill="#0E7482" opacity=".85"/>
+    </g>
+
+    <!-- 设备：左上（改动源） -->
+    <rect class="n-a" x="120" y="52" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.8"/>
+    <rect x="134" y="66" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="134" y="80" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="134" y="94" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-a" x="134" y="108" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 设备：右上（第一跳收到） -->
+    <rect class="n-peer" x="408" y="52" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.8"/>
+    <rect x="422" y="66" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="422" y="80" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="422" y="94" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-bc" x="422" y="108" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 设备：右下（第一跳收到；随后邻居的重复转发在此比对、退回并丢弃） -->
+    <rect class="n-peer" x="408" y="232" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.8"/>
+    <rect x="422" y="246" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="422" y="260" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect x="422" y="274" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+    <rect class="row-d" x="422" y="288" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+
+    <!-- 设备：左下（第一跳收到） -->
+    <g>
+        <rect class="n-peer" x="120" y="232" width="112" height="72" rx="11" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.8"/>
+        <rect x="134" y="246" width="84" height="7" rx="3.5" fill="#D8E6EC"/>
+        <rect x="134" y="260" width="74" height="7" rx="3.5" fill="#D8E6EC"/>
+        <rect x="134" y="274" width="88" height="7" rx="3.5" fill="#D8E6EC"/>
+        <rect class="row-bc" x="134" y="288" width="70" height="7" rx="3.5" fill="#D8E6EC"/>
+    </g>
+</svg>

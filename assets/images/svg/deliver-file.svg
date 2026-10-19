@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="56 29 528 297" width="640" height="360" role="img" aria-labelledby="t d">
+    <title id="t">文件内容投递</title>
+    <desc id="d">一端复制文件、另一端粘贴后，文件才点对点开始传输，不经过中继。</desc>
+
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1F8FB"/>
+            <stop offset="1" stop-color="#E4F0F4"/>
+        </linearGradient>
+        <filter id="sh" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2.4" flood-color="#2C3E50" flood-opacity=".16"/>
+        </filter>
+    </defs>
+
+    <style>
+        /* 4s 循环：A 端复制（Ctrl+C）→ B 端粘贴（Ctrl+V，此刻才开始传）→ 文件包沿链路送达 → B 端落位并打勾 */
+        @keyframes devA {
+            0%   { stroke: #D8E6EC; }
+            8%   { stroke: #17A2B8; }
+            88%  { stroke: #D8E6EC; }
+            100% { stroke: #D8E6EC; }
+        }
+        .dev-a { animation: devA 4s ease-out infinite; }
+
+        @keyframes devB {
+            0%, 24% { stroke: #D8E6EC; }
+            32%     { stroke: #17A2B8; }
+            44%     { stroke: #D8E6EC; }
+            72%     { stroke: #17A2B8; }
+            86%     { stroke: #D8E6EC; }
+            100%    { stroke: #D8E6EC; }
+        }
+        .dev-b { animation: devB 4s ease-out infinite; }
+
+        /* A 端被复制的那个文件：高亮层淡入 / 淡出 */
+        @keyframes aHi {
+            0%, 4%   { opacity: 0; }
+            12%      { opacity: 1; }
+            86%      { opacity: 1; }
+            92%,100% { opacity: 0; }
+        }
+        .a-hi { animation: aHi 4s ease-out infinite; opacity: 0; }
+
+        /* 两个键位药丸：A 的 Ctrl+C 先出，B 的 Ctrl+V 后出（粘贴即触发传输） */
+        @keyframes chipA {
+            0%, 6%   { opacity: 0; transform: translateY(6px); }
+            14%      { opacity: 1; transform: translateY(0); }
+            86%      { opacity: 1; transform: translateY(0); }
+            92%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .chip-a { animation: chipA 4s ease-out infinite; opacity: 0; }
+
+        @keyframes chipB {
+            0%, 22%  { opacity: 0; transform: translateY(6px); }
+            30%      { opacity: 1; transform: translateY(0); }
+            88%      { opacity: 1; transform: translateY(0); }
+            94%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .chip-b { animation: chipB 4s ease-out infinite; opacity: 0; }
+
+        /* 传输：进度条与文件包都从 B 端粘贴之后才启动 */
+        @keyframes progWrap {
+            0%, 42%   { opacity: 0; }
+            48%, 70%  { opacity: 1; }
+            76%, 100% { opacity: 0; }
+        }
+        .prog-wrap { animation: progWrap 4s ease-out infinite; opacity: 0; }
+
+        @keyframes progFill {
+            0%, 46% { transform: scaleX(0); }
+            70%     { transform: scaleX(1); }
+            100%    { transform: scaleX(1); }
+        }
+        .prog-fill { animation: progFill 4s ease-in-out infinite;
+            transform-box: fill-box; transform-origin: left center; }
+
+        @keyframes packetGo {
+            0%, 42%  { opacity: 0; transform: translateX(0); }
+            48%      { opacity: 1; transform: translateX(0); }
+            70%      { opacity: 1; transform: translateX(88px); }
+            74%,100% { opacity: 0; transform: translateX(88px); }
+        }
+        .packet { animation: packetGo 4s ease-in-out infinite; opacity: 0; }
+
+        /* B 端落位 */
+        @keyframes arrived {
+            0%, 70%  { opacity: 0; transform: translateY(7px); }
+            80%      { opacity: 1; transform: translateY(0); }
+            88%      { opacity: 1; transform: translateY(0); }
+            94%,100% { opacity: 0; transform: translateY(0); }
+        }
+        .arrived { animation: arrived 4s ease-out infinite; opacity: 0; }
+
+        @keyframes checkIn {
+            0%, 74%  { opacity: 0; transform: scale(.4); }
+            82%, 88% { opacity: 1; transform: scale(1); }
+            94%,100% { opacity: 0; transform: scale(.4); }
+        }
+        .check { animation: checkIn 4s cubic-bezier(.33, 1.4, .6, 1) infinite; opacity: 0;
+            transform-box: fill-box; transform-origin: center; }
+
+        .a-hi, .chip-a, .chip-b, .packet, .arrived { transform-box: fill-box; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .dev-a, .dev-b, .a-hi, .chip-a, .chip-b, .prog-wrap, .prog-fill,
+            .packet, .arrived, .check { animation: none; }
+            .dev-a, .dev-b { stroke: #D8E6EC; }
+            .a-hi { opacity: 1; }
+            .chip-a, .chip-b { opacity: 1; transform: none; }
+            .prog-wrap { opacity: 1; }
+            .prog-fill { transform: scaleX(1); }
+            .packet { opacity: 0; }
+            .arrived { opacity: 1; transform: none; }
+            .check { opacity: 1; transform: none; }
+        }
+    </style>
+
+    <!-- 不铺底色：与页面背景同色（#F1F8FB→#E4F0F4），直接融入版面 -->
+
+    <!-- 局域网直连链路 -->
+    <line x1="232" y1="180" x2="408" y2="180"
+          stroke="#D8E6EC" stroke-width="2.5" stroke-dasharray="7 7" stroke-linecap="round"/>
+    <circle cx="232" cy="180" r="3.5" fill="#C7DCE4"/>
+    <circle cx="408" cy="180" r="3.5" fill="#C7DCE4"/>
+
+    <!-- 传输进度（B 端粘贴之后才出现） -->
+    <g class="prog-wrap">
+        <rect x="232" y="150" width="176" height="4" rx="2" fill="#D8E6EC" opacity=".55"/>
+        <rect class="prog-fill" x="232" y="150" width="176" height="4" rx="2" fill="#17A2B8"/>
+    </g>
+
+    <!-- 设备 A -->
+    <rect class="dev-a" x="64" y="120" width="168" height="120" rx="13"
+          fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="80" y="138" width="14" height="17" rx="2.5" fill="#D8E6EC"/>
+    <rect x="100" y="141" width="88" height="8" rx="4" fill="#D8E6EC"/>
+    <rect x="80" y="192" width="14" height="17" rx="2.5" fill="#D8E6EC"/>
+    <rect x="100" y="195" width="76" height="8" rx="4" fill="#D8E6EC"/>
+    <!-- 被选中的那个文件（灰底打底 + 高亮层叠上去） -->
+    <rect x="80" y="164" width="16" height="19" rx="3" fill="#D8E6EC"/>
+    <rect x="102" y="167" width="104" height="8" rx="4" fill="#D8E6EC"/>
+    <g class="a-hi">
+        <rect x="80" y="164" width="16" height="19" rx="3" fill="#17A2B8"/>
+        <rect x="102" y="167" width="104" height="8" rx="4" fill="#0E7482"/>
+    </g>
+
+    <!-- 设备 B -->
+    <rect class="dev-b" x="408" y="120" width="168" height="120" rx="13"
+          fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <rect x="424" y="138" width="14" height="17" rx="2.5" fill="#D8E6EC"/>
+    <rect x="444" y="141" width="88" height="8" rx="4" fill="#D8E6EC"/>
+    <rect x="424" y="192" width="14" height="17" rx="2.5" fill="#D8E6EC"/>
+    <rect x="444" y="195" width="76" height="8" rx="4" fill="#D8E6EC"/>
+    <!-- 送达后出现的那一份 -->
+    <g class="arrived">
+        <rect x="424" y="164" width="16" height="19" rx="3" fill="#17A2B8"/>
+        <rect x="446" y="167" width="104" height="8" rx="4" fill="#0E7482"/>
+    </g>
+    <g class="check">
+        <circle cx="556" cy="172" r="8" fill="#17A2B8"/>
+        <path d="M552 172.2 L554.9 175.1 L560 169.6" fill="none" stroke="#FFFFFF" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 设备标识 -->
+    <circle cx="148" cy="264" r="13" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <text x="148" y="270.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+          font-size="19" font-weight="700" fill="#0E7482">A</text>
+    <circle cx="492" cy="264" r="13" fill="#FFFFFF" stroke="#D8E6EC" stroke-width="1.6"/>
+    <text x="492" y="270.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+          font-size="19" font-weight="700" fill="#0E7482">B</text>
+
+    <!-- A 端：复制 -->
+    <g class="chip-a" filter="url(#sh)">
+        <rect x="106" y="78" width="84" height="28" rx="14" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <text x="148" y="96.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+              font-size="13" font-weight="700" fill="#0E7482">Ctrl+C</text>
+    </g>
+
+    <!-- B 端：粘贴（此刻才开始传输） -->
+    <g class="chip-b" filter="url(#sh)">
+        <rect x="450" y="78" width="84" height="28" rx="14" fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.5"/>
+        <text x="492" y="96.5" text-anchor="middle" font-family="Segoe UI, sans-serif"
+              font-size="13" font-weight="700" fill="#0E7482">Ctrl+V</text>
+    </g>
+
+    <!-- 文件包：自 A 沿链路送至 B -->
+    <g class="packet">
+        <rect x="244" y="160" width="72" height="40" rx="11"
+              fill="#FFFFFF" stroke="#17A2B8" stroke-width="1.6"/>
+        <rect x="256" y="170" width="14" height="17" rx="2.5" fill="#17A2B8"/>
+        <rect x="276" y="172" width="30" height="4" rx="2" fill="#0E7482" opacity=".75"/>
+        <rect x="276" y="181" width="22" height="4" rx="2" fill="#17A2B8" opacity=".5"/>
+    </g>
+</svg>

@@ -315,8 +315,10 @@
                 <li data-i18n="std.b5">双击只读预览，防误改</li>
             </ul>
         </div>
-        <div class="split-media shot">
-            <img src="https://lisseldee.github.io/assets/images/webp/1-1.webp" alt="标准版主界面" data-i18n-alt="std.alt">
+        <div class="split-media">
+            <div class="shot is-bare">
+                <img src="assets/images/svg/sync-hub.svg" alt="标准版同步示意" data-i18n-alt="std.diagram.alt">
+            </div>
         </div>
     </div>
 </section>
@@ -338,8 +340,10 @@
                 <li data-i18n="pro.b5">支持 macOS（Apple Silicon）</li>
             </ul>
         </div>
-        <div class="split-media shot">
-            <img src="https://lisseldee.github.io/assets/images/webp/1p-1.webp" alt="Pro 版主界面" data-i18n-alt="pro.alt">
+        <div class="split-media">
+            <div class="shot is-bare">
+                <img src="assets/images/svg/sync-mesh.svg" alt="Pro 版同步示意" data-i18n-alt="pro.diagram.alt">
+            </div>
         </div>
     </div>
 </section>
@@ -359,8 +363,8 @@
             </div>
             <div class="tile">
                 <div class="tile-ico">02</div>
-                <h3 data-i18n="proonly.t2.title">投递</h3>
-                <p data-i18n="proonly.t2.desc">跨设备复制粘贴，不经中继</p>
+                <h3 data-i18n="proonly.t2.title">屏幕顶部快捷添加</h3>
+                <p data-i18n="proonly.t2.desc">工具条一键添加，立即纳入同步</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">03</div>
@@ -382,38 +386,23 @@
                 <h3 data-i18n="proonly.t6.title">去中心化</h3>
                 <p data-i18n="proonly.t6.desc">无主机也能互相同步</p>
             </div>
+            <div class="tile">
+                <div class="tile-ico">07</div>
+                <h3 data-i18n="proonly.t7.title">投递</h3>
+                <p data-i18n="proonly.t7.desc">跨设备复制粘贴，不经中继</p>
+            </div>
         </div>
-    </div>
-</section>
-
-<!-- ===== 第 6 屏 · Pro 功能动图 ===== -->
-<section class="screen">
-    <div class="container">
-        <h2 class="headline" style="margin-bottom:30px" data-i18n="demos.headline">Pro 版功能演示</h2>
-        <div class="demos">
+        <!-- 投递演示：紧接在 07 投递条目下方 -->
+        <div class="demos" style="margin-top:44px">
             <figure class="demo">
-                <img src="https://lisseldee.github.io/assets/images/gif/1p-1.gif" alt="顶部快捷添加" data-i18n-alt="demos.d1.cap" loading="lazy">
-                <figcaption>
-                    <b data-i18n="demos.d1.cap">顶部快捷添加</b>
-                    <span data-i18n="demos.d1.desc">在顶部工具条一键添加文件或文件夹，立即纳入同步。</span>
-                </figcaption>
-            </figure>
-            <figure class="demo">
-                <img src="https://lisseldee.github.io/assets/images/gif/1p-2.gif" alt="列表快捷操作栏" data-i18n-alt="demos.d2.cap" loading="lazy">
-                <figcaption>
-                    <b data-i18n="demos.d2.cap">列表快捷操作栏</b>
-                    <span data-i18n="demos.d2.desc">鼠标移上列表项即浮出快捷操作栏，常用动作一步可达。</span>
-                </figcaption>
-            </figure>
-            <figure class="demo">
-                <img src="https://lisseldee.github.io/assets/images/gif/1p-3.gif" alt="文本内容投递" data-i18n-alt="demos.d3.cap" loading="lazy">
+                <img src="assets/images/svg/deliver-text.svg" alt="文本内容投递" data-i18n-alt="demos.d3.cap" loading="lazy">
                 <figcaption>
                     <b data-i18n="demos.d3.cap">文本内容投递</b>
                     <span data-i18n="demos.d3.desc">把选中的文本投递给房间内其他设备，跨设备粘贴即用。</span>
                 </figcaption>
             </figure>
             <figure class="demo">
-                <img src="https://lisseldee.github.io/assets/images/gif/1p-4.gif" alt="文件内容投递" data-i18n-alt="demos.d4.cap" loading="lazy">
+                <img src="assets/images/svg/deliver-file.svg" alt="文件内容投递" data-i18n-alt="demos.d4.cap" loading="lazy">
                 <figcaption>
                     <b data-i18n="demos.d4.cap">文件内容投递</b>
                     <span data-i18n="demos.d4.desc">把文件直接投递到目标设备，点对点传输，不经过中继。</span>
