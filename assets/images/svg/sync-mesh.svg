@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="90 48 460 259" width="640" height="360" role="img" aria-labelledby="t d">
     <title id="t">实时同步 · 去中心化网状</title>
-    <desc id="d">四台设备两两直连：改动源把同一份文件同时直发给其余三台，三台各自收到、焦点文件的高亮条全程保持；随后邻居的转发再次抵达「已经拥有该文件」的设备时，两条在途文件的深绿高亮条与角端自己的深绿高亮条同时闪一下（表示正在比对），两条文件包随即向后退回一点、再淡出丢弃（去重），不会产生第二份；随后全部收敛为常态色，进入下一轮。</desc>
+    <desc id="d">四台设备两两直连：改动源把同一份文件同时直发给其余三台，三台各自收到、焦点文件的高亮条全程保持；随后邻居的转发再次抵达「已经拥有该文件」的设备时，两条在途文件的深绿高亮条与角端自己的深绿高亮条同时闪一下（表示正在比对），两条文件包随即向后退回一点、再淡出丢弃（去重），不会产生第二份；四条焦点条保持强调色到去重结束，稍作停顿后一同淡出移除，随后进入下一轮。</desc>
 
     <defs>
         <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
@@ -10,121 +10,122 @@
     </defs>
 
     <style>
-        /* 8s 循环（包速与标准版对齐，单腿约 1.6s，视觉速度 68~129px/s，标准版为 105px/s）：
-           0-8%     左上端新增文件（列表里出现高亮条，端本身亮一下）
-           8-28%    同一份文件同时直发给其余三台（约 1.6s）
-           28-31%   三台收到：描边亮起、各自出现同一条焦点条；包原地淡出
-           31-34%   传输中停顿仅 0.24s，随即进行第二跳
-           34-54%   邻居再转发给角端（约 1.6s）
-           54-59%   角端已拥有该文件 → 两条在途文件的深绿高亮条与角端自己的深绿高亮条
-                    同时闪一下（正在比对）
-           59-64%   两条包向后退回一点（108→95 / 176→163）
-           64-70%   淡出丢弃（去重），角端列表始终只有一条高亮条
-           70-94%   全部收敛为常态色，此后进入下一轮
-           94-100%  复位，进入下一轮 */
+        /* 6.6s 循环（各段绝对时长与上一版一致：单腿仍约 1.58s，与标准版对齐；百分比按新循环
+           长度整体换算 —— 目的就是让淡出恰好收在循环末尾，末尾不留空档）：
+           0-4%     左上端新增文件（列表里出现高亮条，端本身亮一下）
+           4-10%    文件包淡入后出发
+           10-34%   同一份文件同时直发给其余三台（约 1.58s）
+           34-38%   三台收到：描边亮起、各自出现同一条焦点条；包原地淡出
+           38-41%   传输中停顿约 0.2s，随即进行第二跳
+           41-65%   邻居再转发给角端（约 1.58s）
+           65-71%   角端已拥有该文件 → 两条在途文件的深绿高亮条与角端自己的深绿高亮条
+                    同时闪一下（正在比对，约 0.4s）
+           71-77%   两条包向后退回一点（108→95 / 176→163，约 0.4s）
+           77-85%   淡出丢弃（去重，约 0.53s），角端列表始终只有一条高亮条
+           85-89%   两条转发包与比对闪动全部收束；静置约 0.26s（其余元素早已就位）
+           89-100%  四条焦点条一同淡出（约 0.73s）—— 淡净即接下一轮，末尾无等待 */
         .spoke { stroke-dasharray: 7 7; animation: dashFlow 1.3s linear infinite; }
         @keyframes dashFlow { to { stroke-dashoffset: -28; } }
 
         /* 改动源：左上端亮一下 */
         @keyframes nA {
             0%        { stroke: #17A2B8; }
-            6%        { stroke: #17A2B8; }
-            16%, 100% { stroke: #D8E6EC; }
+            7%        { stroke: #17A2B8; }
+            19%, 100% { stroke: #D8E6EC; }
         }
-        .n-a { animation: nA 8s ease-out infinite; }
+        .n-a { animation: nA 6.6s ease-out infinite; }
 
-        /* 第一跳收到的三端（右上、左下、右下）：同时亮起，保持到第二跳出发之后（34%）再退 */
+        /* 第一跳收到的三端（右上、左下、右下）：同时亮起，保持到第二跳出发之后（41%）再退 */
         @keyframes nPeer {
-            0%, 29%   { stroke: #D8E6EC; }
-            31%       { stroke: #17A2B8; }
-            34%       { stroke: #17A2B8; }   /* 同值锚点：31-34% 保持强调，不再缓慢褪色 */
-            39%, 100% { stroke: #D8E6EC; }
+            0%, 35%   { stroke: #D8E6EC; }
+            38%       { stroke: #17A2B8; }
+            41%       { stroke: #17A2B8; }   /* 同值锚点：38-41% 保持强调，不再缓慢褪色 */
+            47%, 100% { stroke: #D8E6EC; }
         }
-        .n-peer { animation: nPeer 8s ease-out infinite; }
+        .n-peer { animation: nPeer 6.6s ease-out infinite; }
 
-        /* 第一跳：自左上端同时直连其余三台 —— 三腿同时出发、同时抵达（时长一致，约 1.6s） */
+        /* 第一跳：自左上端同时直连其余三台 —— 三腿同时出发、同时抵达（时长一致，约 1.58s） */
         @keyframes hopAB {
-            0%, 6%    { opacity: 0; transform: translate(0, 0); }
-            8%        { opacity: 1; transform: translate(0, 0); }
-            28%       { opacity: 1; transform: translate(176px, 0); }
-            31%, 100% { opacity: 0; transform: translate(176px, 0); }
+            0%, 4%    { opacity: 0; transform: translate(0, 0); }
+            10%       { opacity: 1; transform: translate(0, 0); }
+            34%       { opacity: 1; transform: translate(176px, 0); }
+            38%, 100% { opacity: 0; transform: translate(176px, 0); }
         }
         @keyframes hopAC {
-            0%, 6%    { opacity: 0; transform: translate(0, 0); }
-            8%        { opacity: 1; transform: translate(0, 0); }
-            28%       { opacity: 1; transform: translate(0, 108px); }
-            31%, 100% { opacity: 0; transform: translate(0, 108px); }
+            0%, 4%    { opacity: 0; transform: translate(0, 0); }
+            10%       { opacity: 1; transform: translate(0, 0); }
+            34%       { opacity: 1; transform: translate(0, 108px); }
+            38%, 100% { opacity: 0; transform: translate(0, 108px); }
         }
         @keyframes hopAD {
-            0%, 6%    { opacity: 0; transform: translate(0, 0); }
-            8%        { opacity: 1; transform: translate(0, 0); }
-            28%       { opacity: 1; transform: translate(174px, 110px); }
-            31%, 100% { opacity: 0; transform: translate(174px, 110px); }
+            0%, 4%    { opacity: 0; transform: translate(0, 0); }
+            10%       { opacity: 1; transform: translate(0, 0); }
+            34%       { opacity: 1; transform: translate(174px, 110px); }
+            38%, 100% { opacity: 0; transform: translate(174px, 110px); }
         }
-        .hop-ab { opacity: 0; animation: hopAB 8s ease-in-out infinite; }
-        .hop-ac { opacity: 0; animation: hopAC 8s ease-in-out infinite; }
-        .hop-ad { opacity: 0; animation: hopAD 8s ease-in-out infinite; }
+        .hop-ab { opacity: 0; animation: hopAB 6.6s ease-in-out infinite; }
+        .hop-ac { opacity: 0; animation: hopAC 6.6s ease-in-out infinite; }
+        .hop-ad { opacity: 0; animation: hopAD 6.6s ease-in-out infinite; }
 
-        /* 第二跳：邻居再转给角端 —— 角端已拥有该文件，抵达后先比对（54-59%，见 .pbar-fl / .row-d），
-           随后向后退回一点（59-64%），再淡出丢弃（64-70%） */
+        /* 第二跳：邻居再转给角端 —— 角端已拥有该文件，抵达后先比对（65-71%，见 .pbar-fl / .row-d），
+           随后向后退回一点（71-77%），再淡出丢弃（77-85%） */
         @keyframes hopBD {
-            0%, 32%   { opacity: 0; transform: translate(0, 0); }
-            34%       { opacity: 1; transform: translate(0, 0); }
-            54%       { opacity: 1; transform: translate(0, 108px); }
-            59%       { opacity: 1; transform: translate(0, 108px); }
-            64%       { opacity: 1; transform: translate(0, 95px); }
-            70%, 100% { opacity: 0; transform: translate(0, 95px); }
+            0%, 38%   { opacity: 0; transform: translate(0, 0); }
+            41%       { opacity: 1; transform: translate(0, 0); }
+            65%       { opacity: 1; transform: translate(0, 108px); }
+            71%       { opacity: 1; transform: translate(0, 108px); }
+            77%       { opacity: 1; transform: translate(0, 95px); }
+            85%, 100% { opacity: 0; transform: translate(0, 95px); }
         }
         @keyframes hopCD {
-            0%, 32%   { opacity: 0; transform: translate(0, 0); }
-            34%       { opacity: 1; transform: translate(0, 0); }
-            54%       { opacity: 1; transform: translate(176px, 0); }
-            59%       { opacity: 1; transform: translate(176px, 0); }
-            64%       { opacity: 1; transform: translate(163px, 0); }
-            70%, 100% { opacity: 0; transform: translate(163px, 0); }
+            0%, 38%   { opacity: 0; transform: translate(0, 0); }
+            41%       { opacity: 1; transform: translate(0, 0); }
+            65%       { opacity: 1; transform: translate(176px, 0); }
+            71%       { opacity: 1; transform: translate(176px, 0); }
+            77%       { opacity: 1; transform: translate(163px, 0); }
+            85%, 100% { opacity: 0; transform: translate(163px, 0); }
         }
-        .hop-bd { opacity: 0; animation: hopBD 8s ease-in-out infinite; }
-        .hop-cd { opacity: 0; animation: hopCD 8s ease-in-out infinite; }
+        .hop-bd { opacity: 0; animation: hopBD 6.6s ease-in-out infinite; }
+        .hop-cd { opacity: 0; animation: hopCD 6.6s ease-in-out infinite; }
 
         /* 两个在途文件包里的深绿高亮条：抵达角端时闪一下（正在比对） */
         @keyframes pbarFlash {
-            0%, 54%   { opacity: .85; }
-            56%       { opacity: .1; }
-            59%       { opacity: .85; }
+            0%, 65%   { opacity: .85; }
+            68%       { opacity: .1; }
+            71%       { opacity: .85; }
             100%      { opacity: .85; }
         }
-        .pbar-fl { animation: pbarFlash 8s ease-out infinite; }
+        .pbar-fl { animation: pbarFlash 6.6s ease-out infinite; }
 
-        /* 新增文件在列表里的高亮条：源端先出现，三台接收端收到后各自出现同一条，
-           三条接收端的焦点条全程保持强调色（含第二跳传播期间），最后一起转常态色 */
+        /* 新增文件在列表里的高亮条：源端先出现，三台接收端收到后各自出现同一条。
+           四条焦点条全程保持强调色（含第二跳传播与去重期间）；去重两包于 85% 消失后
+           静置约 0.26s，自 89% 起一同淡出（约 0.73s），淡净恰好落在循环末尾 ——
+           淡出结束即接下一轮，末尾不留空白等待；100% 与 0% 同为 opacity 0，衔接不硬切 */
         @keyframes rowA {
             0%, 2%    { opacity: 0; fill: #17A2B8; }
-            3%        { opacity: 1; fill: #17A2B8; }
-            70%       { opacity: 1; fill: #17A2B8; }
-            74%       { opacity: 1; fill: #D8E6EC; }
-            94%, 100% { opacity: 0; fill: #D8E6EC; }
+            4%        { opacity: 1; fill: #17A2B8; }
+            89%       { opacity: 1; fill: #17A2B8; }
+            100%      { opacity: 0; fill: #17A2B8; }
         }
         @keyframes rowBC {
-            0%, 28%   { opacity: 0; fill: #17A2B8; }
-            30%       { opacity: 1; fill: #17A2B8; }
-            70%       { opacity: 1; fill: #17A2B8; }
-            74%       { opacity: 1; fill: #D8E6EC; }
-            94%, 100% { opacity: 0; fill: #D8E6EC; }
+            0%, 34%   { opacity: 0; fill: #17A2B8; }
+            36%       { opacity: 1; fill: #17A2B8; }
+            89%       { opacity: 1; fill: #17A2B8; }
+            100%      { opacity: 0; fill: #17A2B8; }
         }
         /* 角端那一条：多一次「比对」闪动 —— 重复包抵达时闪一下 */
         @keyframes rowD {
-            0%, 28%   { opacity: 0; fill: #17A2B8; }
-            30%       { opacity: 1; fill: #17A2B8; }
-            54%       { opacity: 1; fill: #17A2B8; }
-            56%       { opacity: .15; fill: #0E7482; }
-            59%       { opacity: 1; fill: #17A2B8; }
-            70%       { opacity: 1; fill: #17A2B8; }
-            74%       { opacity: 1; fill: #D8E6EC; }
-            94%, 100% { opacity: 0; fill: #D8E6EC; }
+            0%, 34%   { opacity: 0; fill: #17A2B8; }
+            36%       { opacity: 1; fill: #17A2B8; }
+            65%       { opacity: 1; fill: #17A2B8; }
+            68%       { opacity: .15; fill: #0E7482; }
+            71%       { opacity: 1; fill: #17A2B8; }
+            89%       { opacity: 1; fill: #17A2B8; }
+            100%      { opacity: 0; fill: #17A2B8; }
         }
-        .row-a  { opacity: 0; animation: rowA 8s ease-out infinite; }
-        .row-bc { opacity: 0; animation: rowBC 8s ease-out infinite; }
-        .row-d  { opacity: 0; animation: rowD 8s ease-out infinite; }
+        .row-a  { opacity: 0; animation: rowA 6.6s ease-out infinite; }
+        .row-bc { opacity: 0; animation: rowBC 6.6s ease-out infinite; }
+        .row-d  { opacity: 0; animation: rowD 6.6s ease-out infinite; }
 
         /* 关闭动效：给一帧「已全部同步」的静态画面 */
         @media (prefers-reduced-motion: reduce) {
