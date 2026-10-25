@@ -118,7 +118,7 @@ window.I18N = {
         'footer.link.changelog': '更新历史',
         'footer.link.issues': '问题反馈',
         'footer.link.email': '邮箱',
-        'footer.link.license': 'GPL-3.0 协议',
+        'footer.link.terms': '用户协议',
         'footer.link.privacy': '隐私政策',
         'footer.license.note': '基于 GNU General Public License v3.0 开源',
         'dots.aria': '跳转到该段',
@@ -174,6 +174,11 @@ window.I18N = {
         'dl.download': '下载',
         'dl.store.alt': '从 Microsoft Store 获取 LANSyncBox',
         'dl.store.badge': 'https://get.microsoft.com/images/zh-cn%20light.svg',
+        'dl.consent.pre': '下载、安装或使用即表示您同意',
+        'dl.consent.terms': '《用户协议》',
+        'dl.consent.and': '与',
+        'dl.consent.privacy': '《隐私政策》',
+        'dl.consent.end': '。',
 
         // ---------- 感谢页 ----------
         'thanks.meta.title': '感谢下载 LANSyncBox',
@@ -192,7 +197,14 @@ window.I18N = {
         'privacy.meta.description': 'LANSyncBox 标准版与 Pro 版的隐私政策。',
         'privacy.title': '隐私政策',
         'privacy.sub': '标准版与 Pro 版各有一份隐私政策，切换即可查看。',
-        'privacy.back': '返回首页'
+        'privacy.back': '返回首页',
+
+        // ---------- 用户协议页 ----------
+        'terms.meta.title': '用户协议 · LANSyncBox',
+        'terms.meta.description': 'LANSyncBox 标准版与 Pro 版的用户协议。',
+        'terms.title': '用户协议',
+        'terms.sub': '标准版与 Pro 版各有一份用户协议，切换即可查看。',
+        'terms.back': '返回首页'
     },
 
     'en': {
@@ -307,7 +319,7 @@ window.I18N = {
         'footer.link.changelog': 'Release history',
         'footer.link.issues': 'Issues',
         'footer.link.email': 'Email',
-        'footer.link.license': 'GPL-3.0 License',
+        'footer.link.terms': 'Terms of Service',
         'footer.link.privacy': 'Privacy Policy',
         'footer.license.note': 'Released under the GNU General Public License v3.0',
         'dots.aria': 'Go to this section',
@@ -363,6 +375,11 @@ window.I18N = {
         'dl.download': 'Download',
         'dl.store.alt': 'Get LANSyncBox from the Microsoft Store',
         'dl.store.badge': 'https://get.microsoft.com/images/en-us%20light.svg',
+        'dl.consent.pre': 'By downloading, installing or using LANSyncBox, you agree to the ',
+        'dl.consent.terms': 'Terms of Service',
+        'dl.consent.and': ' and ',
+        'dl.consent.privacy': 'Privacy Policy',
+        'dl.consent.end': '.',
 
         // ---------- Thank-you page ----------
         'thanks.meta.title': 'Thank you for downloading LANSyncBox',
@@ -381,7 +398,14 @@ window.I18N = {
         'privacy.meta.description': 'Privacy policies for LANSyncBox Standard and Pro.',
         'privacy.title': 'Privacy Policy',
         'privacy.sub': 'Standard and Pro editions each have their own privacy policy — switch to view.',
-        'privacy.back': 'Back to home'
+        'privacy.back': 'Back to home',
+
+        // ---------- Terms of Service page ----------
+        'terms.meta.title': 'Terms of Service · LANSyncBox',
+        'terms.meta.description': 'Terms of Service for LANSyncBox Standard and Pro.',
+        'terms.title': 'Terms of Service',
+        'terms.sub': 'Standard and Pro editions each have their own terms of service — switch to view.',
+        'terms.back': 'Back to home'
     }
 };
 

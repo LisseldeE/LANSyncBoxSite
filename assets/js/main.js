@@ -56,6 +56,7 @@
         initScrollHint();
         initLangSwitcher();
         initVersionSwitcher();
+        initPolicyVersion();
         initDownload();
         initFaq();
         initBackLink();
@@ -71,7 +72,7 @@
 
         var ref = document.referrer || '';
         var fromHome = ref.indexOf(window.location.origin + '/') === 0 &&
-            !/\/(privacy|thanks)\.html/i.test(ref) &&
+            !/\/(privacy|terms|thanks)\.html/i.test(ref) &&
             window.history.length > 1;
         if (!fromHome) return;
 
@@ -220,12 +221,22 @@
             });
         }
 
+        // 条款提示里的两个链接跟随当前版本：Pro 版带上 ?ver=pro，点开协议页即为对应正文
+        var consentLinks = Array.prototype.slice.call(document.querySelectorAll('.dl-consent a'));
+        function syncConsentLinks(v) {
+            consentLinks.forEach(function (a) {
+                var base = a.getAttribute('href').split('?')[0];
+                a.setAttribute('href', v === 'pro' ? base + '?ver=pro' : base);
+            });
+        }
+
         function activate(v) {
             box.setAttribute('data-version', v);
             opts.forEach(function (b) {
                 b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
             });
             syncTrustPlatform(v);
+            syncConsentLinks(v);
         }
         activate(box.getAttribute('data-version') === 'pro' ? 'pro' : 'std');
 
@@ -244,6 +255,47 @@
                 window.scrollTo(0, y);
                 root.style.scrollBehavior = sb;
             });
+        });
+    }
+
+    // ---- 隐私政策 / 用户协议页：标准版 / Pro 版切换 ----
+    //      状态挂在 .policy 的 data-version 上，滑块位置与两版正文显隐仍全部由 CSS 驱动；
+    //      版本同时写进地址栏（?ver=pro，标准版保持裸地址），使任一版正文都能作为独立链接打开
+    function initPolicyVersion() {
+        var box = document.querySelector('.policy');
+        if (!box) return;
+        var opts = Array.prototype.slice.call(box.querySelectorAll('.ver-option'));
+
+        // 地址栏里的目标版本：无参数或非 pro 一律按标准版处理
+        function urlVersion() {
+            var m = (window.location.search || '').match(/[?&]ver=(std|pro)(?:&|$)/i);
+            return m ? m[1].toLowerCase() : '';
+        }
+
+        // 同步地址栏：保留 lang 等其余参数，只改 ver（不新增历史记录，返回键行为不变）
+        function syncUrl(v) {
+            try {
+                var params = new URLSearchParams(window.location.search || '');
+                params.delete('ver');
+                if (v === 'pro') params.set('ver', 'pro');
+                var q = params.toString();
+                window.history.replaceState(null, '', window.location.pathname +
+                    (q ? '?' + q : '') + (window.location.hash || ''));
+            } catch (e) { }
+        }
+
+        function activate(v, writeUrl) {
+            box.setAttribute('data-version', v);
+            opts.forEach(function (b) {
+                b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
+            });
+            if (writeUrl) syncUrl(v);
+        }
+
+        activate(urlVersion() === 'pro' ? 'pro' : 'std', false);
+
+        opts.forEach(function (b) {
+            b.addEventListener('click', function () { activate(b.getAttribute('data-version'), true); });
         });
     }
 

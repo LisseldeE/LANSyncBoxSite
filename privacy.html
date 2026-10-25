@@ -209,27 +209,5 @@
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
-<script>
-    // 版本切换：状态挂在 .policy 的 data-version 上，滑块位置与两版正文显隐全由 CSS 驱动，
-    // 与下载区的 .dl-right 同一套写法（含 aria-pressed），切换时不做任何视口居中或滚动
-    (function () {
-        var box = document.querySelector('.policy');
-        if (!box) return;
-        var opts = Array.prototype.slice.call(box.querySelectorAll('.ver-option'));
-
-        function activate(v) {
-            box.setAttribute('data-version', v);
-            opts.forEach(function (b) {
-                b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
-            });
-        }
-
-        opts.forEach(function (b) {
-            b.addEventListener('click', function () { activate(b.getAttribute('data-version')); });
-        });
-
-        activate(box.getAttribute('data-version') === 'pro' ? 'pro' : 'std');
-    })();
-</script>
 </body>
 </html>

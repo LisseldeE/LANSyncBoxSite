@@ -232,6 +232,17 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     margin-top: 16px;   /* 紧跟下载清单下方，不贴底 */
 }
 
+/* ---------- 下载区：下载即视为同意的条款提示（链接指向用户协议与隐私政策） ---------- */
+.dl-consent {
+    margin-top: 18px;
+    text-align: center;
+    color: var(--sub); font-size: 13px; line-height: 1.7;
+}
+.dl-consent a {
+    color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px;
+}
+.dl-consent a:hover { color: var(--dark); }
+
 /* ---------- 收尾横带：左文案 · 右下载按钮 ---------- */
 .outro { padding: 0 0 88px; }
 .outro .band {
