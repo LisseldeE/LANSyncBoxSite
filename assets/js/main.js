@@ -230,15 +230,34 @@
             });
         }
 
-        function activate(v) {
+        // 地址栏里的目标版本：与协议页一致，Pro 版用 ?ver=pro，标准版保持裸地址
+        function urlVersion() {
+            var m = (window.location.search || '').match(/[?&]ver=(std|pro)(?:&|$)/i);
+            return m ? m[1].toLowerCase() : '';
+        }
+
+        // 同步地址栏：保留 lang 等其余参数与锚点，只改 ver（不新增历史记录）
+        function syncUrl(v) {
+            try {
+                var params = new URLSearchParams(window.location.search || '');
+                params.delete('ver');
+                if (v === 'pro') params.set('ver', 'pro');
+                var q = params.toString();
+                window.history.replaceState(null, '', window.location.pathname +
+                    (q ? '?' + q : '') + (window.location.hash || ''));
+            } catch (e) { }
+        }
+
+        function activate(v, writeUrl) {
             box.setAttribute('data-version', v);
             opts.forEach(function (b) {
                 b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
             });
             syncTrustPlatform(v);
             syncConsentLinks(v);
+            if (writeUrl) syncUrl(v);
         }
-        activate(box.getAttribute('data-version') === 'pro' ? 'pro' : 'std');
+        activate(urlVersion() === 'pro' ? 'pro' : 'std', false);
 
         opts.forEach(function (b) {
             b.addEventListener('click', function () {
@@ -251,7 +270,7 @@
                 var sb = root.style.scrollBehavior;
                 root.style.scrollBehavior = 'auto';   // 复位必须瞬时，不能走平滑动画
                 suppressSnap(500);
-                activate(v);
+                activate(v, true);
                 window.scrollTo(0, y);
                 root.style.scrollBehavior = sb;
             });

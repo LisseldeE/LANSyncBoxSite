@@ -488,10 +488,14 @@ window.switchLang = function (lang) {
     try { localStorage.setItem(window.SITE.langKey, lang); } catch (e) { }
 
     // 同步地址栏：只用 ?lang= 表达语言（中文保持裸地址），replaceState 不触发重载，
-    // 文件名（如 thanks.html）与锚点原样保留
+    // 其余参数（如 ver=pro）与锚点原样保留
     try {
-        var q = lang === 'en' ? '?lang=en' : '';
-        window.history.replaceState(null, '', window.location.pathname + q + (window.location.hash || ''));
+        var params = new URLSearchParams(window.location.search || '');
+        params.delete('lang');
+        if (lang === 'en') params.set('lang', 'en');
+        var q = params.toString();
+        window.history.replaceState(null, '', window.location.pathname +
+            (q ? '?' + q : '') + (window.location.hash || ''));
     } catch (e) { }
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
