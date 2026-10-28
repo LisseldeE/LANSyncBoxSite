@@ -426,10 +426,10 @@ window.SITE = {
     issues: 'https://github.com/LisseldeE/LANSyncBox/issues',
 
     // ---------- 下载页数据 ----------
-    // 版本号来源：作者 GitHub Pages 上的纯文本文件，本站不维护版本号
+    // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新
     versionUrls: {
-        std: 'https://lisseldee.github.io/version/lansyncbox',
-        pro: 'https://lisseldee.github.io/version/lansyncboxpro'
+        std: 'version/lansyncbox',
+        pro: 'version/lansyncboxpro'
     },
     // 版本号取不到时的兜底值（仅在请求失败时生效）
     versionFallback: { std: 'R7.1.7.0', pro: 'R1.2.0.0' },
