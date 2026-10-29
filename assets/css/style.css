@@ -559,7 +559,7 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dl-right { min-width: 0; }
 
 /* 面板区固定高度：两个版本等高，切换版本不改动布局，避免界面跳动 */
-.dl-panels { margin-top: 18px; min-height: 268px; overflow-anchor: none; }
+.dl-panels { position: relative; margin-top: 18px; min-height: 268px; overflow-anchor: none; }
 .dl-panel { animation: dlPanelIn .3s ease both; }
 @keyframes dlPanelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
@@ -575,13 +575,16 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 
 /* 平台下载：整行可点的清单，右侧为「下载」动作块 */
 .dl-list {
+    position: relative;
     background: var(--white); border: 1px solid var(--line);
     border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden;
 }
 .dl-row {
     display: flex; align-items: center; gap: 14px; padding: 13px 16px;
     text-decoration: none; border-top: 1px solid var(--line);
-    transition: background .18s ease;
+    /* 左侧选中竖条从 0 宽长出，故默认给一条零尺寸影子，保证可插值 */
+    box-shadow: inset 0 0 0 0 var(--accent);
+    transition: background .2s ease, box-shadow .24s ease;
 }
 .dl-row:first-child { border-top: 0; }
 .dl-row:hover { background: var(--accent-soft); }
@@ -594,21 +597,107 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dl-row-ico svg { width: 19px; height: 19px; }
 .dl-row-ico img { height: 19px; width: auto; display: block; }
 .dl-plat-info { display: flex; flex-direction: column; gap: 2px; margin-right: auto; }
-.dl-os { font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--dark); }
+.dl-os {
+    font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--dark);
+    transition: color .22s ease;
+}
 .dl-arch { font-size: 12.5px; line-height: 1.4; color: var(--faint); }
 .dl-row-go {
     flex: none; display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 14px; border-radius: 999px;
     background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 600;
-    transition: background .18s ease;
+    box-shadow: inset 0 0 0 1px rgba(23, 162, 184, 0);
+    transition: background .22s ease, color .22s ease, box-shadow .22s ease;
 }
 .dl-row-go svg { width: 14px; height: 14px; }
 .dl-row:hover .dl-row-go { background: var(--accent-dark); }
+/* 浮层打开时，被点的那一行明确进入选中态：压暗层只压其余行，
+   被点的行抬到压暗层之上并保持纯白，是清单里唯一“亮着”的一行。
+   行内按钮同步降级为白底细描边，不再和浮层抢注意力 */
+.dl-row.is-picking {
+    position: relative; z-index: 2;
+    background: var(--white); box-shadow: inset 3px 0 0 0 var(--accent);
+}
+.dl-row.is-picking .dl-row-go {
+    background: var(--white); color: var(--accent-dark);
+    box-shadow: inset 0 0 0 1px rgba(23, 162, 184, .42);
+}
+.dl-row.is-picking .dl-os { color: var(--accent-dark); }
 
 /* Microsoft Store 官方徽章（本地副本，保持官方比例，勿拉伸） */
 .dl-store { display: inline-flex; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
 .dl-store:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .dl-ms-badge { height: 44px; width: auto; display: block; }
+
+/* Pro 版中文：点平台后选「官方直连 / 代理加速」的浮层
+   与清单拉开层级的三件事：其余行压一层浅雾、浮层比清单窄且右对齐、顶部箭头指回被点的行。
+   浮层锚在 .dl-panels 上，可越出面板不被裁切 */
+.dl-veil {
+    position: absolute; inset: 0; z-index: 1;
+    background: rgba(233, 243, 247, .74);
+    border-radius: inherit;
+    pointer-events: none;
+    animation: dlVeilIn .18s ease both;
+}
+.dl-veil[hidden] { display: none; }
+@keyframes dlVeilIn { from { opacity: 0; } to { opacity: 1; } }
+
+.dl-method {
+    position: absolute; z-index: 30;
+    right: 6px; width: 316px; max-width: calc(100% - 12px);
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 26px 54px -24px rgba(44, 62, 80, .45), 0 2px 6px rgba(44, 62, 80, .06);
+    animation: dlMethodIn .24s cubic-bezier(.16, 1, .3, 1) both;
+}
+.dl-method[hidden] { display: none; }
+.dl-method.is-up { animation-name: dlMethodInUp; }
+@keyframes dlMethodIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes dlMethodInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+}
+/* 指回被点行的箭头：左 / 上描边 + 45° 旋转，与浮层边框连成同一根线 */
+.dl-method-caret {
+    position: absolute; top: -6px; left: 24px;
+    width: 10px; height: 10px;
+    background: var(--white);
+    border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+    transform: rotate(45deg);
+}
+.dl-method.is-up .dl-method-caret { top: auto; bottom: -6px; transform: rotate(225deg); }
+
+.dl-method-head {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 13px 15px 11px;
+}
+.dl-method-head b {
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: .14em; color: var(--faint);
+}
+.dl-method-plat { margin-left: auto; font-size: 10.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.dl-method-opt {
+    width: 100%; display: flex; align-items: center; gap: 12px;
+    padding: 12px 15px; background: transparent;
+    border: 0; border-top: 1px solid #EAF2F6;
+    font: inherit; text-align: left; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .16s ease;
+}
+.dl-method-opt:hover { background: var(--bg-top); }
+.dl-method-opt:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+.dl-method-opt:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: -3px; }
+.dl-method-ico {
+    flex: none; width: 16px; height: 16px;
+    display: grid; place-items: center; color: var(--accent);
+}
+.dl-method-ico svg { width: 16px; height: 16px; }
+.dl-method-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.dl-method-txt b { font-size: 13.5px; font-weight: 700; line-height: 1.35; color: var(--dark); }
+.dl-method-txt span { font-size: 11.5px; line-height: 1.45; color: var(--sub); }
 
 /* ---------- 感谢页 ---------- */
 /* 整页单屏：导航与页脚分居两端，内容区占据剩余高度并垂直居中 */
@@ -868,6 +957,9 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     .tab-underline { transition: none; }
     .demo img { animation: none; }
     .dl-panel { animation: none; }
+    .dl-method { animation: none; }
+    .dl-veil { animation: none; }
+    .dl-row, .dl-row-go, .dl-os { transition: none; }
     .policy-doc { animation: none; }
     .thanks-auto::before { animation: none; }
     .faq summary,

@@ -172,6 +172,12 @@ window.I18N = {
         'dl.aria': '选择版本',
         'dl.latest': '最新版本',
         'dl.download': '下载',
+        'dl.method.aria': '选择下载方式',
+        'dl.method.title': '选择下载方式',
+        'dl.method.proxy': '代理加速',
+        'dl.method.proxyDesc': '第三方代理中转，国内更快，可能不稳定',
+        'dl.method.direct': '官方直连',
+        'dl.method.directDesc': 'GitHub 官方地址，稳定但国内可能较慢',
         'dl.store.alt': '从 Microsoft Store 获取 LANSyncBox',
         'dl.store.badge': 'https://get.microsoft.com/images/zh-cn%20light.svg',
         'dl.consent.pre': '下载、安装或使用即表示您同意',
@@ -373,6 +379,12 @@ window.I18N = {
         'dl.aria': 'Select edition',
         'dl.latest': 'Latest version',
         'dl.download': 'Download',
+        'dl.method.aria': 'Choose a download source',
+        'dl.method.title': 'Choose a download source',
+        'dl.method.proxy': 'Accelerated proxy',
+        'dl.method.proxyDesc': 'Third-party mirror — faster in some regions, may be unstable',
+        'dl.method.direct': 'Direct from GitHub',
+        'dl.method.directDesc': 'Official GitHub URL — stable, though slower in some regions',
         'dl.store.alt': 'Get LANSyncBox from the Microsoft Store',
         'dl.store.badge': 'https://get.microsoft.com/images/en-us%20light.svg',
         'dl.consent.pre': 'By downloading, installing or using LANSyncBox, you agree to the ',
@@ -438,6 +450,8 @@ window.SITE = {
         github: 'https://github.com/LisseldeE/LANSyncBox/releases/download/',
         gitee: 'https://gitee.com/Lisselde_E/LANSyncBox/releases/download/'
     },
+    // Pro 版中文可选的第三方加速前缀：转发 GitHub 发布地址（国内通常更快）
+    dlProxy: 'https://gh-proxy.com/',
     dlAssets: {
         std: { tagPrefix: '', win: 'LANSyncBox_Setup.exe', linux: 'lansyncbox_amd64.deb' },
         pro: { tagPrefix: 'pro-', win: 'LANSyncBoxPro_Setup.exe', linux: 'lansyncboxpro_amd64.deb', mac: 'LANSyncBoxPro_arm64.dmg' }
