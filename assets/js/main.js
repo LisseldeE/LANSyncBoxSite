@@ -338,60 +338,14 @@
             var repo = S.dlRepo || {};
             var ver = versions[edition];
             if (!ver || !assets || !assets[os]) return '';
-            var base = (edition === 'std' && window.getCurrentLang() === 'zh-cn') ? repo.gitee : repo.github;
+            var base = repo.github;
+            if (window.getCurrentLang() === 'zh-cn') {
+                base = (edition === 'pro' && repo.giteePro) ? repo.giteePro : repo.gitee;
+            }
             return (base || '') + assets.tagPrefix + ver + '/' + assets[os];
         }
 
-        // Pro 版中文：点平台先选「官方直连 / 代理加速」，选中后由感谢页触发下载
-        var picker = box.querySelector('.dl-method');
-        var veil = box.querySelector('.dl-veil');
-        var pickRow = null;
-
-        function closePicker() {
-            if (pickRow) {
-                pickRow.classList.remove('is-picking');
-                pickRow = null;
-            }
-            if (veil) veil.hidden = true;
-            if (!picker || picker.hidden) return;
-            picker.hidden = true;
-            picker.classList.remove('is-up');
-            picker.style.top = '';
-            var caret = picker.querySelector('.dl-method-caret');
-            if (caret) caret.style.left = '';
-        }
-
-        // 浮层贴着被点的行展开：右侧与清单右缘错开 6px、宽 316px，比清单窄一截；
-        // 下方视口放不下时翻到行上方；顶部箭头横向对准被点的那一行
-        function openPicker(row) {
-            var panels = picker.parentNode;
-            var pr = panels.getBoundingClientRect();
-            var plat = picker.querySelector('.dl-method-plat');
-            var os = row.querySelector('.dl-os');
-            var arch = row.querySelector('.dl-arch');
-            if (plat) plat.textContent = (os && arch) ? os.textContent + ' · ' + arch.textContent : '';
-            picker.hidden = false;
-            if (veil) veil.hidden = false;
-            picker.classList.remove('is-up');
-            var h = picker.offsetHeight;
-            var rr = row.getBoundingClientRect();
-            if (rr.bottom + 10 + h + 8 > window.innerHeight) {
-                picker.style.top = (rr.top - pr.top - h - 10) + 'px';
-                picker.classList.add('is-up');
-            } else {
-                picker.style.top = (rr.bottom - pr.top + 10) + 'px';
-            }
-            // 箭头对准行的水平中心，并限制在浮层圆角之内
-            var caret = picker.querySelector('.dl-method-caret');
-            if (caret) {
-                var popr = picker.getBoundingClientRect();
-                var cx = rr.left + rr.width / 2 - popr.left;
-                caret.style.left = Math.max(16, Math.min(popr.width - 26, cx - 5)) + 'px';
-            }
-        }
-
         function render() {
-            closePicker();   // 语言/版本变化后浮层里的地址已过期，先收起
             each.call(box.querySelectorAll('[data-ver-num]'), function (el) {
                 var v = versions[el.getAttribute('data-ver-num')];
                 if (v) el.textContent = v;
@@ -411,55 +365,6 @@
 
         dlRender = render;
         render();
-
-        // Pro 版中文才拦截行点击：先弹浮层选下载方式，其余情况保持原生跳转
-        if (picker) {
-            each.call(box.querySelectorAll('.dl-row'), function (row) {
-                row.addEventListener('click', function (e) {
-                    if (row.getAttribute('data-edition') !== 'pro') return;
-                    if (window.getCurrentLang() !== 'zh-cn') return;
-                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                    e.preventDefault();
-                    if (pickRow === row) { closePicker(); return; }
-                    closePicker();
-                    pickRow = row;
-                    row.classList.add('is-picking');
-                    openPicker(row);
-                });
-            });
-
-            each.call(picker.querySelectorAll('.dl-method-opt'), function (btn) {
-                btn.addEventListener('click', function () {
-                    if (!pickRow) return;
-                    var os = pickRow.getAttribute('data-os');
-                    var url = buildUrl('pro', os);
-                    if (!url) return;
-                    if (btn.getAttribute('data-method') === 'proxy') {
-                        url = (S.dlProxy || '') + url;
-                    }
-                    closePicker();
-                    window.location.href = 'thanks.html?dl=' + encodeURIComponent(url) +
-                        '&v=pro&p=' + encodeURIComponent(os);
-                });
-            });
-
-            // 关闭：点浮层外、Esc、页面滚动或缩放（浮层按当前视口定位，滚动后会错位）
-            document.addEventListener('click', function (e) {
-                var t = e.target;
-                if (!pickRow || !t || !t.closest) return;
-                if (t.closest('.dl-row') || picker.contains(t)) return;
-                closePicker();
-            });
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') closePicker();
-            });
-            window.addEventListener('scroll', closePicker, true);
-            window.addEventListener('resize', closePicker);
-            // 切版本时浮层不属于任何面板，必须主动收起
-            each.call(box.querySelectorAll('.ver-option'), function (b) {
-                b.addEventListener('click', closePicker);
-            });
-        }
 
         // 并行拉取两个版本号，成功后重绘；取不到则沿用兜底值
         if (!window.fetch) return;

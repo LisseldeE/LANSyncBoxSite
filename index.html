@@ -269,8 +269,6 @@
                                     <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
                                 </span>
                             </a>
-                            <!-- 浮层打开时压暗其余行；被点的那一行抬在它上面，保持纯白 -->
-                            <div class="dl-veil" aria-hidden="true" hidden></div>
                         </div>
                         <div class="dl-foot">
                             <a class="dl-store" data-edition="pro" target="_blank" rel="noopener"
@@ -280,33 +278,6 @@
                                      alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
                             </a>
                         </div>
-                    </div>
-
-                    <!-- Pro 版中文：点平台后选择「官方直连 / 代理加速」，选中后由感谢页触发下载 -->
-                    <div class="dl-method" id="dlMethod" role="dialog" aria-label="选择下载方式" data-i18n-aria-label="dl.method.aria" hidden>
-                        <span class="dl-method-caret" aria-hidden="true"></span>
-                        <div class="dl-method-head">
-                            <b data-i18n="dl.method.title">选择下载方式</b>
-                            <span class="dl-method-plat" id="dlMethodPlat"></span>
-                        </div>
-                        <button class="dl-method-opt" type="button" data-method="proxy">
-                            <span class="dl-method-ico" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
-                            </span>
-                            <span class="dl-method-txt">
-                                <b data-i18n="dl.method.proxy">代理加速</b>
-                                <span data-i18n="dl.method.proxyDesc">第三方代理中转，国内更快，可能不稳定</span>
-                            </span>
-                        </button>
-                        <button class="dl-method-opt" type="button" data-method="direct">
-                            <span class="dl-method-ico" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                            </span>
-                            <span class="dl-method-txt">
-                                <b data-i18n="dl.method.direct">官方直连</b>
-                                <span data-i18n="dl.method.directDesc">GitHub 官方地址，稳定但国内可能较慢</span>
-                            </span>
-                        </button>
                     </div>
                 </div>
             </div>

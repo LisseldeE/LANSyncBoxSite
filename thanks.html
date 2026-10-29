@@ -56,9 +56,8 @@
     // 由下载页带参进入：?dl=<下载地址>&v=<版本>&p=<平台>，随即自动触发下载（与进入本页几乎同时）
     (function () {
         var url = new URLSearchParams(window.location.search).get('dl') || '';
-        // 只放行本站既有的发布源（含 gh-proxy 加速前缀），避免链接被构造成任意文件下载
-        if (!/^https:\/\/(github\.com\/LisseldeE|gitee\.com\/Lisselde_E)\//i.test(url) &&
-            !/^https:\/\/gh-proxy\.com\/https:\/\/(github\.com\/LisseldeE|gitee\.com\/Lisselde_E)\//i.test(url)) return;
+        // 只放行本站既有的两个发布源，避免链接被构造成任意文件下载
+        if (!/^https:\/\/(github\.com\/LisseldeE|gitee\.com\/Lisselde_E)\//i.test(url)) return;
         var tip = document.getElementById('thanksAuto');
         if (tip) tip.hidden = false;
         window.setTimeout(function () {
