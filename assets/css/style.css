@@ -234,9 +234,9 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 
 /* ---------- 下载区：下载即视为同意的条款提示（链接指向用户协议与隐私政策） ---------- */
 .dl-consent {
-    margin-top: 18px;
+    margin-top: 10px;
     text-align: center;
-    color: var(--sub); font-size: 13px; line-height: 1.7;
+    color: var(--sub); font-size: 12.5px; line-height: 1.7;
 }
 .dl-consent a {
     color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px;
@@ -443,17 +443,7 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .tile:hover .tile-ico { color: var(--accent-dark); }
 .tile:hover h3 { color: var(--accent-dark); }
 
-/* 版本对比表 */
-.compare { width: 100%; border-collapse: collapse; background: var(--white);
-    border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
-.compare th, .compare td { padding: 9px 18px; text-align: left; border-bottom: 1px solid var(--line); font-size: 14.5px; }
-.compare thead th { background: var(--accent-soft); color: var(--accent-dark); font-size: 13px; letter-spacing: .04em; }
-.compare thead th:nth-child(2), .compare thead th:nth-child(3),
-.compare td:nth-child(2), .compare td:nth-child(3) { text-align: center; width: 110px; }
-.compare tbody tr:last-child td { border-bottom: 0; }
-.compare td.pro-only { font-weight: 600; color: var(--dark); }
-.compare .yes { color: var(--accent); font-weight: 700; }
-.compare .no { color: var(--faint); }
+
 
 /* 投递演示：2 列并排、不套外框 —— 图直接落在页面背景上，
    与首页「同步过程」示意图（.shot.is-bare）同一套视觉语言；图下配「标题 + 一句简介」 */
@@ -497,118 +487,77 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dots button.active { background: var(--accent); border-color: var(--accent); transform: scale(1.35); }
 .dots button:hover { border-color: var(--accent); }
 
-/* ---------- 下载页：左侧精简对比表 + 右侧版本切换 ---------- */
-/* 小标题独立于网格之上，让左侧表格顶部与右侧顶栏顶部自然齐平 */
-.dl-sub { font-size: 16px; color: var(--sub); font-weight: 700; margin-bottom: 18px; }
+/* ---------- 下载页：三个平台各成一张卡（标题左对齐、版本胶囊落在右侧） ---------- */
+.dl-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 26px;
+}
+.dl-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: .22em; color: var(--accent); margin-bottom: 6px; }
+/* 版本合并说明：标题下一行小注，前面一个青绿圆点做提示 */
+.dl-note {
+    position: relative; margin-top: 10px; padding-left: 15px;
+    font-size: 13px; line-height: 1.65; color: var(--sub);
+}
+.dl-note::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+.dl-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 15px; font-size: 12px; color: var(--sub); box-shadow: var(--shadow-sm);
+}
+.dl-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.dl-chip b { color: var(--accent-dark); font-size: 13px; }
 
-.dl-grid { display: grid; grid-template-columns: 1fr 1.02fr; gap: 44px; align-items: start; }
-.dl-left { min-width: 0; }
-
-/* 精简表：行高压到最紧，只保留关键差异 */
-.compare-mini th, .compare-mini td { padding: 5px 12px; font-size: 13px; line-height: 1.5; }
-.compare-mini thead th { font-size: 12px; }
-.compare-mini thead th:nth-child(2), .compare-mini thead th:nth-child(3),
-.compare-mini td:nth-child(2), .compare-mini td:nth-child(3) { width: 62px; }
-.compare-mini td { color: var(--sub); }
-
-/* 顶栏：版本切换居左，最新版本居右 */
-.dl-topbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-
-/* 版本切换：与语言切换同源，但更大、用全称，避免两者混淆 */
-.ver-switch {
-    --opt-w: 104px;
-    --pad: 3px;
-    position: relative; display: inline-flex; align-items: center;
-    padding: var(--pad);
+.dl-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+/* 卡片只做容器，不承担点击；可点区域只有下方的下载按钮 */
+.dl-card {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    background: var(--white); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px 20px 22px;
+}
+.dl-card-ico {
+    width: 56px; height: 56px; border-radius: 50%;
     background: var(--bg-top); border: 1px solid var(--line);
-    border-radius: 999px;
-    box-shadow: inset 0 1px 3px rgba(44, 62, 80, .07);
-}
-.ver-slider {
-    position: absolute; top: var(--pad); left: var(--pad); bottom: var(--pad);
-    width: var(--opt-w);
-    border-radius: 999px;
-    background: var(--accent);
-    transition: transform .38s cubic-bezier(.34, 1.35, .5, 1);
-    will-change: transform;
-}
-.ver-option {
-    position: relative; z-index: 1;
-    width: var(--opt-w); height: 36px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 0; background: transparent; cursor: pointer;
-    font: inherit; font-size: 14px; font-weight: 700; line-height: 1;
-    color: var(--sub); border-radius: 999px;
-    transition: color .2s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-.ver-option:hover { color: var(--dark); }
-.ver-option:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
-
-/* 状态统一挂在 .dl-right 上，滑块位置、选中文字、面板显隐都由它驱动 */
-.dl-right[data-version="pro"] .ver-slider { transform: translateX(var(--opt-w)); }
-.dl-right[data-version="std"] .ver-option[data-version="std"],
-.dl-right[data-version="pro"] .ver-option[data-version="pro"] { color: #fff; }
-.dl-right[data-version="std"] .dl-panel[data-version="pro"],
-.dl-right[data-version="pro"] .dl-panel[data-version="std"] { display: none; }
-
-/* 最新版本条随所选版本切换 */
-.dl-right[data-version="std"] .dl-ver[data-edition="pro"],
-.dl-right[data-version="pro"] .dl-ver[data-edition="std"] { display: none; }
-
-.dl-right { min-width: 0; }
-
-/* 面板区固定高度：两个版本等高，切换版本不改动布局，避免界面跳动 */
-.dl-panels { margin-top: 18px; min-height: 268px; overflow-anchor: none; }
-.dl-panel { animation: dlPanelIn .3s ease both; }
-@keyframes dlPanelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-/* 最新版本 */
-.dl-ver {
-    display: inline-flex; align-items: baseline; gap: 8px;
-    background: var(--white); border: 1px solid var(--line);
-    padding: 6px 16px; border-radius: 999px;
-    font-size: 12.5px; font-weight: 600; letter-spacing: .04em; color: var(--faint);
-    box-shadow: var(--shadow-sm);
-}
-.dl-ver b { font-size: 14.5px; font-weight: 700; letter-spacing: 0; color: var(--accent-dark); }
-
-/* 平台下载：整行可点的清单，右侧为「下载」动作块 */
-.dl-list {
-    background: var(--white); border: 1px solid var(--line);
-    border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow: hidden;
-}
-.dl-row {
-    display: flex; align-items: center; gap: 14px; padding: 13px 16px;
-    text-decoration: none; border-top: 1px solid var(--line);
-    transition: background .18s ease;
-}
-.dl-row:first-child { border-top: 0; }
-.dl-row:hover { background: var(--accent-soft); }
-.dl-row:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: -2px; }
-.dl-row-ico {
-    width: 38px; height: 38px; flex: none; border-radius: 11px;
-    background: var(--bg-top); border: 1px solid var(--line); color: var(--accent-dark);
     display: flex; align-items: center; justify-content: center;
 }
-.dl-row-ico svg { width: 19px; height: 19px; }
-.dl-row-ico img { height: 19px; width: auto; display: block; }
-.dl-plat-info { display: flex; flex-direction: column; gap: 2px; margin-right: auto; }
-.dl-os { font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--dark); }
-.dl-arch { font-size: 12.5px; line-height: 1.4; color: var(--faint); }
-.dl-row-go {
-    flex: none; display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 14px; border-radius: 999px;
-    background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 600;
-    transition: background .18s ease;
-}
-.dl-row-go svg { width: 14px; height: 14px; }
-.dl-row:hover .dl-row-go { background: var(--accent-dark); }
+.dl-card-ico svg { width: 22px; height: 22px; }
+.dl-card-ico img { height: 22px; width: auto; display: block; }
+.dl-os { margin-top: 16px; font-size: 17px; font-weight: 700; line-height: 1.3; color: var(--dark); }
+.dl-arch { margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--faint); }
 
-/* Microsoft Store 官方徽章（本地副本，保持官方比例，勿拉伸） */
+/* 下载按钮：hover / 键盘聚焦只染浅青底，不上浮、不投影、不扫光 */
+.dl-card-btn {
+    margin-top: 18px; width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 0; border-radius: 10px;
+    border: 1px solid var(--accent); background: var(--white);
+    color: var(--accent-dark); font-size: 13.5px; font-weight: 700; text-decoration: none;
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.dl-card-btn svg { width: 14px; height: 14px; }
+.dl-card-btn:hover,
+.dl-card-btn:focus-visible { background: var(--accent-soft); border-color: var(--accent); }
+.dl-card-btn:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
+
+/* 渠道与协议：卡片下方单独一行，始终显示 */
+.dl-store-row {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+    margin-top: 4px;
+}
+.dl-store-row .dl-consent { margin: 0; text-align: left; }
+
+@media (max-width: 900px) {
+    .dl-cards { grid-template-columns: 1fr; gap: 14px; }
+}
+
+/* Microsoft Store 官方徽章（保持官方比例，勿拉伸） */
 .dl-store { display: inline-flex; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
 .dl-store:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.dl-ms-badge { height: 44px; width: auto; display: block; }
+.dl-ms-badge { height: 38px; width: auto; display: block; }
 
 /* ---------- 感谢页 ---------- */
 /* 整页单屏：导航与页脚分居两端，内容区占据剩余高度并垂直居中 */
@@ -675,7 +624,7 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
     color: var(--accent); line-height: 1;
 }
 /* ============================================================
-   隐私政策页：与感谢页同源的独立页，正文为两份政策（标准版 / Pro 版）
+   隐私政策页：与感谢页同源的独立页，正文为单一政策版本
    ============================================================ */
 body.page-policy { min-height: 100vh; display: flex; flex-direction: column; }
 body.page-policy main { flex: 1 0 auto; display: flex; flex-direction: column; }
@@ -687,14 +636,6 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
 .policy-head { text-align: center; }
 .policy-title { font-size: clamp(28px, 4vw, 42px); letter-spacing: -.02em; }
 .policy-sub { margin-top: 14px; color: var(--sub); font-size: 15.5px; }
-.policy-switch { display: flex; justify-content: center; margin-top: 26px; }
-
-/* 滑块位置与两版正文显隐都由 .policy 的 data-version 驱动（与 .dl-right 同一套写法） */
-.policy[data-version="pro"] .ver-slider { transform: translateX(var(--opt-w)); }
-.policy[data-version="std"] .ver-option[data-version="std"],
-.policy[data-version="pro"] .ver-option[data-version="pro"] { color: #fff; }
-.policy[data-version="std"] .policy-doc[data-version="pro"],
-.policy[data-version="pro"] .policy-doc[data-version="std"] { display: none; }
 
 .policy-docs { margin-top: 30px; }
 .policy-doc {
@@ -782,7 +723,6 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     .dots { display: none; }
     /* 能力清单：三列降两列 */
     .tiles { grid-template-columns: repeat(2, 1fr); column-gap: 36px; row-gap: 32px; }
-    .dl-grid { grid-template-columns: 1fr; gap: 34px; }
     .footer-cols { grid-template-columns: repeat(2, 1fr); gap: 26px; }
 
     /* 信任行：改两列，避免四项挤在一行 */
@@ -821,11 +761,8 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     .outro .btn { width: 100%; justify-content: center; }
 
     .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
-    .ver-switch { --opt-w: 92px; }
-    .ver-option { font-size: 13px; }
-    .dl-row { padding: 12px 13px; gap: 11px; }
-    .dl-row-go { padding: 8px 12px; }
-    .dl-ms-badge { height: 38px; }
+    .dl-cards { grid-template-columns: 1fr; gap: 14px; }
+    .dl-ms-badge { height: 34px; }
 
     /* 感谢页：顶部行改单列，返回按钮不再与标记争抢同一行宽度 */
     .thanks-top { grid-template-columns: 1fr; justify-items: center; gap: 14px; }
@@ -864,10 +801,9 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ver-slider { transition: none; }
     .tab-underline { transition: none; }
     .demo img { animation: none; }
-    .dl-panel { animation: none; }
+    .dl-card-btn { transition: none; }
     .policy-doc { animation: none; }
     .thanks-auto::before { animation: none; }
     .faq summary,

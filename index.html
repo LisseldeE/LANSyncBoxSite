@@ -145,153 +145,69 @@
 <!-- ===== 第 2 屏 · 下载 ===== -->
 <section class="screen" id="download">
     <div class="container">
-        <h2 class="headline" style="margin-bottom:28px" data-i18n="download.headline">下载 LANSyncBox</h2>
-        <h3 class="dl-sub" data-i18n="compare.headline">标准版 与 Pro 版差在哪</h3>
-        <div class="dl-grid">
-
-            <!-- 左侧：精简对比表 -->
-            <div class="dl-left">
-                <table class="compare compare-mini">
-                    <thead>
-                        <tr>
-                            <th data-i18n="editions.col.feature">功能</th>
-                            <th data-i18n="editions.col.standard">标准版</th>
-                            <th data-i18n="editions.col.pro">Pro 版</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td data-i18n="editions.row.realtime">实时文件同步</td><td class="yes">✔</td><td class="yes">✔</td></tr>
-                        <tr><td data-i18n="editions.row.room">房间分享（6 位数字 + 密码校验）</td><td class="yes">✔</td><td class="yes">✔</td></tr>
-                        <tr><td data-i18n="editions.row.transfer">大文件传输（流式分块 · 断点续传）</td><td class="yes">✔</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.nickname">端昵称显示（取代 IP）</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.deliver">投递 · 跨设备复制粘贴</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.clipboard">文本剪贴板广播</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.dm">私信 · 端到端私密传输</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.mode">同步 / 收集双模式</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.decentralized">去中心化分布式架构</td><td class="no">—</td><td class="yes">✔</td></tr>
-                        <tr><td class="pro-only" data-i18n="editions.row.macos">macOS（Apple Silicon）</td><td class="no">—</td><td class="yes">✔</td></tr>
-                    </tbody>
-                </table>
+        <!-- 标题行：眉题 + 标题左对齐，右侧稳定版胶囊；下方三个平台各成一张卡 -->
+        <div class="dl-head">
+            <div>
+                <p class="dl-eyebrow" data-i18n="dl.eyebrow">DOWNLOAD</p>
+                <h2 class="headline" data-i18n="download.headline">下载 LANSyncBox</h2>
+                <p class="dl-note" data-i18n="dl.merge.note">Pro 版与标准版已合并为同一版本，下载后即为完整功能。</p>
             </div>
-
-            <!-- 右侧：版本切换 + 最新版本 + 各平台下载 -->
-            <div class="dl-right" data-version="std">
-                <div class="dl-topbar">
-                    <div class="ver-switch" role="group" aria-label="选择版本" data-i18n-aria-label="dl.aria">
-                        <span class="ver-slider" aria-hidden="true"></span>
-                        <button class="ver-option" type="button" data-version="std" data-i18n="std.name">标准版</button>
-                        <button class="ver-option" type="button" data-version="pro" data-i18n="pro.name">Pro 版</button>
-                    </div>
-                    <p class="dl-ver" data-edition="std"><span data-i18n="dl.latest">最新版本</span><b data-ver-num="std">R7.1.7.0</b></p>
-                    <p class="dl-ver" data-edition="pro"><span data-i18n="dl.latest">最新版本</span><b data-ver-num="pro">R1.2.0.0</b></p>
-                </div>
-
-                <div class="dl-panels">
-                    <!-- 标准版：Windows + Linux，中文走 Gitee、英文走 GitHub -->
-                    <div class="dl-panel" data-version="std">
-                        <div class="dl-list">
-                            <a class="dl-row dl-btn" data-edition="std" data-os="win"
-                               href="https://github.com/LisseldeE/LANSyncBox/releases">
-                                <span class="dl-row-ico" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="#0078D4" aria-hidden="true"><rect x="1.5" y="1.5" width="10" height="10"/><rect x="12.5" y="1.5" width="10" height="10"/><rect x="1.5" y="12.5" width="10" height="10"/><rect x="12.5" y="12.5" width="10" height="10"/></svg>
-                                </span>
-                                <span class="dl-plat-info">
-                                    <span class="dl-os">Windows</span>
-                                    <span class="dl-arch">10/11 · x64</span>
-                                </span>
-                                <span class="dl-row-go"><span data-i18n="dl.download">下载</span>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                                </span>
-                            </a>
-                            <a class="dl-row dl-btn" data-edition="std" data-os="linux"
-                               href="https://github.com/LisseldeE/LANSyncBox/releases">
-                                <span class="dl-row-ico" aria-hidden="true">
-                                    <img class="dl-os-tux" src="assets/images/icon/os-linux.svg" alt="">
-                                </span>
-                                <span class="dl-plat-info">
-                                    <span class="dl-os">Linux</span>
-                                    <span class="dl-arch">x64</span>
-                                </span>
-                                <span class="dl-row-go"><span data-i18n="dl.download">下载</span>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="dl-foot">
-                            <a class="dl-store" data-edition="std" target="_blank" rel="noopener"
-                               href="https://apps.microsoft.com/detail/9nsjvp7fxkm3?referrer=appbadge&amp;mode=full">
-                                <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/zh-cn%20light.svg"
-                                     alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Pro 版：Windows + Linux + macOS，恒走 GitHub -->
-                    <div class="dl-panel" data-version="pro">
-                        <div class="dl-list">
-                            <a class="dl-row dl-btn" data-edition="pro" data-os="win"
-                               href="https://github.com/LisseldeE/LANSyncBox/releases">
-                                <span class="dl-row-ico" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="#0078D4" aria-hidden="true"><rect x="1.5" y="1.5" width="10" height="10"/><rect x="12.5" y="1.5" width="10" height="10"/><rect x="1.5" y="12.5" width="10" height="10"/><rect x="12.5" y="12.5" width="10" height="10"/></svg>
-                                </span>
-                                <span class="dl-plat-info">
-                                    <span class="dl-os">Windows</span>
-                                    <span class="dl-arch">10/11 · x64</span>
-                                </span>
-                                <span class="dl-row-go"><span data-i18n="dl.download">下载</span>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                                </span>
-                            </a>
-                            <a class="dl-row dl-btn" data-edition="pro" data-os="linux"
-                               href="https://github.com/LisseldeE/LANSyncBox/releases">
-                                <span class="dl-row-ico" aria-hidden="true">
-                                    <img class="dl-os-tux" src="assets/images/icon/os-linux.svg" alt="">
-                                </span>
-                                <span class="dl-plat-info">
-                                    <span class="dl-os">Linux</span>
-                                    <span class="dl-arch">x64</span>
-                                </span>
-                                <span class="dl-row-go"><span data-i18n="dl.download">下载</span>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                                </span>
-                            </a>
-                            <a class="dl-row dl-btn" data-edition="pro" data-os="mac"
-                               href="https://github.com/LisseldeE/LANSyncBox/releases">
-                                <span class="dl-row-ico" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="#000000"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
-                                </span>
-                                <span class="dl-plat-info">
-                                    <span class="dl-os">macOS</span>
-                                    <span class="dl-arch">Apple Silicon</span>
-                                </span>
-                                <span class="dl-row-go"><span data-i18n="dl.download">下载</span>
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="dl-foot">
-                            <a class="dl-store" data-edition="pro" target="_blank" rel="noopener"
-                               href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
-                                <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                                     src="https://get.microsoft.com/images/zh-cn%20light.svg"
-                                     alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <span class="dl-chip"><span class="dot" aria-hidden="true"></span><span data-i18n="dl.channel">最新构建</span><b data-ver-num>R1.2.1.0</b></span>
         </div>
 
-        <p class="dl-consent"><span data-i18n="dl.consent.pre">下载、安装或使用即表示您同意</span><a href="terms.html" data-i18n="dl.consent.terms">《用户协议》</a><span data-i18n="dl.consent.and">与</span><a href="privacy.html" data-i18n="dl.consent.privacy">《隐私政策》</a><span data-i18n="dl.consent.end">。</span></p>
+        <div class="dl-cards">
+            <div class="dl-card">
+                <span class="dl-card-ico" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="1.5" y="12.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="12.5" width="10" height="10" fill="#0078D4"/></svg></span>
+                <span class="dl-os">Windows</span>
+                <span class="dl-arch" data-i18n="dl.arch.win">10 / 11 · x64</span>
+                <a class="dl-card-btn dl-btn" data-os="win"
+                   href="https://github.com/LisseldeE/LANSyncBox/releases">
+                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                </a>
+            </div>
+
+            <div class="dl-card">
+                <span class="dl-card-ico" aria-hidden="true">
+                    <img src="assets/images/icon/os-linux.svg" alt="">
+                </span>
+                <span class="dl-os">Linux</span>
+                <span class="dl-arch" data-i18n="dl.arch.linux">x64 · Debian / Ubuntu</span>
+                <a class="dl-card-btn dl-btn" data-os="linux"
+                   href="https://github.com/LisseldeE/LANSyncBox/releases">
+                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                </a>
+            </div>
+
+            <div class="dl-card">
+                <span class="dl-card-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#000"/></svg>
+                </span>
+                <span class="dl-os">macOS</span>
+                <span class="dl-arch" data-i18n="dl.arch.mac">Apple Silicon · M 系列</span>
+                <a class="dl-card-btn dl-btn" data-os="mac"
+                   href="https://github.com/LisseldeE/LANSyncBox/releases">
+                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                </a>
+            </div>
+
+            <!-- 渠道与协议：卡片下方单独一行，始终显示 -->
+            <div class="dl-store-row">
+                <a class="dl-store" target="_blank" rel="noopener"
+                   href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
+                    <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
+                         src="https://get.microsoft.com/images/zh-cn%20light.svg"
+                         alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt">
+                </a>
+                <p class="dl-consent"><span data-i18n="dl.consent.pre">下载、安装或使用即表示您同意</span><a href="terms.html" data-i18n="dl.consent.terms">《用户协议》</a><span data-i18n="dl.consent.and">与</span><a href="privacy.html" data-i18n="dl.consent.privacy">《隐私政策》</a><span data-i18n="dl.consent.end">。</span></p>
+            </div>
+        </div>
     </div>
 
     <!-- 信任行：并进下载屏、贴屏底；无外框，仅上下通栏细线 + 每项 accent 短线 -->
     <div class="trust-band">
         <div class="container">
             <ul class="trust-row">
-                <li><b data-i18n="trust.p1.title.std">2 个平台</b><span data-i18n="trust.p1.desc.std">Windows · Linux</span></li>
+                <li><b data-i18n="trust.p1.title">3 个平台</b><span data-i18n="trust.p1.desc">Windows · Linux · macOS</span></li>
                 <li><b data-i18n="trust.p2.title">0 次公网中转</b><span data-i18n="trust.p2.desc">数据全程留在局域网内</span></li>
                 <li><b data-i18n="trust.p3.title">GPL-3.0</b><span data-i18n="trust.p3.desc">完全开源，代码可自行审计</span></li>
                 <li><b data-i18n="trust.p4.title">无广告 · 无追踪</b><span data-i18n="trust.p4.desc">不注册账号，不采集任何数据</span></li>
@@ -300,39 +216,9 @@
     </div>
 </section>
 
-<!-- ===== 第 3 屏 · 标准版（顶栏「详情」锚点） ===== -->
 <section class="screen" id="details">
-    <div class="container split">
-        <div class="split-text">
-            <div class="edition">
-                <span class="edition-name" data-i18n="std.name">标准版</span>
-                <span class="edition-ver">R7.1.7.0</span>
-            </div>
-            <h2 class="headline"><span data-i18n="std.headline.pre">一台主机做中枢，其余端</span><span class="accent accent-block" data-i18n="std.headline.acc">实时跟随</span></h2>
-            <ul class="blist">
-                <li data-i18n="std.b1">增删改重命名，实时派发</li>
-                <li data-i18n="std.b2">6 位房间号 + 密码校验</li>
-                <li data-i18n="std.b3">流式分块 · 断点续传</li>
-                <li data-i18n="std.b4">最多 5 个文件并发</li>
-                <li data-i18n="std.b5">双击只读预览，防误改</li>
-            </ul>
-        </div>
-        <div class="split-media">
-            <div class="shot is-bare">
-                <img src="assets/images/svg/sync-hub.svg" alt="标准版同步示意" data-i18n-alt="std.diagram.alt">
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== 第 4 屏 · Pro 版 ===== -->
-<section class="screen">
     <div class="container split flip">
         <div class="split-text">
-            <div class="edition is-pro">
-                <span class="edition-name" data-i18n="pro.name">Pro 版</span>
-                <span class="edition-ver">R1.2.0.0</span>
-            </div>
             <h2 class="headline"><span data-i18n="pro.headline.pre">去中心化，</span><span class="accent" data-i18n="pro.headline.acc">没有主机也不停</span></h2>
             <ul class="blist">
                 <li data-i18n="pro.b1">对等网状同步，断谁都不停</li>
@@ -344,49 +230,46 @@
         </div>
         <div class="split-media">
             <div class="shot is-bare">
-                <img src="assets/images/svg/sync-mesh.svg" alt="Pro 版同步示意" data-i18n-alt="pro.diagram.alt">
+                <img src="assets/images/svg/sync-mesh.svg" alt="同步示意" data-i18n-alt="pro.diagram.alt">
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== 第 5 屏 · 仅 Pro 具备 ===== -->
+<!-- ===== 第 5 屏 · 完整能力 ===== -->
 <section class="screen">
     <div class="container">
-        <div class="edition is-pro" style="margin-bottom:14px">
-            <span class="edition-name" data-i18n="proonly.badge">仅 Pro 版具备</span>
-        </div>
-        <h2 class="headline" style="margin-bottom:34px" data-i18n="proonly.headline">标准版没有的那几件事</h2>
+        <h2 class="headline" style="margin-bottom:34px" data-i18n="tiles.headline">完整能力都在这里</h2>
         <div class="tiles">
             <div class="tile">
                 <div class="tile-ico">01</div>
-                <h3 data-i18n="proonly.t1.title">端昵称</h3>
-                <p data-i18n="proonly.t1.desc">可读昵称取代 IP</p>
+                <h3 data-i18n="tiles.t1.title">端昵称</h3>
+                <p data-i18n="tiles.t1.desc">可读昵称取代 IP</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">02</div>
-                <h3 data-i18n="proonly.t2.title">屏幕顶部快捷添加</h3>
-                <p data-i18n="proonly.t2.desc">工具条一键添加，立即纳入同步</p>
+                <h3 data-i18n="tiles.t2.title">屏幕顶部快捷添加</h3>
+                <p data-i18n="tiles.t2.desc">工具条一键添加，立即纳入同步</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">03</div>
-                <h3 data-i18n="proonly.t4.title">私信</h3>
-                <p data-i18n="proonly.t4.desc">一对一文本与文件</p>
+                <h3 data-i18n="tiles.t4.title">私信</h3>
+                <p data-i18n="tiles.t4.desc">一对一文本与文件</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">04</div>
-                <h3 data-i18n="proonly.t5.title">收集模式</h3>
-                <p data-i18n="proonly.t5.desc">多人汇总到一处</p>
+                <h3 data-i18n="tiles.t5.title">收集模式</h3>
+                <p data-i18n="tiles.t5.desc">多人汇总到一处</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">05</div>
-                <h3 data-i18n="proonly.t6.title">去中心化</h3>
-                <p data-i18n="proonly.t6.desc">无主机也能互相同步</p>
+                <h3 data-i18n="tiles.t6.title">去中心化</h3>
+                <p data-i18n="tiles.t6.desc">无主机也能互相同步</p>
             </div>
             <div class="tile">
                 <div class="tile-ico">06</div>
-                <h3 data-i18n="proonly.t7.title">投递</h3>
-                <p data-i18n="proonly.t7.desc">跨设备复制粘贴，不经中继</p>
+                <h3 data-i18n="tiles.t7.title">投递</h3>
+                <p data-i18n="tiles.t7.desc">跨设备复制粘贴，不经中继</p>
             </div>
         </div>
         <!-- 投递演示：紧接在 06 投递条目下方 -->
@@ -459,11 +342,7 @@
             </details>
             <details>
                 <summary data-i18n="faq.q4">支持哪些平台？</summary>
-                <div class="ans" data-i18n="faq.a4">标准版支持 Windows 与 Linux；Pro 版在此之上增加 macOS。移动端与更多平台会陆续补齐。</div>
-            </details>
-            <details>
-                <summary data-i18n="faq.q5">标准版和 Pro 版有什么区别？</summary>
-                <div class="ans" data-i18n="faq.a5">标准版由一台设备作为中枢，其余端跟随；Pro 版去中心化，没有主机也不停 —— 任一设备退出，其余设备继续互相同步。此外 Pro 版独有端昵称、权限控制等六项能力。</div>
+                <div class="ans" data-i18n="faq.a4">支持 Windows、Linux 与 macOS（Apple Silicon）。移动端与更多平台会陆续补齐。</div>
             </details>
             <details>
                 <summary data-i18n="faq.q6">完全免费吗？</summary>

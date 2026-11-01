@@ -29,18 +29,6 @@ window.I18N = {
         // ---------- 同步机制 ----------
 
         // ---------- 版本对比 ----------
-        'editions.col.feature': '功能',
-        'editions.col.standard': '标准版',
-        'editions.col.pro': 'Pro 版',
-        'editions.row.realtime': '实时文件同步',
-        'editions.row.room': '房间分享（6 位数字 + 密码校验）',
-        'editions.row.transfer': '大文件传输（流式分块 · 断点续传）',
-        'editions.row.nickname': '端昵称显示（取代 IP）',
-        'editions.row.deliver': '投递 · 跨设备复制粘贴',
-        'editions.row.clipboard': '文本剪贴板广播',
-        'editions.row.dm': '私信 · 端到端私密传输',
-        'editions.row.mode': '同步 / 收集双模式',
-        'editions.row.decentralized': '去中心化分布式架构',
 
         // ---------- 技术栈 ----------
 
@@ -60,17 +48,6 @@ window.I18N = {
         'hero.tagline.2': '无需公网，无需服务器。',
         'hero.cta.download': '下载 LANSyncBox',
         'hero.scroll': '向下滚动',
-        'std.name': '标准版',
-        'std.headline.pre': '一台主机做中枢，其余端',
-        'std.headline.acc': '实时跟随',
-        'std.b1': '增删改重命名，实时派发',
-        'std.b2': '6 位房间号 + 密码校验',
-        'std.b3': '流式分块 · 断点续传',
-        'std.b4': '最多 5 个文件并发',
-        'std.b5': '双击只读预览，防误改',
-        'std.alt': '标准版主界面',
-        'std.diagram.alt': '标准版同步示意：一台设备居中做中枢，其余设备实时跟随',
-        'pro.name': 'Pro 版',
         'pro.headline.pre': '去中心化，',
         'pro.headline.acc': '没有主机也不停',
         'pro.b1': '对等网状同步，断谁都不停',
@@ -78,22 +55,20 @@ window.I18N = {
         'pro.b3': '版本向量 + 逻辑钟 + 时间戳',
         'pro.b4': '中断只续发剩余部分',
         'pro.b5': '支持 macOS（Apple Silicon）',
-        'pro.alt': 'Pro 版主界面',
-        'pro.diagram.alt': 'Pro 版同步示意：设备两两直连，没有主机也不停',
-        'proonly.badge': '仅 Pro 版具备',
-        'proonly.headline': '标准版没有的那几件事',
-        'proonly.t1.title': '端昵称',
-        'proonly.t1.desc': '可读昵称取代 IP',
-        'proonly.t2.title': '屏幕顶部快捷添加',
-        'proonly.t2.desc': '工具条一键添加，立即纳入同步',
-        'proonly.t4.title': '私信',
-        'proonly.t4.desc': '一对一文本与文件',
-        'proonly.t5.title': '收集模式',
-        'proonly.t5.desc': '多人汇总到一处',
-        'proonly.t6.title': '去中心化',
-        'proonly.t6.desc': '无主机也能互相同步',
-        'proonly.t7.title': '投递',
-        'proonly.t7.desc': '跨设备复制粘贴，不经中继',
+        'pro.diagram.alt': '同步示意：设备两两直连，没有主机也不停',
+        'tiles.headline': '完整能力都在这里',
+        'tiles.t1.title': '端昵称',
+        'tiles.t1.desc': '可读昵称取代 IP',
+        'tiles.t2.title': '屏幕顶部快捷添加',
+        'tiles.t2.desc': '工具条一键添加，立即纳入同步',
+        'tiles.t4.title': '私信',
+        'tiles.t4.desc': '一对一文本与文件',
+        'tiles.t5.title': '收集模式',
+        'tiles.t5.desc': '多人汇总到一处',
+        'tiles.t6.title': '去中心化',
+        'tiles.t6.desc': '无主机也能互相同步',
+        'tiles.t7.title': '投递',
+        'tiles.t7.desc': '跨设备复制粘贴，不经中继',
         'demos.headline': '投递功能演示',
         'demos.d1.cap': '顶部快捷添加',
         'demos.d1.desc': '在顶部工具条一键添加文件或文件夹，立即纳入同步。',
@@ -103,8 +78,6 @@ window.I18N = {
         'demos.d3.desc': '把选中的文本投递给房间内其他设备，跨设备粘贴即用。',
         'demos.d4.cap': '文件内容投递',
         'demos.d4.desc': '把文件直接投递到目标设备，点对点传输，不经过中继。',
-        'compare.headline': '标准版 与 Pro 版差在哪',
-        'editions.row.macos': 'macOS（Apple Silicon）',
         'download.headline': '下载 LANSyncBox',
         'footer.brand.desc': '一款为局域网设计的跨平台文件实时同步工具。',
         'footer.col.product': '产品',
@@ -124,10 +97,8 @@ window.I18N = {
         'dots.aria': '跳转到该段',
 
         // ---------- 信任行 ----------
-        'trust.p1.title.std': '2 个平台',
-        'trust.p1.desc.std': 'Windows · Linux',
-        'trust.p1.title.pro': '3 个平台',
-        'trust.p1.desc.pro': 'Windows · Linux · macOS',
+        'trust.p1.title': '3 个平台',
+        'trust.p1.desc': 'Windows · Linux · macOS',
         'trust.p2.title': '0 次公网中转',
         'trust.p2.desc': '数据全程留在局域网内',
         'trust.p3.title': 'GPL-3.0',
@@ -157,9 +128,7 @@ window.I18N = {
         'faq.q3': '我的文件会经过你们的服务器吗？',
         'faq.a3': '不会。数据全程在局域网内点对点传输，我们不运营任何中转服务器，也不采集文件内容。',
         'faq.q4': '支持哪些平台？',
-        'faq.a4': '标准版支持 Windows 与 Linux；Pro 版在此之上增加 macOS。移动端与更多平台会陆续补齐。',
-        'faq.q5': '标准版和 Pro 版有什么区别？',
-        'faq.a5': '标准版由一台设备作为中枢，其余端跟随；Pro 版去中心化，没有主机也不停 —— 任一设备退出，其余设备继续互相同步。此外 Pro 版独有端昵称、权限控制等六项能力。',
+        'faq.a4': '支持 Windows、Linux 与 macOS（Apple Silicon）。移动端与更多平台会陆续补齐。',
         'faq.q6': '完全免费吗？',
         'faq.a6': '是。GNU GPL v3.0 开源，无广告、无内购、不做数据追踪；代码可在 GitHub 上自行审计。',
 
@@ -169,9 +138,14 @@ window.I18N = {
         'outro.cta': '下载 LANSyncBox',
 
         // ---------- 下载页 · 版本切换 ----------
-        'dl.aria': '选择版本',
         'dl.latest': '最新版本',
+        'dl.eyebrow': 'DOWNLOAD',
+        'dl.channel': '最新构建',
+        'dl.merge.note': 'Pro 版与标准版已合并为同一版本，下载后即为完整功能。',
         'dl.download': '下载',
+        'dl.arch.win': '10 / 11 · x64',
+        'dl.arch.linux': 'x64 · Debian / Ubuntu',
+        'dl.arch.mac': 'Apple Silicon · M 系列',
         'dl.store.alt': '从 Microsoft Store 获取 LANSyncBox',
         'dl.store.badge': 'https://get.microsoft.com/images/zh-cn%20light.svg',
         'dl.consent.pre': '下载、安装或使用即表示您同意',
@@ -194,16 +168,16 @@ window.I18N = {
 
         // ---------- 隐私政策页 ----------
         'privacy.meta.title': '隐私政策 · LANSyncBox',
-        'privacy.meta.description': 'LANSyncBox 标准版与 Pro 版的隐私政策。',
+        'privacy.meta.description': 'LANSyncBox 隐私政策。',
         'privacy.title': '隐私政策',
-        'privacy.sub': '标准版与 Pro 版各有一份隐私政策，切换即可查看。',
+        'privacy.sub': 'LANSyncBox 桌面客户端的隐私政策。',
         'privacy.back': '返回首页',
 
         // ---------- 用户协议页 ----------
         'terms.meta.title': '用户协议 · LANSyncBox',
-        'terms.meta.description': 'LANSyncBox 标准版与 Pro 版的用户协议。',
+        'terms.meta.description': 'LANSyncBox 用户协议。',
         'terms.title': '用户协议',
-        'terms.sub': '标准版与 Pro 版各有一份用户协议，切换即可查看。',
+        'terms.sub': 'LANSyncBox 桌面客户端的用户协议。',
         'terms.back': '返回首页'
     },
 
@@ -230,18 +204,6 @@ window.I18N = {
         // ---------- Sync ----------
 
         // ---------- Editions ----------
-        'editions.col.feature': 'Feature',
-        'editions.col.standard': 'Standard',
-        'editions.col.pro': 'Pro',
-        'editions.row.realtime': 'Real-time file sync',
-        'editions.row.room': 'Room sharing (6-digit number + password)',
-        'editions.row.transfer': 'Large file transfer (chunked · resumable)',
-        'editions.row.nickname': 'Peer nicknames (instead of IP)',
-        'editions.row.deliver': 'Deliver · cross-device copy & paste',
-        'editions.row.clipboard': 'Text clipboard broadcast',
-        'editions.row.dm': 'Direct messages · private transfer',
-        'editions.row.mode': 'Sync / Collect dual modes',
-        'editions.row.decentralized': 'Decentralized architecture',
 
         // ---------- Tech ----------
 
@@ -261,17 +223,6 @@ window.I18N = {
         'hero.tagline.2': 'No public network. No server.',
         'hero.cta.download': 'Download LANSyncBox',
         'hero.scroll': 'Scroll down',
-        'std.name': 'Standard',
-        'std.headline.pre': 'One host as the hub, every peer ',
-        'std.headline.acc': 'follows live',
-        'std.b1': 'Add, edit and rename, dispatched in real time',
-        'std.b2': '6-digit room number + password check',
-        'std.b3': 'Chunked streaming · resumable',
-        'std.b4': 'Up to 5 files transferring at once',
-        'std.b5': 'Double-click for a read-only preview',
-        'std.alt': 'Standard edition main screen',
-        'std.diagram.alt': 'Standard edition sync diagram: one device acts as the hub and the rest follow in real time',
-        'pro.name': 'Pro',
         'pro.headline.pre': 'Decentralized — ',
         'pro.headline.acc': 'runs on without a host',
         'pro.b1': 'Peer mesh sync — losing any peer keeps it running',
@@ -279,22 +230,20 @@ window.I18N = {
         'pro.b3': 'Version vectors + logical clock + timestamps',
         'pro.b4': 'An interrupted transfer resumes only the remainder',
         'pro.b5': 'macOS support (Apple Silicon)',
-        'pro.alt': 'Pro edition main screen',
-        'pro.diagram.alt': 'Pro edition sync diagram: devices connect peer to peer with no host needed',
-        'proonly.badge': 'Pro only',
-        'proonly.headline': 'The things the Standard edition leaves out',
-        'proonly.t1.title': 'Peer nicknames',
-        'proonly.t1.desc': 'Readable names instead of IPs',
-        'proonly.t2.title': 'Quick add from the top bar',
-        'proonly.t2.desc': 'Add files or folders from the toolbar, synced right away',
-        'proonly.t4.title': 'Direct message',
-        'proonly.t4.desc': 'One-to-one text and files',
-        'proonly.t5.title': 'Collect mode',
-        'proonly.t5.desc': 'Many peers gather into one place',
-        'proonly.t6.title': 'Decentralised',
-        'proonly.t6.desc': 'No host needed — peers keep syncing',
-        'proonly.t7.title': 'Deliver',
-        'proonly.t7.desc': 'Cross-device copy & paste, no relay',
+        'pro.diagram.alt': 'Sync diagram: devices connect peer to peer with no host needed',
+        'tiles.headline': 'Everything is in one build',
+        'tiles.t1.title': 'Peer nicknames',
+        'tiles.t1.desc': 'Readable names instead of IPs',
+        'tiles.t2.title': 'Quick add from the top bar',
+        'tiles.t2.desc': 'Add files or folders from the toolbar, synced right away',
+        'tiles.t4.title': 'Direct message',
+        'tiles.t4.desc': 'One-to-one text and files',
+        'tiles.t5.title': 'Collect mode',
+        'tiles.t5.desc': 'Many peers gather into one place',
+        'tiles.t6.title': 'Decentralised',
+        'tiles.t6.desc': 'No host needed — peers keep syncing',
+        'tiles.t7.title': 'Deliver',
+        'tiles.t7.desc': 'Cross-device copy & paste, no relay',
         'demos.headline': 'Deliver demos',
         'demos.d1.cap': 'Quick add from the top bar',
         'demos.d1.desc': 'Add a file or folder from the top toolbar and it joins the sync right away.',
@@ -304,8 +253,6 @@ window.I18N = {
         'demos.d3.desc': 'Deliver the selected text to other devices in the room and paste it anywhere.',
         'demos.d4.cap': 'File content delivery',
         'demos.d4.desc': 'Deliver a file straight to the target device — peer to peer, no relay.',
-        'compare.headline': 'What differs between Standard and Pro',
-        'editions.row.macos': 'macOS (Apple Silicon)',
         'download.headline': 'Download LANSyncBox',
         'footer.brand.desc': 'A cross-platform real-time file sync tool built for local networks.',
         'footer.col.product': 'Product',
@@ -325,10 +272,8 @@ window.I18N = {
         'dots.aria': 'Go to this section',
 
         // ---------- Trust band ----------
-        'trust.p1.title.std': '2 platforms',
-        'trust.p1.desc.std': 'Windows · Linux',
-        'trust.p1.title.pro': '3 platforms',
-        'trust.p1.desc.pro': 'Windows · Linux · macOS',
+        'trust.p1.title': '3 platforms',
+        'trust.p1.desc': 'Windows · Linux · macOS',
         'trust.p2.title': 'Zero relay',
         'trust.p2.desc': 'Traffic stays inside your local network',
         'trust.p3.title': 'GPL-3.0',
@@ -358,9 +303,7 @@ window.I18N = {
         'faq.q3': 'Do my files pass through any server?',
         'faq.a3': 'No. Data moves peer-to-peer inside your local network. No relay servers are involved, and file contents are never collected.',
         'faq.q4': 'Which platforms are supported?',
-        'faq.a4': 'The Standard edition supports Windows and Linux; Pro adds macOS on top of that. Mobile and more platforms will follow.',
-        'faq.q5': 'What is the difference between Standard and Pro?',
-        'faq.a5': 'In the Standard edition one device acts as the hub while the others follow it. Pro is decentralized — there is no host to keep running; if any device drops out, the rest keep syncing with each other. Pro also adds six exclusive capabilities such as peer nicknames and permission control.',
+        'faq.a4': 'Windows, Linux and macOS (Apple Silicon). Mobile and more platforms are on the way.',
         'faq.q6': 'Is it completely free?',
         'faq.a6': 'Yes. Open source under GNU GPL v3.0 — no ads, no in-app purchases, no data tracking. The code is on GitHub for anyone to audit.',
 
@@ -370,9 +313,14 @@ window.I18N = {
         'outro.cta': 'Download LANSyncBox',
 
         // ---------- Download page · edition switch ----------
-        'dl.aria': 'Select edition',
         'dl.latest': 'Latest version',
+        'dl.eyebrow': 'DOWNLOAD',
+        'dl.channel': 'Latest build',
+        'dl.merge.note': 'The Pro and Standard editions are now a single release — one download gives you the full feature set.',
         'dl.download': 'Download',
+        'dl.arch.win': '10 / 11 · x64',
+        'dl.arch.linux': 'x64 · Debian / Ubuntu',
+        'dl.arch.mac': 'Apple Silicon · M series',
         'dl.store.alt': 'Get LANSyncBox from the Microsoft Store',
         'dl.store.badge': 'https://get.microsoft.com/images/en-us%20light.svg',
         'dl.consent.pre': 'By downloading, installing or using LANSyncBox, you agree to the ',
@@ -395,16 +343,16 @@ window.I18N = {
 
         // ---------- Privacy policy page ----------
         'privacy.meta.title': 'Privacy Policy · LANSyncBox',
-        'privacy.meta.description': 'Privacy policies for LANSyncBox Standard and Pro.',
+        'privacy.meta.description': 'Privacy Policy for LANSyncBox.',
         'privacy.title': 'Privacy Policy',
-        'privacy.sub': 'Standard and Pro editions each have their own privacy policy — switch to view.',
+        'privacy.sub': 'The privacy policy for the LANSyncBox desktop client.',
         'privacy.back': 'Back to home',
 
         // ---------- Terms of Service page ----------
         'terms.meta.title': 'Terms of Service · LANSyncBox',
-        'terms.meta.description': 'Terms of Service for LANSyncBox Standard and Pro.',
+        'terms.meta.description': 'Terms of Service for LANSyncBox.',
         'terms.title': 'Terms of Service',
-        'terms.sub': 'Standard and Pro editions each have their own terms of service — switch to view.',
+        'terms.sub': 'The terms of service for the LANSyncBox desktop client.',
         'terms.back': 'Back to home'
     }
 };
@@ -426,29 +374,21 @@ window.SITE = {
     issues: 'https://github.com/LisseldeE/LANSyncBox/issues',
 
     // ---------- 下载页数据 ----------
-    // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新
-    versionUrls: {
-        std: 'version/lansyncbox',
-        pro: 'version/lansyncboxpro'
-    },
+    // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新（沿用 Pro 分支版本号）
+    versionUrl: 'version/lansyncboxpro',
     // 版本号取不到时的兜底值（仅在请求失败时生效）
-    versionFallback: { std: 'R7.1.7.0', pro: 'R1.2.0.0' },
-    // 发布资产地址模板：{tag} 为版本 tag —— 标准版即版本号本身，Pro 版需加 pro- 前缀
+    versionFallback: 'R1.2.1.0',
+    // 发布资产地址模板：{tag} 即版本号本身（单版本，无前缀）
     dlRepo: {
         github: 'https://github.com/LisseldeE/LANSyncBox/releases/download/',
-        gitee: 'https://gitee.com/Lisselde_E/LANSyncBox/releases/download/',
-        // Pro 版是独立仓库：中文用户直接从这里取安装包
-        giteePro: 'https://gitee.com/Lisselde_E/LANSyncBoxPro/releases/download/'
+        gitee: 'https://gitee.com/Lisselde_E/LANSyncBox/releases/download/'
     },
     dlAssets: {
-        std: { tagPrefix: '', win: 'LANSyncBox_Setup.exe', linux: 'lansyncbox_amd64.deb' },
-        pro: { tagPrefix: 'pro-', win: 'LANSyncBoxPro_Setup.exe', linux: 'lansyncboxpro_amd64.deb', mac: 'LANSyncBoxPro_arm64.dmg' }
+        win: 'LANSyncBox_Setup.exe',
+        linux: 'lansyncbox_amd64.deb',
+        mac: 'LANSyncBox_arm64.dmg'
     },
-    // 两个版本都已上架 Microsoft Store
-    dlStore: {
-        std: 'https://apps.microsoft.com/detail/9nsjvp7fxkm3?referrer=appbadge&mode=full',
-        pro: 'https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&mode=full'
-    }
+    dlStore: 'https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&mode=full'
 };
 
 // 单文件站点：语言不再用目录表达，只由地址栏的 ?lang= 承载
@@ -490,7 +430,7 @@ window.switchLang = function (lang) {
     try { localStorage.setItem(window.SITE.langKey, lang); } catch (e) { }
 
     // 同步地址栏：只用 ?lang= 表达语言（中文保持裸地址），replaceState 不触发重载，
-    // 其余参数（如 ver=pro）与锚点原样保留
+    // 其余参数与锚点原样保留
     try {
         var params = new URLSearchParams(window.location.search || '');
         params.delete('lang');

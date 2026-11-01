@@ -8,7 +8,7 @@
 
     var root = document.documentElement;
 
-    // 下载链接渲染函数（由 initDownload 注入；语言切换后需重算，因为标准版中文走 Gitee）
+    // 下载链接渲染函数（由 initDownload 注入；语言切换后需重算，因为中文走 Gitee）
     var dlRender = null;
 
     // 平滑滑过去：滚动期间临时关闭 scroll-snap，
@@ -23,16 +23,6 @@
         snapTimer = window.setTimeout(function () {
             root.style.scrollSnapType = prev;
         }, 780);
-    }
-
-    // 某个片段自身发生变化（如切换下载版本）时短暂关闭吸附，
-    // 否则浏览器会在布局变化后重新吸附，表现为界面被强行居中/跳动
-    function suppressSnap(ms) {
-        root.style.scrollSnapType = 'none';
-        window.clearTimeout(snapTimer);
-        snapTimer = window.setTimeout(function () {
-            root.style.scrollSnapType = '';
-        }, ms || 400);
     }
 
     function init() {
@@ -55,8 +45,6 @@
         initDots();
         initScrollHint();
         initLangSwitcher();
-        initVersionSwitcher();
-        initPolicyVersion();
         initDownload();
         initFaq();
         initBackLink();
@@ -195,190 +183,61 @@
                         b.setAttribute('aria-label', label);
                     });
                 }
-                // 标准版中文走 Gitee、英文走 GitHub，下载地址必须随语言重算
+                // 中文走 Gitee、英文走 GitHub，下载地址必须随语言重算
                 if (dlRender) dlRender();
             });
         });
     }
 
-    // ---- 下载页：标准版 / Pro 版切换，状态挂在 .dl-right 上，样式与面板由它驱动 ----
-    function initVersionSwitcher() {
-        var box = document.querySelector('.dl-right');
-        if (!box) return;
-        var opts = Array.prototype.slice.call(box.querySelectorAll('.ver-option'));
-
-        // 信任行的平台数量随版本走：标准版 2 个平台（Windows · Linux），Pro 版 3 个
-        var platTitle = document.querySelector('[data-i18n^="trust.p1.title."]');
-        var platDesc = document.querySelector('[data-i18n^="trust.p1.desc."]');
-        function syncTrustPlatform(v) {
-            var sfx = v === 'pro' ? 'pro' : 'std';
-            [[platTitle, 'trust.p1.title.'], [platDesc, 'trust.p1.desc.']].forEach(function (pair) {
-                if (!pair[0]) return;
-                var key = pair[1] + sfx;
-                pair[0].setAttribute('data-i18n', key);
-                var val = window.t(key);
-                if (val !== null) pair[0].textContent = val;   // 与 applyI18n 同一条守卫：取不到就保留原文案
-            });
-        }
-
-        // 条款提示里的两个链接跟随当前版本：Pro 版带上 ?ver=pro，点开协议页即为对应正文
-        var consentLinks = Array.prototype.slice.call(document.querySelectorAll('.dl-consent a'));
-        function syncConsentLinks(v) {
-            consentLinks.forEach(function (a) {
-                var base = a.getAttribute('href').split('?')[0];
-                a.setAttribute('href', v === 'pro' ? base + '?ver=pro' : base);
-            });
-        }
-
-        // 地址栏里的目标版本：与协议页一致，Pro 版用 ?ver=pro，标准版保持裸地址
-        function urlVersion() {
-            var m = (window.location.search || '').match(/[?&]ver=(std|pro)(?:&|$)/i);
-            return m ? m[1].toLowerCase() : '';
-        }
-
-        // 同步地址栏：保留 lang 等其余参数与锚点，只改 ver（不新增历史记录）
-        function syncUrl(v) {
-            try {
-                var params = new URLSearchParams(window.location.search || '');
-                params.delete('ver');
-                if (v === 'pro') params.set('ver', 'pro');
-                var q = params.toString();
-                window.history.replaceState(null, '', window.location.pathname +
-                    (q ? '?' + q : '') + (window.location.hash || ''));
-            } catch (e) { }
-        }
-
-        function activate(v, writeUrl) {
-            box.setAttribute('data-version', v);
-            opts.forEach(function (b) {
-                b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
-            });
-            syncTrustPlatform(v);
-            syncConsentLinks(v);
-            if (writeUrl) syncUrl(v);
-        }
-        activate(urlVersion() === 'pro' ? 'pro' : 'std', false);
-
-        opts.forEach(function (b) {
-            b.addEventListener('click', function () {
-                var v = b.getAttribute('data-version');
-                if (!v || v === box.getAttribute('data-version')) return;
-                // 切换只改本屏内部内容，视口不应有任何位移。
-                // 记录当前位置 → 切换（内容高度可能变化）→ 立即原样复位；
-                // 复位后视口仍停在同一屏的起点，浏览器再吸附也只是原地不动。
-                var y = window.scrollY;
-                var sb = root.style.scrollBehavior;
-                root.style.scrollBehavior = 'auto';   // 复位必须瞬时，不能走平滑动画
-                suppressSnap(500);
-                activate(v, true);
-                window.scrollTo(0, y);
-                root.style.scrollBehavior = sb;
-            });
-        });
-    }
-
-    // ---- 隐私政策 / 用户协议页：标准版 / Pro 版切换 ----
-    //      状态挂在 .policy 的 data-version 上，滑块位置与两版正文显隐仍全部由 CSS 驱动；
-    //      版本同时写进地址栏（?ver=pro，标准版保持裸地址），使任一版正文都能作为独立链接打开
-    function initPolicyVersion() {
-        var box = document.querySelector('.policy');
-        if (!box) return;
-        var opts = Array.prototype.slice.call(box.querySelectorAll('.ver-option'));
-
-        // 地址栏里的目标版本：无参数或非 pro 一律按标准版处理
-        function urlVersion() {
-            var m = (window.location.search || '').match(/[?&]ver=(std|pro)(?:&|$)/i);
-            return m ? m[1].toLowerCase() : '';
-        }
-
-        // 同步地址栏：保留 lang 等其余参数，只改 ver（不新增历史记录，返回键行为不变）
-        function syncUrl(v) {
-            try {
-                var params = new URLSearchParams(window.location.search || '');
-                params.delete('ver');
-                if (v === 'pro') params.set('ver', 'pro');
-                var q = params.toString();
-                window.history.replaceState(null, '', window.location.pathname +
-                    (q ? '?' + q : '') + (window.location.hash || ''));
-            } catch (e) { }
-        }
-
-        function activate(v, writeUrl) {
-            box.setAttribute('data-version', v);
-            opts.forEach(function (b) {
-                b.setAttribute('aria-pressed', b.getAttribute('data-version') === v ? 'true' : 'false');
-            });
-            if (writeUrl) syncUrl(v);
-        }
-
-        activate(urlVersion() === 'pro' ? 'pro' : 'std', false);
-
-        opts.forEach(function (b) {
-            b.addEventListener('click', function () { activate(b.getAttribute('data-version'), true); });
-        });
-    }
-
-    // ---- 下载页：从作者 GitHub Pages 取最新版本号，据此生成各平台下载链接 ----
-    //      规则：标准版 —— 中文走 Gitee、英文走 GitHub；Pro 版恒走 GitHub
-    //      点击下载 → 带上下载地址跳到感谢页，由感谢页即时触发下载
+    // ---- 下载页：单一构建、三个平台各一张卡；从本站 version/ 取最新版本号 ----
+    //      中文走 Gitee、英文走 GitHub；点击卡片 → 带上下载地址跳到感谢页，由感谢页即时触发下载
     function initDownload() {
-        var box = document.querySelector('.dl-right');
+        var box = document.querySelector('.dl-cards');
         if (!box) return;
 
         var S = window.SITE || {};
-        var versions = {
-            std: (S.versionFallback || {}).std || '',
-            pro: (S.versionFallback || {}).pro || ''
-        };
+        var ver = S.versionFallback || '';
         var each = Array.prototype.forEach;
 
         // 组装真实下载地址：{发布站}{tag}/{文件名}
-        function buildUrl(edition, os) {
-            var assets = (S.dlAssets || {})[edition];
+        function buildUrl(os) {
+            var assets = S.dlAssets || {};
             var repo = S.dlRepo || {};
-            var ver = versions[edition];
-            if (!ver || !assets || !assets[os]) return '';
-            var base = repo.github;
-            if (window.getCurrentLang() === 'zh-cn') {
-                base = (edition === 'pro' && repo.giteePro) ? repo.giteePro : repo.gitee;
-            }
-            return (base || '') + assets.tagPrefix + ver + '/' + assets[os];
+            if (!ver || !assets[os]) return '';
+            var base = window.getCurrentLang() === 'zh-cn' ? repo.gitee : repo.github;
+            return (base || '') + ver + '/' + assets[os];
         }
 
         function render() {
             each.call(box.querySelectorAll('[data-ver-num]'), function (el) {
-                var v = versions[el.getAttribute('data-ver-num')];
-                if (v) el.textContent = v;
+                if (ver) el.textContent = ver;
             });
             each.call(box.querySelectorAll('.dl-btn'), function (a) {
-                var url = buildUrl(a.getAttribute('data-edition'), a.getAttribute('data-os'));
+                var os = a.getAttribute('data-os');
+                var url = buildUrl(os);
                 if (!url) return;
                 a.setAttribute('href', 'thanks.html?dl=' + encodeURIComponent(url) +
-                    '&v=' + encodeURIComponent(a.getAttribute('data-edition')) +
-                    '&p=' + encodeURIComponent(a.getAttribute('data-os')));
+                    '&p=' + encodeURIComponent(os));
             });
             each.call(box.querySelectorAll('.dl-store'), function (a) {
-                var url = (S.dlStore || {})[a.getAttribute('data-edition')];
-                if (url) a.setAttribute('href', url);
+                if (S.dlStore) a.setAttribute('href', S.dlStore);
             });
         }
 
         dlRender = render;
         render();
 
-        // 并行拉取两个版本号，成功后重绘；取不到则沿用兜底值
-        if (!window.fetch) return;
-        each.call(Object.keys(S.versionUrls || {}), function (edition) {
-            window.fetch(S.versionUrls[edition], { cache: 'no-store' })
-                .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
-                .then(function (txt) {
-                    var v = (txt || '').trim().split(/\s+/)[0];
-                    if (!v) return;
-                    versions[edition] = v;
-                    render();
-                })
-                .catch(function () { /* 版本号取不到，保留兜底值 */ });
-        });
+        // 拉取版本号，成功后重绘；取不到则沿用兜底值
+        if (!window.fetch || !S.versionUrl) return;
+        window.fetch(S.versionUrl, { cache: 'no-store' })
+            .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
+            .then(function (txt) {
+                var v = (txt || '').trim().split(/\s+/)[0];
+                if (!v) return;
+                ver = v;
+                render();
+            })
+            .catch(function () { /* 版本号取不到，保留兜底值 */ });
     }
 
     // ---- 常见问题：保留 <details> 原生语义，只把瞬间开合补成高度过渡 ----
