@@ -374,19 +374,20 @@ window.SITE = {
     issues: 'https://github.com/LisseldeE/LANSyncBox/issues',
 
     // ---------- 下载页数据 ----------
-    // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新（沿用 Pro 分支版本号）
+    // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新
     versionUrl: 'version/lansyncboxpro',
     // 版本号取不到时的兜底值（仅在请求失败时生效）
     versionFallback: 'R1.2.1.0',
-    // 发布资产地址模板：{tag} 即版本号本身（单版本，无前缀）
+    // 发布资产地址模板：{tag} = tagPrefix + 版本号；当前指向旧版 Pro 链路（新合并构建尚未就绪）
+    tagPrefix: 'pro-',
     dlRepo: {
         github: 'https://github.com/LisseldeE/LANSyncBox/releases/download/',
-        gitee: 'https://gitee.com/Lisselde_E/LANSyncBox/releases/download/'
+        gitee: 'https://gitee.com/Lisselde_E/LANSyncBoxPro/releases/download/'
     },
     dlAssets: {
-        win: 'LANSyncBox_Setup.exe',
-        linux: 'lansyncbox_amd64.deb',
-        mac: 'LANSyncBox_arm64.dmg'
+        win: 'LANSyncBoxPro_Setup.exe',
+        linux: 'lansyncboxpro_amd64.deb',
+        mac: 'LANSyncBoxPro_arm64.dmg'
     },
     dlStore: 'https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&mode=full'
 };

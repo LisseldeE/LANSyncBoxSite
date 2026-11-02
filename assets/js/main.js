@@ -199,13 +199,14 @@
         var ver = S.versionFallback || '';
         var each = Array.prototype.forEach;
 
-        // 组装真实下载地址：{发布站}{tag}/{文件名}
+        // 组装真实下载地址：{发布站}{tagPrefix+版本号}/{文件名}
         function buildUrl(os) {
             var assets = S.dlAssets || {};
             var repo = S.dlRepo || {};
             if (!ver || !assets[os]) return '';
             var base = window.getCurrentLang() === 'zh-cn' ? repo.gitee : repo.github;
-            return (base || '') + ver + '/' + assets[os];
+            var tag = (S.tagPrefix || '') + ver;
+            return (base || '') + tag + '/' + assets[os];
         }
 
         function render() {
