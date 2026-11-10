@@ -386,16 +386,35 @@ body.i18n-switching [data-i18n] { opacity: .16; }
     from { opacity: 0; transform: translate(-50%, 16px); }
     to { opacity: 1; transform: translate(-50%, 0); }
 }
-.hero-reveal .hero-min .container > * {
+.hero-reveal .hero-min .container > *:not(.title) {
     animation: heroRise 600ms cubic-bezier(.16, 1, .3, 1) backwards;
 }
-.hero-reveal .hero-min .container > *:nth-child(2) { animation-delay: 90ms; }
-.hero-reveal .hero-min .container > *:nth-child(3) { animation-delay: 180ms; }
+.hero-reveal .hero-min .container > *:nth-child(2) { animation-delay: 620ms; }
+.hero-reveal .hero-min .container > *:nth-child(3) { animation-delay: 760ms; }
+/* 标题不参与整块上浮，改由 .ch 逐字入场 */
+.hero-split .ch { display: inline-block; }
+@keyframes heroChIn {
+    from { opacity: 0; transform: translateY(.44em) rotate(2.4deg); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes heroTrackIn {
+    from { letter-spacing: .055em; }
+    to { letter-spacing: -.05em; }
+}
+.hero-reveal .hero-split .ch {
+    animation: heroChIn 760ms cubic-bezier(.16, 1, .3, 1) backwards;
+    animation-delay: calc(var(--i) * 26ms);
+}
+.hero-reveal .hero-split {
+    animation: heroTrackIn 1200ms cubic-bezier(.16, 1, .3, 1) 180ms backwards;
+}
 .hero-reveal .hero-min .scroll-hint {
     animation: heroRiseHint 600ms cubic-bezier(.16, 1, .3, 1) 270ms backwards;
 }
 @media (prefers-reduced-motion: reduce) {
     .hero-reveal .hero-min .container > *,
+    .hero-reveal .hero-split,
+    .hero-reveal .hero-split .ch,
     .hero-reveal .hero-min .scroll-hint { animation: none; }
 }
 
@@ -558,6 +577,96 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dl-store { display: inline-flex; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
 .dl-store:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .dl-ms-badge { height: 38px; width: auto; display: block; }
+
+/* ---------- 反馈 · 三渠道 ---------- */
+.fb-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.fb-card {
+    display: flex; gap: 18px;
+    background: var(--white); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 22px;
+    text-decoration: none; color: inherit;
+    transition: border-color .25s ease, background-color .25s ease;
+}
+.fb-card:hover { border-color: var(--accent); }
+.fb-card-ico {
+    flex-shrink: 0;
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+}
+.fb-card-ico-github { background: #24292F; color: #fff; }
+.fb-card-ico-qq { background: var(--bg-top); border: 1px solid var(--line); }
+.fb-card-ico-mail { background: var(--accent-soft); color: var(--accent-dark); }
+.fb-card-ico svg { width: 26px; height: 26px; }
+.fb-card-ico-img { width: 32px; height: 32px; display: block; }
+.fb-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.fb-card-body h3 {
+    font-size: 17px; font-weight: 700; color: var(--dark);
+    margin: 0 0 4px; line-height: 1.3;
+}
+.fb-card-body p {
+    flex: 1 0 auto;
+    font-size: 13px; color: var(--faint);
+    margin: 0 0 14px; line-height: 1.55;
+}
+/* 底部操作元素向左伸出图标列（52px 图标 + 18px 间距），与卡片左右边缘对齐 */
+.fb-card-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    width: calc(100% + 70px); margin-left: -70px; min-height: 40px; padding: 0 16px; border-radius: 10px;
+    border: 1px solid var(--accent); background: var(--white);
+    color: var(--accent-dark); font-size: 13px; font-weight: 700; text-decoration: none;
+    cursor: pointer;
+    transition: background-color .25s ease, border-color .25s ease;
+    font-family: inherit;
+}
+.fb-card-btn:hover,
+.fb-card-btn:focus-visible { background: var(--accent-soft); border-color: var(--accent); }
+.fb-card-btn:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+
+/* 复制图标按钮：框内小按钮，紧贴群号右侧 */
+.fb-copy {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; background: transparent; cursor: pointer;
+    color: var(--faint); border-radius: 4px;
+    padding: 0;
+    transition: color .2s ease, background-color .2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.fb-copy:hover { color: var(--accent-dark); background: var(--accent-soft); }
+.fb-copy:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 1px; }
+.fb-copy.copied { color: #2E7D32; }
+.fb-copy svg { pointer-events: none; }
+
+/* QQ 群号 / 邮箱显示行：与 .fb-card-btn 同宽同高，三卡底部对齐 */
+.fb-qq-row { display: flex; align-items: center; width: calc(100% + 70px); margin-left: -70px; }
+.fb-qq-num {
+    position: relative; display: inline-flex; align-items: center; justify-content: space-between;
+    flex: 1; min-width: 0; min-height: 40px;
+    font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    font-size: 15px; font-weight: 700; color: var(--dark);
+    background: var(--bg-top); border: 1px solid var(--line);
+    padding: 0 9px 0 12px; border-radius: 10px;
+    letter-spacing: 0.5px;
+}
+.fb-qq-num span { padding-right: 4px; }
+.fb-mail-link {
+    min-width: 0; padding-right: 6px; color: inherit; text-decoration: none;
+    border-radius: 4px; font-size: 13.5px; letter-spacing: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fb-mail-link:hover { color: var(--accent-dark); text-decoration: underline; text-underline-offset: 2px; }
+.fb-mail-link:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+
+/* 三张卡中 GitHub 是 <a>，QQ / 邮箱是 <div>，hover 时行为一致 */
+.fb-card.fb-card:hover { border-color: var(--accent); }
+
+@media (max-width: 980px) {
+    .fb-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+    .fb-cards { grid-template-columns: 1fr; gap: 14px; }
+}
 
 /* ---------- 感谢页 ---------- */
 /* 整页单屏：导航与页脚分居两端，内容区占据剩余高度并垂直居中 */

@@ -44,11 +44,13 @@
 
         initDots();
         initScrollHint();
+        initHeroTitle();
         initLangSwitcher();
         initDownload();
         initFaq();
         initBackLink();
         initDemoShimmer();
+        initFeedbackCopy();
     }
 
     // ---- 返回按钮（隐私政策页 / 感谢页）：由本站首页点进来的，改走浏览器历史返回 ----
@@ -123,9 +125,11 @@
 
         var btns = Array.prototype.slice.call(dots.children);
 
-        // 顶栏焦点：首屏 = 首页，第 2 屏 = 下载，其余 = 详情
+        // 顶栏焦点：按 section id 映射到 tab key，找不到的归入详情
+        var idToKey = { 'top': 'home', 'download': 'download', 'details': 'details', 'feedback': 'feedback' };
         function syncTabs(i) {
-            var key = i === 0 ? 'home' : (i === 1 ? 'download' : 'details');
+            var id = (screens[i] && screens[i].id) || '';
+            var key = idToKey[id] || 'details';
             tabs.forEach(function (t) {
                 var on = t.getAttribute('data-nav') === key;
                 t.classList.toggle('active', on);
@@ -169,6 +173,42 @@
         update();   // 首次进入时按当前滚动位置定状态（如带 #锚点 直达）
     }
 
+    // ---- 首屏品牌名：拆成单字，交给 CSS 按 --i 逐字上浮 ----
+    //      仅在允许动画时拆字；用户要求减少动态效果、或本函数未运行时标题保持完整文本，
+    //      无障碍通过 h1 的 aria-label 兜底，读屏不会念成一串散字
+    function initHeroTitle() {
+        var title = document.querySelector('[data-split-title]');
+        if (!title) return;
+        var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (mq && mq.matches) return;
+
+        var frag = document.createDocumentFragment();
+        Array.prototype.forEach.call(title.childNodes, function (node) {
+            if (node.nodeType === 3) {
+                node.textContent.split('').forEach(function (ch) {
+                    var s = document.createElement('span');
+                    s.className = 'ch';
+                    s.textContent = ch === ' ' ? '\u00A0' : ch;
+                    frag.appendChild(s);
+                });
+            } else if (node.nodeType === 1 && node.classList.contains('accent')) {
+                node.textContent.split('').forEach(function (ch) {
+                    var s = document.createElement('span');
+                    s.className = 'ch accent';
+                    s.textContent = ch;
+                    frag.appendChild(s);
+                });
+            }
+        });
+        title.innerHTML = '';
+        title.appendChild(frag);
+        Array.prototype.forEach.call(title.querySelectorAll('.ch'), function (s, i) {
+            s.style.setProperty('--i', i);
+            s.setAttribute('aria-hidden', 'true');
+        });
+        title.classList.add('hero-split');
+    }
+
     // ---- 语言切换：紧凑 中 / EN，沿用 i18n.js 的 switchLang ----
     function initLangSwitcher() {
         Array.prototype.forEach.call(document.querySelectorAll('.lang-option'), function (btn) {
@@ -210,7 +250,8 @@
         }
 
         function render() {
-            each.call(box.querySelectorAll('[data-ver-num]'), function (el) {
+            // 版本徽章不在 .dl-cards 内，按整页取，避免只更新卡片区域
+            each.call(document.querySelectorAll('[data-ver-num]'), function (el) {
                 if (ver) el.textContent = ver;
             });
             each.call(box.querySelectorAll('.dl-btn'), function (a) {
@@ -335,5 +376,43 @@
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
+    }
+
+    // ---- 反馈区复制按钮（QQ 群号 / 邮箱）：navigator.clipboard 优先，旧浏览器退居 execCommand ----
+    function initFeedbackCopy() {
+        var btns = document.querySelectorAll('.fb-copy');
+        if (!btns.length) return;
+        // 两个 SVG：剪贴板（常态）+ 对勾（复制成功）
+        var SVG_COPY = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        var SVG_OK   = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        var copy = function (text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+            var ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); } catch (e) { /* 静默失败 */ }
+            document.body.removeChild(ta);
+            return Promise.resolve();
+        };
+        Array.prototype.forEach.call(btns, function (btn) {
+            var timer = null;
+            btn.addEventListener('click', function () {
+                var num = btn.getAttribute('data-fb-copy') || '';
+                if (!num) return;
+                // 防抖：已经在 copied 状态中就不再触发
+                if (btn.classList.contains('copied')) return;
+                copy(num).then(function () {
+                    btn.classList.add('copied');
+                    btn.innerHTML = SVG_OK;
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = SVG_COPY;
+                    }, 1400);
+                });
+            });
+        });
     }
 })();

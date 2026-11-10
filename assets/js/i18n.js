@@ -137,6 +137,19 @@ window.I18N = {
         'outro.sub': '无需公网 · 无需服务器 · 无需注册',
         'outro.cta': '下载 LANSyncBox',
 
+        // ---------- 反馈 ----------
+        'feedback.kicker': '反馈',
+        'feedback.headline': '有问题或想法？告诉我们',
+        'feedback.sub': '任选一种方式，我们都会认真看。',
+        'feedback.gh.title': 'GitHub Issues',
+        'feedback.gh.desc': '适合报错、功能建议与代码级讨论。',
+        'feedback.gh.btn': '打开 Issues →',
+        'feedback.qq.title': 'QQ 群',
+        'feedback.qq.desc': '实时交流，使用问题欢迎在这里问。',
+        'feedback.qq.btn': '复制群号',
+        'feedback.mail.title': '邮箱',
+        'feedback.mail.desc': '不便于公开讨论的事，写信给我们。',
+
         // ---------- 下载页 · 版本切换 ----------
         'dl.latest': '最新版本',
         'dl.eyebrow': 'DOWNLOAD',
@@ -312,6 +325,19 @@ window.I18N = {
         'outro.sub': 'No public network · No server · No sign-up',
         'outro.cta': 'Download LANSyncBox',
 
+        // ---------- Feedback ----------
+        'feedback.kicker': 'Feedback',
+        'feedback.headline': 'Issues or ideas? Let us know',
+        'feedback.sub': 'Pick whichever channel fits — we read everything.',
+        'feedback.gh.title': 'GitHub Issues',
+        'feedback.gh.desc': 'Best for bug reports, feature requests and code-level discussion.',
+        'feedback.gh.btn': 'Open Issues →',
+        'feedback.qq.title': 'QQ Group',
+        'feedback.qq.desc': 'Live chat — great for quick usage questions.',
+        'feedback.qq.btn': 'Copy group number',
+        'feedback.mail.title': 'Email',
+        'feedback.mail.desc': 'For anything not suited to public discussion, drop us a line.',
+
         // ---------- Download page · edition switch ----------
         'dl.latest': 'Latest version',
         'dl.eyebrow': 'DOWNLOAD',
@@ -377,17 +403,17 @@ window.SITE = {
     // 版本号来源：本站 version/ 目录下的纯文本文件，发版时同步更新
     versionUrl: 'version/lansyncboxpro',
     // 版本号取不到时的兜底值（仅在请求失败时生效）
-    versionFallback: 'R1.2.1.0',
-    // 发布资产地址模板：{tag} = tagPrefix + 版本号；当前指向旧版 Pro 链路（新合并构建尚未就绪）
-    tagPrefix: 'pro-',
+    versionFallback: 'R1.2.2.0',
+    // 发布资产地址模板：{tag} = tagPrefix + 版本号；新合并构建 tag 形如 main-R1.2.2.0
+    tagPrefix: 'main-',
     dlRepo: {
         github: 'https://github.com/LisseldeE/LANSyncBox/releases/download/',
-        gitee: 'https://gitee.com/Lisselde_E/LANSyncBoxPro/releases/download/'
+        gitee: 'https://gitee.com/Lisselde_E/LANSyncBox/releases/download/'
     },
     dlAssets: {
-        win: 'LANSyncBoxPro_Setup.exe',
-        linux: 'lansyncboxpro_amd64.deb',
-        mac: 'LANSyncBoxPro_arm64.dmg'
+        win: 'LANSyncBox_Setup.exe',
+        linux: 'lansyncbox_amd64.deb',
+        mac: 'LANSyncBox_arm64.dmg'
     },
     dlStore: 'https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&mode=full'
 };
