@@ -1,14 +1,7 @@
-R1.2.2.0
-# win_sha256:sha256:939021d0a681e7fc24561865ddd8421d01f53ae6fce18176a7bc1e39c51ef839
-# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.2.0/LANSyncBox_Setup.exe
-# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.2.0/LANSyncBox_Setup.exe
+R1.2.2.1
+# win_sha256:sha256:sha256:bbca5b7cca3911cb04c2391852d2e8827c1d5922c7f35f0d9ed15548533d6e10
+# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.2.1/LANSyncBox_Setup.exe
+# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.2.1/LANSyncBox_Setup.exe
 # log
-- 发布 LANSyncBox 正式版 R1.2.2.0
-- 此版本正式合并标准版与Pro版本
-- 新增全链路 TLS 加密传输
-- 新增自动化更新逻辑
-- 修复了切换滑块在浅色模式下的显示问题
-- 修复了添加中文件被异常加入同步的错误
-- 修复了修改传输中文件导致界面卡死的问题
-- 修复了并行多次添加文件时程序崩溃的问题
-- 修复了目标端空间不足导致文件重复拉取随后失败的问题
+- 修复了第三加入端及之后端会出现频繁切换连接的错误
+- 修复了回归端或新端加入后重复拉取同一个文件的错误
