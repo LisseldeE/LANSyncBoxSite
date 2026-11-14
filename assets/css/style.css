@@ -506,76 +506,118 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 .dots button.active { background: var(--accent); border-color: var(--accent); transform: scale(1.35); }
 .dots button:hover { border-color: var(--accent); }
 
-/* ---------- 下载页：三个平台各成一张卡（标题左对齐、版本胶囊落在右侧） ---------- */
-.dl-head {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 16px; flex-wrap: wrap; margin-bottom: 26px;
-}
+/* ---------- 下载页：标题 + 说明行（版本号收在说明行尾，不再单独成胶囊） ---------- */
+.dl-head { margin-bottom: 26px; }
 .dl-eyebrow { font-size: 10.5px; font-weight: 700; letter-spacing: .22em; color: var(--accent); margin-bottom: 6px; }
 /* 版本合并说明：标题下一行小注，前面一个青绿圆点做提示 */
 .dl-note {
     position: relative; margin-top: 10px; padding-left: 15px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;
     font-size: 13px; line-height: 1.65; color: var(--sub);
 }
 .dl-note::before {
     content: ''; position: absolute; left: 0; top: 8px;
     width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
 }
-.dl-chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--white); border: 1px solid var(--line); border-radius: 999px;
-    padding: 7px 15px; font-size: 12px; color: var(--sub); box-shadow: var(--shadow-sm);
+/* 版本号：竖线分隔，跟说明同一行 */
+.dl-ver {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding-left: 14px; border-left: 1px solid var(--line);
+    font-size: 12.5px; color: var(--faint); white-space: nowrap;
 }
-.dl-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-.dl-chip b { color: var(--accent-dark); font-size: 13px; }
+.dl-ver .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.dl-ver b { font-size: 13px; font-weight: 600; color: var(--accent-dark); }
 
-.dl-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-/* 卡片只做容器，不承担点击；可点区域只有下方的下载按钮 */
-.dl-card {
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    background: var(--white); border: 1px solid var(--line); border-radius: 16px;
-    padding: 26px 20px 22px;
+/* 下载区双栏：左为界面叠图，右为三个平台纵向条目 */
+.dl-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 480px) minmax(0, 400px);
+    justify-content: space-between;
+    gap: 48px;
+    align-items: center;
+    margin-top: 44px;     /* 与标题行拉开，给叠图留出呼吸 */
+    margin-bottom: 26px;  /* 叠图向右下探出，不压到下一条信任线 */
 }
-.dl-card-ico {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: var(--bg-top); border: 1px solid var(--line);
+
+/* 叠图：房间界面做底，主界面叠右下并向右下探出 26px。
+   host 左栏（房间卡 / 房间管理 / 传输日志）完整露出，主界面只压住右下空白文件区，
+   同时把视觉重心压下来，与右侧三行条目的高度差不再显得头重脚轻 */
+.stack { position: relative; }
+.stack-base {
+    display: block; width: 100%; height: auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(44, 62, 80, .09);
+}
+.stack-over {
+    position: absolute; right: -26px; bottom: -26px; width: 32%; height: auto;
+    display: block; border-radius: 8px;
+    box-shadow: 0 12px 28px rgba(14, 116, 130, .20), 0 1px 3px rgba(44, 62, 80, .14);
+}
+
+/* 右栏清单：不用卡片外框，改用通栏细线分隔，与信任行同一套语言 */
+.dl-row {
+    display: flex; align-items: center; gap: 15px;
+    padding: 16px 2px;
+    border-bottom: 1px solid var(--line);
+}
+.dl-row:first-child { border-top: 1px solid var(--line); }
+.dl-row-ico {
+    flex: none; width: 36px; height: 36px; border-radius: 9px;
+    background: var(--accent-soft);
     display: flex; align-items: center; justify-content: center;
+    color: var(--accent-dark);
 }
-.dl-card-ico svg { width: 22px; height: 22px; }
-.dl-card-ico img { height: 22px; width: auto; display: block; }
-.dl-os { margin-top: 16px; font-size: 17px; font-weight: 700; line-height: 1.3; color: var(--dark); }
-.dl-arch { margin-top: 4px; font-size: 12px; line-height: 1.5; color: var(--faint); }
+.dl-row-ico img { display: block; height: 19px; width: auto; }
+.dl-row-txt { min-width: 0; }
+.dl-os { display: block; font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--dark); }
+.dl-arch { display: block; font-size: 12px; line-height: 1.45; color: var(--faint); }
 
-/* 下载按钮：hover / 键盘聚焦只染浅青底，不上浮、不投影、不扫光 */
-.dl-card-btn {
-    margin-top: 18px; width: 100%;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 12px 0; border-radius: 10px;
-    border: 1px solid var(--accent); background: var(--white);
-    color: var(--accent-dark); font-size: 13.5px; font-weight: 700; text-decoration: none;
-    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+/* 下载按钮：常态描边；悬停时翻成实心、微微抬起并带一层收紧的青光，箭头同时向下沉 */
+.dl-row-btn {
+    margin-left: auto; flex: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 22px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--white);
+    color: var(--accent-dark); font-size: 13px; line-height: 22px; font-weight: 600;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease,
+                transform .2s ease, box-shadow .2s ease;
     -webkit-tap-highlight-color: transparent;
 }
-.dl-card-btn svg { width: 14px; height: 14px; }
-.dl-card-btn:hover,
-.dl-card-btn:focus-visible { background: var(--accent-soft); border-color: var(--accent); }
-.dl-card-btn:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
-
-/* 渠道与协议：卡片下方单独一行，始终显示 */
-.dl-store-row {
-    grid-column: 1 / -1;
-    display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
-    margin-top: 4px;
+.dl-row-btn svg { width: 13px; height: 13px; transition: transform .3s cubic-bezier(.16, 1, .3, 1); }
+.dl-row-btn:hover,
+.dl-row-btn:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(23, 162, 184, .26);
 }
-.dl-store-row .dl-consent { margin: 0; text-align: left; }
+.dl-row-btn:hover svg,
+.dl-row-btn:focus-visible svg { transform: translateY(2px); }
+.dl-row-btn:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(23, 162, 184, .2); }
+.dl-row-btn:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 3px; }
 
-@media (max-width: 900px) {
-    .dl-cards { grid-template-columns: 1fr; gap: 14px; }
+/* 官方渠道与协议：与清单隔一段，徽章和协议分两行，不再挤在同一行 */
+.dl-store-row { margin-top: 22px; }
+.dl-store-row .dl-consent { margin-top: 12px; }
+
+@media (max-width: 980px) {
+    .dl-grid { grid-template-columns: 1fr; gap: 48px; }
+    .stack { max-width: 480px; margin: 0 auto; }
+    /* 单列时不再向右探出：底图已居中，探出会让右侧留白比左侧少一截 */
+    .stack-over { right: 0; bottom: -14px; width: 36%; }
+    /* 单列时清单与上方截图同宽，否则行会被拉得很长、按钮飘到最右 */
+    .dl-list { max-width: 480px; margin: 0 auto; }
+    /* 单列时版本号折到第二行首，竖线去掉；说明文字独占一行，版本号才会靠左而不是被挤到行尾 */
+    .dl-note > span:first-child { flex: 1 1 100%; }
+    /* 抵消说明行的 15px 缩进，让第二行的圆点与第一行圆点上下对齐，行首不再空一截 */
+    .dl-ver { padding-left: 0; border-left: 0; margin-left: -15px; }
 }
 
 /* Microsoft Store 官方徽章（保持官方比例，勿拉伸） */
-.dl-store { display: inline-flex; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
-.dl-store:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.dl-store { display: inline-flex; text-decoration: none; transition: opacity .18s ease; }
+.dl-store:hover { opacity: .82; }
 .dl-ms-badge { height: 38px; width: auto; display: block; }
 
 /* ---------- 反馈 · 三渠道 ---------- */
@@ -870,7 +912,6 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     .outro .btn { width: 100%; justify-content: center; }
 
     .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
-    .dl-cards { grid-template-columns: 1fr; gap: 14px; }
     .dl-ms-badge { height: 34px; }
 
     /* 感谢页：顶部行改单列，返回按钮不再与标记争抢同一行宽度 */
@@ -912,7 +953,8 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
 @media (prefers-reduced-motion: reduce) {
     .tab-underline { transition: none; }
     .demo img { animation: none; }
-    .dl-card-btn { transition: none; }
+    .dl-row-btn,
+    .dl-row-btn svg { transition: none; }
     .policy-doc { animation: none; }
     .thanks-auto::before { animation: none; }
     .faq summary,

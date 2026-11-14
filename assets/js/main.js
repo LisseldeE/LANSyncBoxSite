@@ -229,10 +229,10 @@
         });
     }
 
-    // ---- 下载页：单一构建、三个平台各一张卡；从本站 version/ 取最新版本号 ----
-    //      中文走 Gitee、英文走 GitHub；点击卡片 → 带上下载地址跳到感谢页，由感谢页即时触发下载
+    // ---- 下载页：单一构建、三个平台纵向条目；从本站 version/ 取最新版本号 ----
+    //      中文走 Gitee、英文走 GitHub；点击条目 → 带上下载地址跳到感谢页，由感谢页即时触发下载
     function initDownload() {
-        var box = document.querySelector('.dl-cards');
+        var box = document.querySelector('.dl-grid');
         if (!box) return;
 
         var S = window.SITE || {};

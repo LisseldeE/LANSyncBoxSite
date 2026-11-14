@@ -6,7 +6,7 @@
     <title>LANSyncBox · 局域网文件实时同步工具</title>
     <meta name="description" content="LANSyncBox 是一款跨平台、专为局域网设计的文件实时同步工具。">
     <link rel="icon" href="assets/images/icon/lansyncbox.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/style.css?v=26.11.10.1">
+    <link rel="stylesheet" href="assets/css/style.css?v=26.11.14.1">
     <script>
         // 单文件语言入口：?lang= > localStorage > 浏览器语言。
         // 只登记语言，不改地址栏、不做任何跳转 —— 一次请求直接出界面。
@@ -143,61 +143,78 @@
 <!-- ===== 第 2 屏 · 下载 ===== -->
 <section class="screen" id="download">
     <div class="container">
-        <!-- 标题行：眉题 + 标题左对齐，右侧稳定版胶囊；下方三个平台各成一张卡 -->
+        <!-- 标题行：眉题 + 标题；版本号收进说明行尾，不再单独悬在右侧 -->
         <div class="dl-head">
-            <div>
-                <p class="dl-eyebrow" data-i18n="dl.eyebrow">DOWNLOAD</p>
-                <h2 class="headline" data-i18n="download.headline">下载 LANSyncBox</h2>
-                <p class="dl-note" data-i18n="dl.merge.note">Pro 版与标准版已合并为同一版本，下载后即为完整功能。</p>
-            </div>
-            <span class="dl-chip"><span class="dot" aria-hidden="true"></span><span data-i18n="dl.channel">最新构建</span><b data-ver-num>R1.2.2.0</b></span>
+            <p class="dl-eyebrow" data-i18n="dl.eyebrow">DOWNLOAD</p>
+            <h2 class="headline" data-i18n="download.headline">下载 LANSyncBox</h2>
+            <p class="dl-note">
+                <span data-i18n="dl.merge.note">Pro 版与标准版已合并为同一版本，下载后即为完整功能。</span>
+                <span class="dl-ver"><span class="dot" aria-hidden="true"></span><span data-i18n="dl.channel">最新构建</span><b data-ver-num>R1.2.2.0</b></span>
+            </p>
         </div>
 
-        <div class="dl-cards">
-            <div class="dl-card">
-                <span class="dl-card-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="1.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="1.5" y="12.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="12.5" width="10" height="10" fill="#0078D4"/></svg></span>
-                <span class="dl-os">Windows</span>
-                <span class="dl-arch" data-i18n="dl.arch.win">10 / 11 · x64</span>
-                <a class="dl-card-btn dl-btn" data-os="win"
-                   href="https://github.com/LisseldeE/LANSyncBox/releases">
-                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                </a>
+        <!-- 左：房间界面做底、主界面叠左上（向外偏移，只压标题栏一角，房间信息与日志完整露出）；
+             右：三个平台纵向条目 + 商店徽章与协议 -->
+        <div class="dl-grid">
+            <div class="stack">
+                <img class="stack-base" src="assets/images/webp/host.webp" width="919" height="702"
+                     alt="房间与传输日志界面" data-i18n-alt="dl.shot.host">
+                <img class="stack-over" src="assets/images/webp/main.webp" width="500" height="662"
+                     alt="LANSyncBox 主界面" data-i18n-alt="dl.shot.main">
             </div>
 
-            <div class="dl-card">
-                <span class="dl-card-ico" aria-hidden="true">
-                    <img src="assets/images/icon/os-linux.svg" alt="" width="19" height="22">
-                </span>
-                <span class="dl-os">Linux</span>
-                <span class="dl-arch" data-i18n="dl.arch.linux">x64 · Debian / Ubuntu</span>
-                <a class="dl-card-btn dl-btn" data-os="linux"
-                   href="https://github.com/LisseldeE/LANSyncBox/releases">
-                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                </a>
-            </div>
+            <div class="dl-list">
+                <div class="dl-row">
+                    <span class="dl-row-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="1.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="1.5" width="10" height="10" fill="#0078D4"/><rect x="1.5" y="12.5" width="10" height="10" fill="#0078D4"/><rect x="12.5" y="12.5" width="10" height="10" fill="#0078D4"/></svg></span>
+                    <span class="dl-row-txt">
+                        <span class="dl-os">Windows</span>
+                        <span class="dl-arch" data-i18n="dl.arch.win">10 / 11 · x64</span>
+                    </span>
+                    <a class="dl-row-btn dl-btn" data-os="win"
+                       href="https://github.com/LisseldeE/LANSyncBox/releases">
+                        <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                    </a>
+                </div>
 
-            <div class="dl-card">
-                <span class="dl-card-ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#000"/></svg>
-                </span>
-                <span class="dl-os">macOS</span>
-                <span class="dl-arch" data-i18n="dl.arch.mac">Apple Silicon · M 系列</span>
-                <a class="dl-card-btn dl-btn" data-os="mac"
-                   href="https://github.com/LisseldeE/LANSyncBox/releases">
-                    <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
-                </a>
-            </div>
+                <div class="dl-row">
+                    <span class="dl-row-ico" aria-hidden="true">
+                        <img src="assets/images/icon/os-linux.svg" alt="" width="16" height="19">
+                    </span>
+                    <span class="dl-row-txt">
+                        <span class="dl-os">Linux</span>
+                        <span class="dl-arch" data-i18n="dl.arch.linux">x64 · Debian / Ubuntu</span>
+                    </span>
+                    <a class="dl-row-btn dl-btn" data-os="linux"
+                       href="https://github.com/LisseldeE/LANSyncBox/releases">
+                        <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                    </a>
+                </div>
 
-            <!-- 渠道与协议：卡片下方单独一行，始终显示 -->
-            <div class="dl-store-row">
-                <a class="dl-store" target="_blank" rel="noopener"
-                   href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
-                    <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
-                         src="https://get.microsoft.com/images/zh-cn%20light.svg"
-                         alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt"
-                         height="38">
-                </a>
-                <p class="dl-consent"><span data-i18n="dl.consent.pre">下载、安装或使用即表示您同意</span><a href="terms.html" data-i18n="dl.consent.terms">《用户协议》</a><span data-i18n="dl.consent.and">与</span><a href="privacy.html" data-i18n="dl.consent.privacy">《隐私政策》</a><span data-i18n="dl.consent.end">。</span></p>
+                <div class="dl-row">
+                    <span class="dl-row-ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701" fill="#000"/></svg>
+                    </span>
+                    <span class="dl-row-txt">
+                        <span class="dl-os">macOS</span>
+                        <span class="dl-arch" data-i18n="dl.arch.mac">Apple Silicon · M 系列</span>
+                    </span>
+                    <a class="dl-row-btn dl-btn" data-os="mac"
+                       href="https://github.com/LisseldeE/LANSyncBox/releases">
+                        <span data-i18n="dl.download">下载</span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+                    </a>
+                </div>
+
+                <!-- 渠道与协议：条目下方，始终显示 -->
+                <div class="dl-store-row">
+                    <a class="dl-store" target="_blank" rel="noopener"
+                       href="https://apps.microsoft.com/detail/9n4g6w3rm3q6?referrer=appbadge&amp;mode=full">
+                        <img class="dl-ms-badge" data-i18n-src="dl.store.badge"
+                             src="https://get.microsoft.com/images/zh-cn%20light.svg"
+                             alt="从 Microsoft Store 获取 LANSyncBox" data-i18n-alt="dl.store.alt"
+                             height="38">
+                    </a>
+                    <p class="dl-consent"><span data-i18n="dl.consent.pre">下载、安装或使用即表示您同意</span><a href="terms.html" data-i18n="dl.consent.terms">《用户协议》</a><span data-i18n="dl.consent.and">与</span><a href="privacy.html" data-i18n="dl.consent.privacy">《隐私政策》</a><span data-i18n="dl.consent.end">。</span></p>
+                </div>
             </div>
         </div>
     </div>
@@ -477,7 +494,7 @@
 
 <div class="dots" id="dots"></div>
 
-<script src="assets/js/i18n.js?v=26.11.10.1"></script>
-<script src="assets/js/main.js?v=26.11.10.1"></script>
+<script src="assets/js/i18n.js?v=26.11.14.1"></script>
+<script src="assets/js/main.js?v=26.11.14.1"></script>
 </body>
 </html>
