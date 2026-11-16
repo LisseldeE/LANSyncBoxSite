@@ -51,6 +51,36 @@
         initBackLink();
         initDemoShimmer();
         initFeedbackCopy();
+        initDownloadStats();
+    }
+
+    // ---- 下载点击统计：只记平台、版本、语言，不涉及用户个人信息 ----
+    function initDownloadStats() {
+        function currentLang() {
+            try { return window.getCurrentLang ? window.getCurrentLang() : 'zh-cn'; }
+            catch (e) { return 'zh-cn'; }
+        }
+        function currentVer() {
+            var el = document.querySelector('[data-ver-num]');
+            return el ? (el.textContent || '').trim() : '';
+        }
+
+        document.addEventListener('click', function (e) {
+            var a = e.target.closest && e.target.closest('.dl-row-btn');
+            if (!a) return;
+
+            var body = JSON.stringify({
+                os: a.getAttribute('data-os') || 'other',
+                ver: currentVer(),
+                lang: currentLang()
+            });
+
+            try {
+                navigator.sendBeacon('/api/dl', new Blob([body], { type: 'text/plain' }));
+            } catch (err) {
+                fetch('/api/dl', { method: 'POST', body: body, keepalive: true }).catch(function () { });
+            }
+        }, true);
     }
 
     // ---- 返回按钮（隐私政策页 / 感谢页）：由本站首页点进来的，改走浏览器历史返回 ----
