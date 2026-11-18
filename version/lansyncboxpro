@@ -1,7 +1,13 @@
-R1.2.2.1
-# win_sha256:bbca5b7cca3911cb04c2391852d2e8827c1d5922c7f35f0d9ed15548533d6e10
-# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.2.1/LANSyncBox_Setup.exe
-# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.2.1/LANSyncBox_Setup.exe
+R1.2.3.0
+# win_sha256:f48464a956828e5bbe007bad2fd8e743e1aedb73b9aea744a37abea5d34e8145
+# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.3.0/LANSyncBox_Setup.exe
+# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.3.0/LANSyncBox_Setup.exe
 # log
+- 优化界面部分控件显示效果
+- 修复了回归端权限状态丢失的错误
+- 修复了主机离线时，新端无法加入的错误
+- 修复了主机离线时，旧端回归卡在密码校验的错误
 - 修复了第三加入端及之后端会出现频繁切换连接的错误
 - 修复了回归端或新端加入后重复拉取同一个文件的错误
+- 新增显示扫描房间中同步逻辑不一致不可加入的房间显示
+- 优化主机端权限管理面板改为显示对应端端昵称提升易读性
