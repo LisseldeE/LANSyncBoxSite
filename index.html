@@ -118,7 +118,6 @@
             <a class="tab" href="#download" data-i18n="nav.download" data-nav="download">下载</a>
             <a class="tab" href="#details" data-i18n="nav.details" data-nav="details">详情</a>
             <a class="tab" href="#feedback" data-i18n="nav.feedback" data-nav="feedback">反馈</a>
-            <a class="tab" href="https://github.com/LisseldeE/LANSyncBox/wiki" target="_blank" rel="noopener" data-i18n="nav.help">帮助</a>
         </div>
         <div class="lang" data-active="zh-cn" role="group" aria-label="语言 / Language">
             <span class="lang-slider" aria-hidden="true"></span>
@@ -134,7 +133,7 @@
 <section class="screen hero-min" id="top">
     <div class="container">
         <h1 class="title" data-split-title aria-label="LANSyncBox">LAN<span class="accent">Sync</span>Box</h1>
-        <p class="tagline"><span data-i18n="hero.tagline.1">同一局域网内，文件实时同步到每一台设备。</span><br><span data-i18n="hero.tagline.2">无需公网，无需服务器。</span></p>
+        <p class="tagline"><span data-i18n="hero.tagline.1">同一局域网内，文件实时同步到每一台设备。</span><br><span data-i18n="hero.tagline.2">免费开源，无需公网，无需服务器。</span></p>
         <a class="btn btn-primary btn-lg" href="#download" data-i18n="hero.cta.download">下载 LANSyncBox</a>
     </div>
     <div class="scroll-hint" data-i18n="hero.scroll">向下滚动</div>
@@ -345,24 +344,24 @@
         </div>
         <div class="faq">
             <details>
-                <summary data-i18n="faq.q1">需要联网吗？</summary>
-                <div class="ans" data-i18n="faq.a1">不需要外部网络。只要设备连在同一个局域网内（同一路由器下的 Wi-Fi 或有线网络）就能同步。</div>
-            </details>
-            <details>
-                <summary data-i18n="faq.q2">需要注册账号吗？</summary>
-                <div class="ans" data-i18n="faq.a2">不需要。下载安装后即可使用，没有账号体系，也不需要手机号或邮箱。</div>
+                <summary data-i18n="faq.q1">需要联网注册账号吗？</summary>
+                <div class="ans" data-i18n="faq.a1">都不需要。只要设备连在同一个局域网内（同一路由器下的 Wi-Fi 或有线网络）即可同步；下载安装后直接使用，没有账号体系，也无需手机号或邮箱。</div>
             </details>
             <details>
                 <summary data-i18n="faq.q3">我的文件会经过你们的服务器吗？</summary>
                 <div class="ans" data-i18n="faq.a3">不会。数据全程在局域网内点对点传输，我们不运营任何中转服务器，也不采集文件内容。</div>
             </details>
             <details>
-                <summary data-i18n="faq.q4">支持哪些平台？</summary>
-                <div class="ans" data-i18n="faq.a4">支持 Windows、Linux 与 macOS（Apple Silicon）。移动端与更多平台会陆续补齐。</div>
+                <summary data-i18n="faq.q5">需要如何使用？</summary>
+                <div class="ans" data-i18n="faq.a5">在任意一台设备上创建房间，并保证房间内至少有一台设备在线；其余设备通过「加入房间」进入即可，房间号支持自动扫描，密码可选。</div>
+            </details>
+            <details>
+                <summary data-i18n="faq.q7">搜不到房间怎么办？</summary>
+                <div class="ans" data-i18n="faq.a7">先确认所有设备都连在同一个局域网内，并保证房间内至少有一台设备在线；若仍搜不到，再检查路由器是否开启了 AP 隔离、系统防火墙是否拦截了应用，或端口是否被占用。</div>
             </details>
             <details>
                 <summary data-i18n="faq.q6">完全免费吗？</summary>
-                <div class="ans" data-i18n="faq.a6">是。GNU GPL v3.0 开源，无广告、无内购、不做数据追踪；代码可在 GitHub 上自行审计。</div>
+                <div class="ans" data-i18n="faq.a6">是。GNU GPL v3.0 开源，无广告、无内购；代码可在 GitHub 上自行审计，后续也没有收费打算。</div>
             </details>
         </div>
     </div>
@@ -494,7 +493,7 @@
 
 <div class="dots" id="dots"></div>
 
-<script src="assets/js/i18n.js?v=26.11.16.1"></script>
+<script src="assets/js/i18n.js?v=26.11.22.1"></script>
 <script src="assets/js/main.js?v=26.11.16.1"></script>
 </body>
 </html>

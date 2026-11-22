@@ -716,7 +716,6 @@ body.page-thanks { min-height: 100vh; display: flex; flex-direction: column; }
 body.page-thanks main { flex: 1 0 auto; display: flex; flex-direction: column; }
 body.page-thanks main > .screen { flex: 1; padding: 44px 0; }
 /* 收紧感谢页留白，保证内容与页脚同屏 */
-body.page-thanks .thanks-sub { margin-top: 14px; }
 body.page-thanks .thanks-block { margin-top: 30px; }
 body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
 
@@ -737,7 +736,6 @@ body.page-thanks .thanks-steps { margin-top: 16px; gap: 12px; }
 }
 .thanks-mark svg { width: 26px; height: 26px; }
 .thanks-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: -.02em; }
-.thanks-sub { margin-top: 18px; color: var(--sub); font-size: 16.5px; line-height: 1.75; }
 .thanks-auto {
     display: inline-flex; align-items: center; gap: 9px;
     margin-top: 22px; padding: 10px 20px; border-radius: 999px;
@@ -827,7 +825,6 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     body.page-thanks .thanks-mark svg { width: 20px; height: 20px; }
     body.page-thanks .thanks-top { margin-bottom: 18px; }
     body.page-thanks .thanks-title { font-size: clamp(22px, 3.2vw, 32px); }
-    body.page-thanks .thanks-sub { margin-top: 12px; font-size: 15.5px; }
     body.page-thanks .thanks-auto { margin-top: 16px; padding: 8px 18px; }
     body.page-thanks .thanks-block { margin-top: 16px; }
     body.page-thanks .thanks-steps { margin-top: 14px; gap: 11px; }
