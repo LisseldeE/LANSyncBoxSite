@@ -1,13 +1,11 @@
-R1.2.4.0
-# win_sha256:b9e61bd2cd4da548aabdf03a5cf19c45be168fe993e9cb86d42e6340b18cc0c4
-# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.4.0/LANSyncBox_Setup.exe
-# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.4.0/LANSyncBox_Setup.exe
+R1.2.5.0
+# win_sha256:6119b30e4375a663858f71c07058d4143dce54ed9addb518b9a23d7928eddd3c
+# win_url_zh_CN:https://gitee.com/Lisselde_E/LANSyncBox/releases/download/main-R1.2.5.0/LANSyncBox_Setup.exe
+# win_url_en_US:https://github.com/LisseldeE/LANSyncBox/releases/download/main-R1.2.5.0/LANSyncBox_Setup.exe
 # log
-- 此版本重构了同步链路底层，无法与旧版本连接
-- 新增文件id、哈希状态表，固定文件唯一性避免同步错乱
-- 新增文件状态表使用 SQLite 持久化存储
-- 修复了端离开回归后，同步逻辑异常的错误
-- 修复了端离开回归后，权限节点异常的问题
-- 修复了主机离线后，默认权限下发错误的问题
-- 修复了文件只读属性导致文件操作失败的问题
-- 优化了同步状态频繁切换闪烁的问题
+- 此版本可兼容上版本同步逻辑
+- 新增 web UI 手机访问，支持手机查看与上传/下载/修改同步房间内文件
+- 优化设置页显示效果
+- 优化了同步界面的唤起速度
+- 修复同步中源不可用时同步卡死等待的问题
+- 修复 Windows 系统中出现任务栏程序白图标的问题

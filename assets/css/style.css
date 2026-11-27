@@ -495,6 +495,22 @@ body.i18n-switching [data-i18n] { opacity: .16; }
 }
 .demo figcaption span { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.6; color: var(--faint); }
 
+/* 第 07 项 · Web UI 手机访问：文案贴左列、手机截图贴右列，两端分别与上方两张演示图对齐。
+   竖图配短文案不适合贴在一起（会显得挤），分开锚在两端反而读作一条完整内容 */
+.webui {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px;
+    align-items: center;
+    margin-top: 56px;
+}
+/* 上方 .demo 是 <figure>，默认左右各 40px 外边距；这里同样内缩，
+   让文案左缘对齐左图、截图右缘对齐右图 */
+.webui-text { justify-self: start; max-width: 440px; padding-left: 40px; }
+.webui-media { justify-self: end; padding-right: 40px; }
+.webui-shot { width: 200px; }
+.webui-shot img { width: 100%; height: auto; }
+
 /* 右侧分段指示器 */
 .dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 40;
     display: flex; flex-direction: column; gap: 12px; }
@@ -868,6 +884,9 @@ body.page-policy main > .screen { flex: 1; padding: 44px 0; }
     .split { grid-template-columns: 1fr; gap: 36px; }
     .split.flip .split-media { order: 0; }
     .demos { grid-template-columns: 1fr; }
+    .webui { grid-template-columns: 1fr; gap: 30px; margin-top: 44px; }
+    .webui-text { max-width: none; padding-left: 0; }
+    .webui-media { justify-self: center; padding-right: 0; }
     .dots { display: none; }
     /* 能力清单：三列降两列 */
     .tiles { grid-template-columns: repeat(2, 1fr); column-gap: 36px; row-gap: 32px; }

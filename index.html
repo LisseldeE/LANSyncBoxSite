@@ -6,7 +6,7 @@
     <title>LANSyncBox · 局域网文件实时同步工具</title>
     <meta name="description" content="LANSyncBox 是一款跨平台、专为局域网设计的文件实时同步工具。">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/style.css?v=26.11.14.1">
+    <link rel="stylesheet" href="assets/css/style.css?v=26.11.27.1">
     <script>
         // 单文件语言入口：?lang= > localStorage > 浏览器语言。
         // 只登记语言，不改地址栏、不做任何跳转 —— 一次请求直接出界面。
@@ -304,6 +304,21 @@
                 </figcaption>
             </figure>
         </div>
+
+        <!-- 第 07 项 · Web UI 手机访问：文案在左、手机截图在右，两端与上方两列演示图对齐 -->
+        <div class="webui">
+            <div class="webui-text tile">
+                <div class="tile-ico">07 · <span data-i18n="webui.kicker">Web UI</span></div>
+                <h3 data-i18n="webui.title">手机访问，快捷管理</h3>
+                <p data-i18n="webui.desc">同一局域网内，手机浏览器扫码即可访问房间，无需安装客户端；支持上传/下载/修改，操作会同步至房间内。</p>
+            </div>
+            <div class="webui-media">
+                <div class="shot webui-shot">
+                    <img src="assets/images/webp/webui.webp" width="780" height="1688" loading="lazy" decoding="async"
+                         alt="手机浏览器访问房间文件" data-i18n-alt="webui.alt">
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -493,7 +508,7 @@
 
 <div class="dots" id="dots"></div>
 
-<script src="assets/js/i18n.js?v=26.11.22.1"></script>
+<script src="assets/js/i18n.js?v=26.11.27.1"></script>
 <script src="assets/js/main.js?v=26.11.16.1"></script>
 </body>
 </html>
